@@ -4,6 +4,9 @@
 
 ```java
 在表达式中, byte, short, char, 是直接转换成int类型参与运算
+
+boolean b = true;
+int n = (int) b; //错误, 不能直接转换
 ```
 
 ## tip 2
@@ -30,13 +33,7 @@ switch case 表达式类型只能是 byte，short, int, char, jdk5开始支持�
 ## tip 5
 
 ```java
-import java.util.Random;
-
-...
-
-Random r = new Random();
-System.out.println(r.nextInt(10));      // [0,10)
-System.out.println(r.nextInt(10) + 1);  // [1,11)
+已移除
 ```
 
 ## tip 6
@@ -122,6 +119,8 @@ public static void main(String[] args) {
     Student a = new Student();
     com.abincaps.Student b = new com.abincaps.Student();
 }
+
+import java.time.*; // 导入java.time包下的所有类
 ```
 
 ## tip 14
