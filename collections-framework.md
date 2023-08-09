@@ -78,12 +78,6 @@ list.set(0, 1);
 System.out.println(list); // [1]
 ```
 
-## tip 6
-
-```java
-
-```
-
 ## tip 98
 
 ```java
@@ -95,9 +89,7 @@ TODO
 ## tip 99
 
 ```java
-
 TODO
 自动装箱
-
 ```
 
