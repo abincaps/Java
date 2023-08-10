@@ -167,7 +167,8 @@ System.out.println(r.nextInt(10) + 1);  // [1,11)
 
 ```java
 // System在java.lang包下 无需导包
-// 以毫秒为单位返回当前时间。请注意，虽然返回值的时间单位是毫秒，但值的粒度取决于底层操作系统并且可能更大。例如，许多操作系统以几十毫秒为单位测量时间
+// 以毫秒为单位返回当前时间。请注意，虽然返回值的时间单位是毫秒，但值的粒度取决于底层操作系统并且可能更大。
+// 例如，许多操作系统以几十毫秒为单位测量时间
 // 当前时间与 UTC 时间 1970 年 1 月 1 日午夜之间的差异，以毫秒为单位
 System.out.println(System.currentTimeMillis());
 
@@ -461,6 +462,8 @@ for (int i = 0; i < st.length; i++) {
 //  gh 22
 //  ab 33
 
+import java.util.Comparator
+
 // 匿名对象创建比较规则
 Arrays.sort(st, new Comparator<Student>() {
     // 指定比较规则
@@ -474,6 +477,51 @@ Arrays.sort(st, new Comparator<Student>() {
         // return  Integer.compare(o2.age, o1.age);
     }
 });
+
+// lambda简化
+Arrays.sort(st, (Student a, Student b) -> {
+    // 指定比较规则
+    return  Integer.compare(a.age, b.age);
+});
+
+// 继续简化 省略参数类型
+Arrays.sort(st, (a, b) -> Integer.compare(a.age, b.age));
+
+// lambda表达式 a -> a.age 表示获取每个元素的age属性
+Arrays.sort(st, Comparator.comparingInt(a -> a.age));
+
+
+class Compare {
+    public static int compareByAge(Student a, Student b) {
+        return a.age - b.age;
+    }
+
+}
+Arrays.sort(st, (o1, o2) -> Compare.compareByAge(o1, o2));
+// 参数对应一致 可以替换成静态方法引用
+Arrays.sort(st, Compare::compareByAge);
+
+
+class Compare {
+    public int compareByAge(Student a, Student b) {
+        return a.age - b.age;
+    }
+}
+
+// 实例方法引用
+Compare cmp = new Compare();
+Arrays.sort(st, cmp::compareByAge);
+
+Arrays.sort(st, (a, b) -> a.name.compareTo(b.name));
+
+String[] str = {"Ab", "bA", "caps", "abin"};
+// 特定类型的方法引用
+Arrays.sort(str, String::compareToIgnoreCase);
+System.out.println(Arrays.toString(str)); // [Ab, abin, bA, caps]
+
+
+TODO
+构造器引用
 ```
 
 ## tip17

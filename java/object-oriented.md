@@ -305,6 +305,7 @@ public class Derived extends Base {
         super(); // 写不写都会默认调用父类的无参构造器
         // 如果父类的无参构造器不存在，则会报错
         // 报错就要用super指定调用父类的有参构造器
+        // 构造器不能被重写(Override)
         System.out.println("Derived");
     }
 }
@@ -406,6 +407,28 @@ b = 10; // 不能进行二次赋值
 final static int a = 0;
 
 final修饰的引用变量，其地址不可以改变，但是可以通过地址修改对象内容
+```
+
+## tip 001
+
+```java
+// 抽象类不能实例化， 必须继承后才能实例化
+// 可以包含抽象方法和非抽象方法
+// 子类继承抽象类时,必须实现抽象类的所有抽象方法
+// 如果子类没有实现父类所有的抽象方法, 那么子类也必须声明为抽象类
+public abstract class Foo {
+
+    // 有构造器也不能实例化
+    // 构造器不能被声明为 abstract
+    // 构造器的目的是创建对象, 假如构造器是抽象的, 就无法实例化该类的对象
+    public Foo() {
+
+    }
+
+    // 有抽象方法的类必须声明为抽象类
+    // 抽象方法只包含方法签名, 没有方法体, 也就是不实现
+    public abstract void run();
+}
 ```
 
 ## tip 16
@@ -583,6 +606,11 @@ public static <T> T test(T t) {
     return t;
 }
 
+// 调用时就可以获得正确的类型
+int a = test(0);
+// 泛型会在返回的地方插入强制转换，在需要的时候
+test(0); // 这里不需要强制转换
+
 // 使用泛型中 ？表示通配
 public static void test(ArrayList<?> e) {
 }
@@ -595,6 +623,25 @@ public static void test(ArrayList<? extends Base> e) {
 // 表示参数化的类型可能是 T 或 T 的父类型
 public static void test(ArrayList<? super Derived> e) {
 }
+
+// 让没有泛型的引用指向有泛型的引用, 可以放任意数据
+// 但是会造成污染，再用泛型引用指向没有泛型的引用，去使用数据的时候会报错
+```
+
+## 协变和逆变
+
+```java
+// 协变和逆变是针对引用类型而言
+// 在泛型中的协变(covariance)和逆变(contravariance)表示泛型类型参数在继承层次中的变化关系
+class Base {
+}
+
+class Derived extends  Base {
+}
+
+// 泛型类型不管继承关系
+ArrayList<Base> a = new ArrayList<>();
+a.add(Derived); // 报错
 ```
 
 ## tip 101
@@ -605,4 +652,11 @@ TODO
 
 实例变量会隐藏父类变量,但两者不是同一个变量。
 静态变量也不会被父类所隐藏,两者也不是同一个变量。
+```
+
+## tip 102
+
+```java
+TODO
+类型擦除
 ```
