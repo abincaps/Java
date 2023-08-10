@@ -375,7 +375,7 @@ if (a instanceof Teacher) {
 Student d = (Student)a; // 错误 不报错 运行后抛出ClassCastException异常
 ```
 
-## tip 15
+## final
 
 ```java
 // 声明为final的类不能被继承,该类不能作为父类
@@ -579,7 +579,7 @@ System.out.println(c.ordinal()); // 0
 // 抽象枚举类
 ```
 
-## tip 21
+## 泛型
 
 ```java
 public class Vector<E> {
@@ -623,9 +623,6 @@ public static void test(ArrayList<? extends Base> e) {
 // 表示参数化的类型可能是 T 或 T 的父类型
 public static void test(ArrayList<? super Derived> e) {
 }
-
-// 让没有泛型的引用指向有泛型的引用, 可以放任意数据
-// 但是会造成污染，再用泛型引用指向没有泛型的引用，去使用数据的时候会报错
 ```
 
 ## 协变和逆变
@@ -642,6 +639,25 @@ class Derived extends  Base {
 // 泛型类型不管继承关系
 ArrayList<Base> a = new ArrayList<>();
 a.add(Derived); // 报错
+
+// 让没有泛型的引用指向有泛型的引用, 可以放任意数据
+// 但是会造成污染，再用泛型引用指向没有泛型的引用，去使用数据的时候会报错
+
+// 协变
+// Derived 是 Base的子类 但是 ArrayList<Derived> 不是 ArrayList<Base> 的子类
+// ArrayList<Base> a = new ArrayList<Derived>(); 错误
+// ? extends Base 可以接受Base或者其子类
+ArrayList<? extends Base> a = new ArrayList<Derived>();
+
+// a.add(new Base()); 错误 会引发更多的错误
+// a.add(new Derived()); 错误 会引发更多的错误
+
+// ? super Derived 可以接受Derived或者其父类 直到Object类
+ArrayList<? super Derived> b = new ArrayList<Base>();
+
+
+// new ArrayList<? super Derived>(); 错误 只有引用的时候可以宽泛一点、
+// 读取使用协变， 写入使用逆变
 ```
 
 ## tip 101
