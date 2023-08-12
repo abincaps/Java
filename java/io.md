@@ -21,7 +21,7 @@ System.out.println(File.pathSeparator); // ;
 ## 三代IO框架
 
 ```java
-第一代流式阻塞IO
+第一代 流式阻塞IO
 第二代 NIO 是非阻塞的
 第三代 NIO AIO asyncIO 异步IO
 ```

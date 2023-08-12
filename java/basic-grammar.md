@@ -1,15 +1,44 @@
 # java基础语法
 
-## tip 1
+## 基本类型的隐式转换
 
 ```java
 在表达式中, byte, short, char, 是直接转换成int类型参与运算
 
-boolean b = true;
-int n = (int) b; //错误, 不能直接转换
+java中没有无符号整数，和cpp中的unsigned不同
 
-java中没有无符号整数，和cpp unsigned不同
+如果表达式混合了int和long, 则提升到long类型
+
+// 编译错误,超出int范围 
+int a = 1000_0000_0000 * 100;
+
+// 正确 提升到long
+long b = 100 * 10000000000L;
+
+// 运行时溢出异常
+long c = 10000000000L * 10000000000L;
 ```
+
+## 基本类型的强制转换
+
+```java
+boolean b = true;
+int n = (int) b; //错误, 不能强制转换
+
+// 从long类型向int类型的赋值需要强制转换, 否则会报错
+int d = (int)100L;
+// 类似的范围大的到范围小的赋值， 注意是赋值=，+= 有表达式计算
+
+// 浮点数到整型也需要强制转换
+// 整数到浮点数则不需要
+int a = (int)100F;
+
+// 浮点数默认字面量是double 需要用F指定float
+// 或者强制转换
+float a = 100.0F;
+```
+
+
 
 ## tip 2
 
@@ -26,16 +55,10 @@ next() 读取输入的字符串，直到遇到空白符(空格，回车，换行
 nextLine() 读取输入的一行字符串，包括空格
 ```
 
-## tip 4
+## switch
 
 ```java
 switch case 表达式类型只能是 byte，short, int, char, jdk5开始支持枚举类型， jdk7支持String
-```
-
-## tip 5
-
-```java
-已移除
 ```
 
 ## tip 6
@@ -60,21 +83,21 @@ System.out.println(a.length); // 数组长度
 一个类中方法名相同，形参列表不同，就是方法重载，和返回值类型，形参名称无关
 ```
 
-## tip 8
+## public class
 
 ```java
 一个代码文件中可以写多个class类，但只能有一个用public修饰
 public修饰的类的名称必须和文件名一致
 ```
 
-## tip 9
+## 自动垃圾回收机制
 
 ```java
 当堆内存中的对象，没有被任何变量引用时，就会被判定为内存中的垃圾
 java存在自动垃圾回收机制，会自动清除掉垃圾对象
 ```
 
-## tip 10
+## 构造器
 
 ```java
 // 如果没有写构造器，类会默认生成一个无参构造器
@@ -94,13 +117,13 @@ public class Student {
 }
 ```
 
-## tip 11
+## 面向对象
 
 ```java
 面向对象的三大特征：封装，继承，多态
 ```
 
-## tip 12
+## JavaBean 实体类
 
 ```java
 JavaBean 实体类 用于封装数据以及操作数据的行为
@@ -109,18 +132,16 @@ JavaBean 实体类 用于封装数据以及操作数据的行为
 3. 提供public的setter和getter方法来访问成员变量(属性)
 ```
 
-## tip 13
+## package(包)
 
 ```java
-1. 同一个包(package)下的类，方法可以直接调用
-2. 其他包(package)下的类，方法, 需要导包才可以访问
+1. 同一个包下的类，方法可以直接调用
+2. 其他包下的类，方法, 需要导包才可以访问
 3. java.lang包下的类，不需要导包就可以调用
 4. 访问多个包下的同名类，默认只能导入一个包下的类，另一些类必须带包名访问
 
-public static void main(String[] args) {
-    Student a = new Student();
-    com.abincaps.Student b = new com.abincaps.Student();
-}
+Student a = new Student();
+com.abincaps.Student b = new com.abincaps.Student();
 
 import java.time.*; // 导入java.time包下的所有类
 ```
@@ -173,7 +194,7 @@ String e = "abincaps", f = "ABINcaps";
 System.out.println(e.equalsIgnoreCase(f)); // true
 ```
 
-## tip 16
+## substring
 
 ```java
 String str = "abincaps";
@@ -185,7 +206,7 @@ System.out.println(str.substring(0, 2)); //  ab
 System.out.println(str.substring(4)); //  caps
 ```
 
-## tip 17
+## replace
 
 ```java
 String str = "abincaps";
@@ -205,7 +226,7 @@ System.out.println(str.contains("ab")); // true
 System.out.println(str.startsWith("ab")); // true
 ```
 
-## tip 19
+## split
 
 ```java
 String s = ",abc,efg,";
@@ -237,18 +258,13 @@ String s2 = "a" + "b" + "c"; // 编译器会优化成 “abc"
 System.out.println(s1 == s2); // true
 ```
 
-## tip 21
+## 匿名内部类和lambda
 
 ```java
 abstract class Animal {
     public abstract void run();
 }
 
-@FunctionalInterface
-interface Func {
-    // 只能有一个抽象方法
-    void run();
- }
 // 匿名内部类 本质上是子类
 new Animal() {
 
@@ -258,19 +274,51 @@ new Animal() {
     }
 };
 
+// lambda表达式是Java 8开始引入的特殊匿名内部类 
+// 本质上是继承父类的子类
+// 参数类型可以省略不写
+// 如果只有一个参数, () 可以省略
+// 如果代码体只有一行, {} 和 return 可以省略
+```
+
+
+## lambda和函数式接口
+
+```java
 // Lambda表达式是Java 8开始引入
 // 匿名内部类 本质上是子类
 // 参数类型可以省略不写
 // 如果只有一个参数, ()可以省略
 // 如果代码体只有一行, {}可以省略
+
+// 函数式接口
+@FunctionalInterface
+interface Func {
+    // 只能有一个抽象方法
+    void run();
+ }
+
 Func a =  () -> {
     System.out.println("run");
 };
 
 a.run(); // run
+
+// 函数式接口
+@FunctionalInterface
+public interface Runnable {
+    // 只能有一个抽象方法
+    public abstract void run();
+}
+
+Thread thread = new Thread(() -> {
+    // 方法体内就是重写的run方法体
+    // 线程执行的代码
+});
+
 ```
 
-## tip 22
+## Exception
 
 ```java
 int [] arr = new int[1];
@@ -310,7 +358,7 @@ public static void main(String[] args) throws ClassNotFoundException {
     // Error 和 RuntimeException 是 unchecked exception
 
     // Class 在 java.lang 包下
-    // orName 返回与具有给定字符串名称的类或接口关联的 Class 对象
+    // forName 返回与具有给定字符串名称的类或接口关联的 Class 对象
     Class.forName(""); // 加上throws ClassNotFoundException 不报错
 
     String str = null;
@@ -365,18 +413,19 @@ public class Foo implements WithEx {
 }
 ```
 
-## tip 26
+## 异常传递
 
 ```java
-异常传递
 当一个方法抛出了异常, 并没有被当前方法捕获异常并处理
 那么这个异常会被传递给当前方法的调用者, 一直向上抛出, 直到被捕获或者程序终止
+
+异常传递明确调用者需要处理传播过来的异常
+强制处理异常或者向上抛出, 防止异常被隐藏
 ```
 
-## tip 27
+## 自定义异常类
 
 ```java
-// 自定义异常类
 public class MyException extends Exception {
     public MyException() {
     }
@@ -394,13 +443,11 @@ public class MyException extends Exception {
 }
 ```
 
-## tip 28
+## try-catch-finally
 
 ```java
 public static int func() {
-
     int len = 0;
-    
     try {
         String s = null;
         return s.length();
@@ -424,7 +471,7 @@ System.out.println(func());
 // -1
 ```
 
-## tip 29
+## 多层catch
 
 ```java
 try {
@@ -434,7 +481,6 @@ try {
 } catch (IOException e) {
 
 }
-
 
 try {
 // 其中之一
@@ -469,5 +515,23 @@ ClassNotFoundException  加载类失败异常
 @Deprecated
 表示被标注的元素已过时 但并不会阻止过时元素的使用
 
+// 不定义Target 缺省就是METHOD
+@Target(ElementType.METHOD) // 可使用的位置
+@Retention(RetentionPolicy.RUNTIME) // 保留阶段 (源码、编译、运行)
+// SOURCE - 注解只保留在源代码中, 编译时就被丢弃
+// CLASS - 注解在class文件中可用, 但会被虚拟机丢弃
+// RUNTIME - 虚拟机将在运行期也保留注解, 因此可以通过反射机制读取
 
+public @interface Myannotation {
+    // 注解里支持的类型 基本数据类型 Class，String，枚举类，其他注解
+    // 增加元数据 metadata
+}
+```
+
+## JDK和JRE
+
+```java
+JDK 是 Java Development Kit， 是Java开发套件
+JRE 是 Java Runtime Environment， 是Java运行环境
+JDK中包含了JRE，并且包含开发调试程序相关的工具
 ```

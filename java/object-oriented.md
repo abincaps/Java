@@ -1,19 +1,66 @@
 # java面向对象
 
-## tip 1
+## static
 
 ```java
-static不可以修饰类
-在静态方法和非静态方法里定义的变量 加了static会报错
+在静态方法里定义的变量就是静态的，不需再加static
+在静态方法里不能访问实例变量
 
-类变量(class variable)是定义在类中, 被static修饰的变量
-类变量在内存中只存在一份, 存在方法区的静态域中
+在实例方法里不能定义静态变量，但可以访问静态变量
+
+类变量(class variable)是定义在类中, 被static修饰，也称为静态变量
+静态变量在内存中只存在一份副本, 存在方法区的静态域中
 
 实例变量(Instance Variable)是定义在类中的非静态变量
 实例变量存储在堆内存的对象中
+
+类似的
+类方法 也叫静态方法
+实例方法 
 ```
 
-## tip 2
+## 静态内部类
+
+```java
+
+static不可以修饰外部类, 但可以修饰内部类
+
+因为静态内部类不持有外部类的this引用, 不依赖于外部类的实例
+也就是静态内部类不能直接引用外部类的this
+
+public class Outer {
+    static int outerStaticNum;
+    int outerNum;
+
+    // 静态内部类
+    static class Inner {
+        
+        void accessMembers() {
+            System.out.println(outerStaticNum); // 直接访问外部类的静态成员
+
+            // 不能直接访问外部类的非静态成员
+            // 需要先实例化外部类, 再通过外部类实例才能访问
+            Outer outer = new Outer();
+            System.out.println(outer.outerNum);
+
+        }
+
+        static void staticInnerMethod(){
+            // 静态内部类可以包含静态成员
+            System.out.println("static inner method");
+        }
+    }
+}
+
+// 访问静态内部类
+Outer.Inner.staticInnerMethod();
+
+// 静态内部类可以在外部类没有实例化的情况下直接使用new进行实例化
+Outer.Inner inner = new Outer.Inner();
+inner.accessMembers();
+```
+
+## 静态变量和实例变量的访问
 
 ```java
 public class Student {
@@ -78,21 +125,21 @@ java.lang包下的Math类是典型的工具类
 类成员指类变量和类方法
 
 public class Student {
-    // 类方法
+
+    // 静态方法
     public static void print() {
         System.out.println(age); // 正确 类方法可以放访问类成员
         System.out.println(name); // 错误 类方法不能访问实例成员
-        System.out.println(get()); // 错误 类方法不能调用实例方法
+        System.out.println(get()); // 错误 静态方法不能调用实例方法
         System.out.println(this.name); // 错误 只有实例方法中可以出现this
     }
 
-    static int age = 10; // 类成员
+    static int age = 10; // 静态成员
     String name = "abincaps"; // 实例成员
 
     public String get() {
         return name;
     }
-
 
     private Student() {
 
@@ -179,7 +226,7 @@ public class Foo {
 }
 ```
 
-## tip 8
+## 继承
 
 ```java
 java只支持单继承, 一个类只能继承一个直接父类，支持多层继承 c继承b， b继承a
@@ -200,11 +247,9 @@ public class Base {
 }
 ```
 
-## tip 9
+## 访问权限修饰符
 
 ```java
-访问权限修饰符 
-
 private 在本类中（在同一类内才可见）
 缺省 满足private， 且同一个包下的其他类 （对同一包内的类才可见）
 protected 满足缺省， 且在任意包下的子类里 （同一包内的类才可见，所有子类可见）
@@ -241,7 +286,7 @@ System.out.println(a); // [name=abincaps, age=10]
 
 ```
 
-## tip 11
+## 方法重写(覆盖)
 
 ```java
 public class Base {
@@ -409,7 +454,7 @@ final static int a = 0;
 final修饰的引用变量，其地址不可以改变，但是可以通过地址修改对象内容
 ```
 
-## tip 001
+## 抽象类
 
 ```java
 // 抽象类不能实例化， 必须继承后才能实例化
@@ -431,7 +476,7 @@ public abstract class Foo {
 }
 ```
 
-## tip 16
+## 接口
 
 ```java
 // 不能实例化
@@ -457,9 +502,11 @@ public class C implements A, B {
 
     }
 }
+
+接口可以继承
 ```
 
-## tip 17
+## 接口的默认方法和私有方法
 
 ```java
 public interface A {
@@ -541,12 +588,14 @@ new Foo() {
 }.print(); // anonymous
 ```
 
-## tip 20
+## 枚举类
 
 ```java
-// 枚举类 常量集合
-// 枚举类是final修饰的类 不可以被继承
-// 枚举类会隐式继承Enum,
+枚举类 常量集合
+枚举类是final修饰的类 不可以被继承
+枚举类会隐式继承Enum
+枚举类既可以在类的内部声明, 也可以作为独立的类声明
+
 public enum Color {
 
     // 默认从0开始数
@@ -572,6 +621,17 @@ Color c = Color.valueOf("RED");
 System.out.println(c); // RED
 // 序号
 System.out.println(c.ordinal()); // 0
+
+
+public enum Color {
+    RED, GREEN, BLUE;
+
+    public void print() {
+        System.out.println(this);
+    }
+}
+
+Color.BLUE.print(); // BLUE
 
 // 枚举类实现单例
 
