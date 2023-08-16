@@ -312,6 +312,16 @@ Derived a = new Derived();
 a.print(); // Derived
 ```
 
+## 方法重写中的异常
+
+```java
+方法的重写(Override)中
+子类方法不允许抛出比父类更广泛的异常
+如果父类方法没有throws声明, 则子类重写方法也不能有throws声明(除非是RuntimeException及其子类)
+父类方法throws的异常, 子类必须处理或者再次声明throws
+如果可以捕获处理异常，子类方法可以不再声明throws
+```
+
 ## tip 12
 
 ```java
@@ -452,6 +462,8 @@ b = 10; // 不能进行二次赋值
 final static int a = 0;
 
 final修饰的引用变量，其地址不可以改变，但是可以通过地址修改对象内容
+
+在类中使用final修饰的变量, 必须在声明时或者构造函数中初始化
 ```
 
 ## 抽象类
@@ -481,7 +493,7 @@ public abstract class Foo {
 ```java
 // 不能实例化
 public interface A {
-    // 接口中的变量都是常量(由public static final修饰)，必须赋值
+    // 接口中的变量都是常量(自动隐式为由public static final修饰)，必须赋值
     String name = "Foo";
 
     // 方法默认是public abstract类型, 抽象方法不带方法体
@@ -539,6 +551,22 @@ a.method1();
 
 a.method3(); // 错误
 A.method3(); // 只能接口名调用静态方法
+```
+
+
+## 接口的默认值
+
+```java
+在接口中的方法可以用default关键字指定默认实现
+
+interface Example {
+  String value() default ""; 
+}
+
+当实现类没有实现value方法时, 会使用默认实现并返回""。
+
+提供默认的通用实现,简化客户端使用。
+扩展接口时保持向后兼容。
 ```
 
 ## tip 18
@@ -637,6 +665,12 @@ Color.BLUE.print(); // BLUE
 
 // TODO
 // 抽象枚举类
+```
+
+## 枚举类中的values方法
+
+```java
+values方法返回一个包含此枚举类型常量的数组
 ```
 
 ## 泛型

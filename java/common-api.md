@@ -529,8 +529,17 @@ TODO
 Time.unit
 ```
 
-## tip18
+## asList方法
 
 ```java
+asList方法定义在java.util.Arrays类中
+可以把一个数组转换为一个List集合
 
+public static <T> List <T> asList(T... a)
+接受可变参数, 返回一个List类型的集合
+
+返回的List仅仅是一个转换接口, 内部元素仍指向原数组, 并没有复制数组内容
+返回List的大小是固定的, 不能添加和删除元素
+否则保持列表不变并抛出UnsupportedOperationException
+任何对返回List的修改都会同步反映到原数组
 ```

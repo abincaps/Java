@@ -123,13 +123,13 @@ public class Student {
 面向对象的三大特征：封装，继承，多态
 ```
 
-## JavaBean 实体类
+## 实体类
 
 ```java
-JavaBean 实体类 用于封装数据以及操作数据的行为
+实体类 用于封装数据以及操作数据的行为
 1. 有一个public的无参构造器
 2. 所有的成员变量用private修饰
-3. 提供public的setter和getter方法来访问成员变量(属性)
+3. 提供public的setter和getter方法来访问成员变量
 ```
 
 ## package(包)
@@ -316,6 +316,23 @@ Thread thread = new Thread(() -> {
     // 线程执行的代码
 });
 
+```
+
+## 可变参数(Varargs)
+
+```java
+可变参数允许方法接受个数不确定的同类型参数
+在方法声明中使用Type...参数名的语法
+可变参数在编译时会转换为数组
+一个方法中只能指定一个可变参数, 且必须是方法的最后一个参数
+
+public void printMessages(String... msgs) {
+  for (String msg : msgs) {
+    System.out.println(msg);
+  }
+}
+
+printMessages("Hi","Hello","Bye");
 ```
 
 ## Exception
@@ -534,4 +551,24 @@ public @interface Myannotation {
 JDK 是 Java Development Kit， 是Java开发套件
 JRE 是 Java Runtime Environment， 是Java运行环境
 JDK中包含了JRE，并且包含开发调试程序相关的工具
+```
+
+## java 和 javax
+
+```java
+javax包位于Java EE平台的库中, javax不是Java SE标准库的一部分
+java - Java核心库
+javax - Java扩展库
+```
+
+## ==
+
+```java
+== 是java中关系运算符 比较的是变量(栈)内存中存放的对象的(堆)内存地址
+用来判断两个对象的地址是否相同，即是否是指相同一个对象。
+```
+
+## 序列化id (serialVersionUID)
+
+```java
 ```
