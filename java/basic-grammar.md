@@ -1,54 +1,54 @@
-# java基础语法
+# 基础语法
+
+## 字面量
+
+```java
+// 浮点数默认字面量是double 需要用F指定float 或者强制转换
+float a = 100.0F;
+```
 
 ## 基本类型的隐式转换
 
 ```java
-在表达式中, byte, short, char, 是直接转换成int类型参与运算
-
-java中没有无符号整数，和cpp中的unsigned不同
-
-如果表达式混合了int和long, 则提升到long类型
-
-// 编译错误,超出int范围 
-int a = 1000_0000_0000 * 100;
-
-// 正确 提升到long
-long b = 100 * 10000000000L;
-
-// 运行时溢出异常
-long c = 10000000000L * 10000000000L;
+在表达式中, byte, short, char, 直接转换成int类型参与运算 
+如果表达式中混合了int和long, 则提升到long类型
 ```
 
 ## 基本类型的强制转换
 
 ```java
 boolean b = true;
-int n = (int) b; //错误, 不能强制转换
+int n = (int) b; //编译错误, 不能强制转换
 
 // 从long类型向int类型的赋值需要强制转换, 否则会报错
 int d = (int)100L;
-// 类似的范围大的到范围小的赋值， 注意是赋值=，+= 有表达式计算
+// 类似的范围大的到范围小的赋值, 注意是赋值=，+=有表达式计算, 会触发截断
 
-// 浮点数到整型也需要强制转换
-// 整数到浮点数则不需要
+// 浮点数到整型需要强制转换 而整数到浮点数则不需要
 int a = (int)100F;
-
-// 浮点数默认字面量是double 需要用F指定float
-// 或者强制转换
-float a = 100.0F;
 ```
 
-
-
-## tip 2
+## 字符和字符串的连接
 
 ```java
-// char + int 和 字符串 + 字符
 System.out.println('a' + 1 + "str"); // 98str
 System.out.println("str" + 'a' + 1); // stra1
 ```
 
-## tip 3
+## 字符串连接优化
+
+```java
+String a = "ab";
+String b = "abc";
+String c = a + "c"; // 连接后的结果放在堆内存中
+System.out.println(b == c); // false
+
+String s1 = "abc";
+String s2 = "a" + "b" + "c"; // 编译器会优化成 “abc"
+System.out.println(s1 == s2); // true
+```
+
+## next和nextLine
 
 ```java
 next() 读取输入的字符串，直到遇到空白符(空格，回车，换行)结束
@@ -58,26 +58,29 @@ nextLine() 读取输入的一行字符串，包括空格
 ## switch
 
 ```java
-switch case 表达式类型只能是 byte，short, int, char, jdk5开始支持枚举类型， jdk7支持String
+switch case 表达式类型支持byte，short, int, char, 枚举类型，String
 ```
 
-## tip 6
+## 数组初始化
 
 ```java
-// 下面都是在堆内存中分配对象
-// a，b 静态初始化，在定义数组变量时就确定数组元素的值
-
+// 在定义数组变量时确定数组元素的值
 int[] a = new int[] {1, 3, 5};
 int[] b = {1, 3, 5};
 
-// c 动态初始化，在定义数组变量时仅确定数组大小
-
-int[] c = new int[3] {1, 3, 5}; // 错误
+// 在定义数组变量时仅确定数组大小
+int[] c = new int[3] {1, 3, 5}; // 编译错误
 int[] c = new int[3]; // 正确
-System.out.println(a.length); // 数组长度
 ```
 
-## tip 7
+## ==
+
+```java
+== 是关系运算符
+用来判断两个对象的内存地址是否相同，即变量是否指向同一个对象
+```
+
+## 方法重载
 
 ```java
 一个类中方法名相同，形参列表不同，就是方法重载，和返回值类型，形参名称无关
@@ -86,67 +89,25 @@ System.out.println(a.length); // 数组长度
 ## public class
 
 ```java
-一个代码文件中可以写多个class类，但只能有一个用public修饰
+一个代码文件中可以写多个class类，但只能有一个类用public修饰
 public修饰的类的名称必须和文件名一致
-```
-
-## 自动垃圾回收机制
-
-```java
-当堆内存中的对象，没有被任何变量引用时，就会被判定为内存中的垃圾
-java存在自动垃圾回收机制，会自动清除掉垃圾对象
-```
-
-## 构造器
-
-```java
-// 如果没有写构造器，类会默认生成一个无参构造器
-// 如果写了有参构造器， 类不会自动生成无参构造器
-
-public class Student {
-    // 构造器重载
-    // 无参数构造器
-    public Student() {
-        ...
-    }
-
-    // 带参数构造器
-    public Student(String name) {
-        ...
-    }
-}
-```
-
-## 面向对象
-
-```java
-面向对象的三大特征：封装，继承，多态
-```
-
-## 实体类
-
-```java
-实体类 用于封装数据以及操作数据的行为
-1. 有一个public的无参构造器
-2. 所有的成员变量用private修饰
-3. 提供public的setter和getter方法来访问成员变量
+注意没有私有类，只有内部私有类
 ```
 
 ## package(包)
 
+<table><thead><tr><th width="379">类所在位置</th><th>是否需要导包才可以访问</th></tr></thead><tbody><tr><td>同一个包下的类</td><td>否</td></tr><tr><td>java.lang包下的类</td><td>否</td></tr><tr><td>其他包下的类</td><td>是</td></tr></tbody></table>
+
 ```java
-1. 同一个包下的类，方法可以直接调用
-2. 其他包下的类，方法, 需要导包才可以访问
-3. java.lang包下的类，不需要导包就可以调用
-4. 访问多个包下的同名类，默认只能导入一个包下的类，另一些类必须带包名访问
+访问多个包下的同名类，默认只能导入一个包下的类，另一些类必须带包名访问
 
 Student a = new Student();
 com.abincaps.Student b = new com.abincaps.Student();
 
-import java.time.*; // 导入java.time包下的所有类
+import java.time.*; // 用*通配符 导入java.time包下的所有类
 ```
 
-## tip 14
+## String
 
 ```java
 // String类是不可变的字符串, 不能通过[]下标索引来获取或修改其中的某个字符
@@ -168,7 +129,17 @@ for (int i = 0; i < c_str.length; i++) {
 }
 ```
 
-## tip 15
+## replace
+
+```java
+String str = "abincaps";
+
+// replace 替换所有 并不会改变String本身
+System.out.println(str.replace("a", "bc")); // bcbincbcps
+System.out.println(str); // abincaps
+```
+
+## 常量池和堆内存
 
 ```java
 // "..."这样的字符串对象会存储在字符串常量池中，且相同的字符串只存储一份
@@ -190,132 +161,6 @@ System.out.println(c == d); // false
 System.out.println(c.equals(d)); // true
 
 String e = "abincaps", f = "ABINcaps";
-// equalsIgnoreCase 忽略大小写比较
-System.out.println(e.equalsIgnoreCase(f)); // true
-```
-
-## substring
-
-```java
-String str = "abincaps";
-
-// 截取部分字符串内容 [0, 2)
-System.out.println(str.substring(0, 2)); //  ab
-
-// [4, length) 从起始位置截取到最后
-System.out.println(str.substring(4)); //  caps
-```
-
-## replace
-
-```java
-String str = "abincaps";
-
-// replace 替换所有 并不会改变String本身
-System.out.println(str.replace("a", "bc")); // bcbincbcps
-System.out.println(str); // abincaps
-```
-
-## tip 18
-
-```java
-String str = "abincaps";
-// contains判断是否包含
-System.out.println(str.contains("ab")); // true
-// startsWith 判断是否开头包含， 从ab开始
-System.out.println(str.startsWith("ab")); // true
-```
-
-## split
-
-```java
-String s = ",abc,efg,";
-
-// split 根据给定分割符 拆分字符串 返回String数组
-for (String x : s.split(",")) {
-    System.out.println(x);
-}
-
-
-空
-abc
-efg
-空
-```
-
-## tip 20
-
-```java
-
-String a = "ab";
-String b = "abc";
-String c = a + "c"; // 连接后的结果放在堆内存中
-System.out.println(b == c); // false
-
-
-String s1 = "abc";
-String s2 = "a" + "b" + "c"; // 编译器会优化成 “abc"
-System.out.println(s1 == s2); // true
-```
-
-## 匿名内部类和lambda
-
-```java
-abstract class Animal {
-    public abstract void run();
-}
-
-// 匿名内部类 本质上是子类
-new Animal() {
-
-    @Override
-    public void run() {
-        
-    }
-};
-
-// lambda表达式是Java 8开始引入的特殊匿名内部类 
-// 本质上是继承父类的子类
-// 参数类型可以省略不写
-// 如果只有一个参数, () 可以省略
-// 如果代码体只有一行, {} 和 return 可以省略
-```
-
-
-## lambda和函数式接口
-
-```java
-// Lambda表达式是Java 8开始引入
-// 匿名内部类 本质上是子类
-// 参数类型可以省略不写
-// 如果只有一个参数, ()可以省略
-// 如果代码体只有一行, {}可以省略
-
-// 函数式接口
-@FunctionalInterface
-interface Func {
-    // 只能有一个抽象方法
-    void run();
- }
-
-Func a =  () -> {
-    System.out.println("run");
-};
-
-a.run(); // run
-
-// 函数式接口
-@FunctionalInterface
-public interface Runnable {
-    // 只能有一个抽象方法
-    public abstract void run();
-}
-
-Thread thread = new Thread(() -> {
-    // 方法体内就是重写的run方法体
-    // 线程执行的代码
-});
-
 ```
 
 ## 可变参数(Varargs)
@@ -335,7 +180,7 @@ public void printMessages(String... msgs) {
 printMessages("Hi","Hello","Bye");
 ```
 
-## Exception
+## 异常
 
 ```java
 int [] arr = new int[1];
@@ -360,14 +205,13 @@ try {
 System.out.println("finished");
 ```
 
-## tip 23
+## Error和Exception
 
 ```java
 // 逗号分开可以抛出多个异常 也可以抛出异常的父类 Exception
 public static void main(String[] args) throws ClassNotFoundException {
 
     // 所有异常的父类 Throwable
-    // r两类异常：Error 和 Exception
     // Error 不可补救 系统级错误   Exception 可以补救 程序级错误
     // Error通常是虚拟机内部错误或者不可恢复的错误
     // checked exception 必须用try catch 或 throws处理异常
@@ -384,23 +228,23 @@ public static void main(String[] args) throws ClassNotFoundException {
 }
 ```
 
-## tip 24
+## 抛出指定异常
 
 ```java
 public static void causeExcetion() throws Exception {
 
-    // 抛出自定义异常 checked Exception
+    // 抛出指定异常 checked Exception
     throw new Exception("");
 }
 
 public static void causeRuntimeExcetion() {
 
-    // 抛出自定义异常 unchecked Exception
+    // 抛出指定异常 unchecked Exception
     throw new RuntimeException("");
 }
 ```
 
-## tip 25
+## 实现类中的异常
 
 ```java
 public interface WithEx {
@@ -561,14 +405,8 @@ java - Java核心库
 javax - Java扩展库
 ```
 
-## ==
-
-```java
-== 是java中关系运算符 比较的是变量(栈)内存中存放的对象的(堆)内存地址
-用来判断两个对象的地址是否相同，即是否是指相同一个对象。
-```
-
 ## 序列化id (serialVersionUID)
 
 ```java
+TODO
 ```

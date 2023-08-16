@@ -1,4 +1,39 @@
-# java面向对象
+# 面向对象
+
+## 三大特征
+
+```java
+面向对象的三大特征：封装，继承，多态
+```
+
+## 构造器
+
+```java
+如果没有写任何构造器，类会默认生成一个无参构造器
+如果写了有参构造器， 类不会自动生成无参构造器
+
+public class Student {
+    // 构造器重载
+    // 无参构造器
+    public Student() {
+        ...
+    }
+
+    // 有参构造器
+    public Student(String name) {
+        ...
+    }
+}
+```
+
+## 实体类
+
+```java
+实体类 用于封装 数据以及操作数据的行为
+1. 有一个public的无参构造器
+2. 所有的成员变量用private修饰
+3. 提供public的setter和getter方法来访问成员变量
+```
 
 ## static
 
@@ -19,47 +54,6 @@
 实例方法 
 ```
 
-## 静态内部类
-
-```java
-
-static不可以修饰外部类, 但可以修饰内部类
-
-因为静态内部类不持有外部类的this引用, 不依赖于外部类的实例
-也就是静态内部类不能直接引用外部类的this
-
-public class Outer {
-    static int outerStaticNum;
-    int outerNum;
-
-    // 静态内部类
-    static class Inner {
-        
-        void accessMembers() {
-            System.out.println(outerStaticNum); // 直接访问外部类的静态成员
-
-            // 不能直接访问外部类的非静态成员
-            // 需要先实例化外部类, 再通过外部类实例才能访问
-            Outer outer = new Outer();
-            System.out.println(outer.outerNum);
-
-        }
-
-        static void staticInnerMethod(){
-            // 静态内部类可以包含静态成员
-            System.out.println("static inner method");
-        }
-    }
-}
-
-// 访问静态内部类
-Outer.Inner.staticInnerMethod();
-
-// 静态内部类可以在外部类没有实例化的情况下直接使用new进行实例化
-Outer.Inner inner = new Outer.Inner();
-inner.accessMembers();
-```
-
 ## 静态变量和实例变量的访问
 
 ```java
@@ -75,24 +69,7 @@ System.out.println(a.name); // 对象名访问类变量 不推荐
 System.out.println(a.age); // 实例变量只能用对象名访问
 ```
 
-## tip 3
-
-```java
-记录创建了多少个类
-
-public class Student {
-    public static int count = 0;
-    public Student() {
-        count++;
-    }
-}
-
-new Student();
-new Student();
-System.out.println(Student.count); // 2
-```
-
-## tip 4
+## 工具类
 
 ```java
 public class Student {
@@ -118,10 +95,9 @@ a.method(); // method
 java.lang包下的Math类是典型的工具类
 ```
 
-## tip 5
+## 实例成员和静态成员
 
 ```java
-
 类成员指类变量和类方法
 
 public class Student {
@@ -151,7 +127,7 @@ public class Student {
 实例方法可以访问类成员，也可以访问实例成员
 ```
 
-## tip 6
+## 类的初始化顺序
 
 ```java
 public class Student {
@@ -178,16 +154,15 @@ public class Student {
 new Student();
 new Student();
 
-// 可以看到初始化顺序
+// 初始化顺序
 // static
 // non-static
 // Student
 // non-static
 // Student
-
 ```
 
-## tip 7
+## 单例设计模式
 
 ```java
 单例设计模式 要求一个类只能有一个实例
@@ -228,62 +203,19 @@ public class Foo {
 
 ## 继承
 
-```java
-java只支持单继承, 一个类只能继承一个直接父类，支持多层继承 c继承b， b继承a
-子类(派生类)可以继承父类(基类或超类) 的非私有成员(成员变量，成员方法)
-
-public class Base {
-    public int a;
-
-    public void print1() {
-        System.out.println("public");
-    }
-
-    private int b;
-
-    private void print2() {
-        System.out.println("private");
-    }
-}
-```
+<pre class="language-java"><code class="lang-java"><strong>只支持单继承, 一个类只能继承一个直接父类
+</strong><strong>支持多层继承 例如 c继承b， b继承a
+</strong>子类(派生类)可以继承父类(基类或超类) 的非私有成员(成员变量，成员方法)
+</code></pre>
 
 ## 访问权限修饰符
 
-```java
-private 在本类中（在同一类内才可见）
-缺省 满足private， 且同一个包下的其他类 （对同一包内的类才可见）
-protected 满足缺省， 且在任意包下的子类里 （同一包内的类才可见，所有子类可见）
-public 满足protect，且在任意包下的任意类里
+<table><thead><tr><th width="166">关键字</th><th>访问权限范围</th></tr></thead><tbody><tr><td>private</td><td>只能在本类中可见</td></tr><tr><td>缺省</td><td>在同一包下的类可见</td></tr><tr><td>protected</td><td>在同一包下的类可见，且在任意包下的子类里可见</td></tr><tr><td>public</td><td>在任意包下的任意类里可见</td></tr></tbody></table>
+
+## Object类
+
 ```
-
-## tip 10
-
-```java
 Object类是所有类的基类, 默认继承Object类
-
-// 下面相同两句
-System.out.println(a.toString());
-System.out.println(a); //  默认调用toString
-
-public class Student {
-
-    private String name;
-    private int age;
-
-    public Student(String name, int age) {
-        this.name = name;
-        this.age = age;
-    }
-
-    @Override
-    public String toString() {
-        return "[name=" + name + ", age=" + age + "]";
-    }
-}
-
-Student a = new Student("abincaps", 10);
-System.out.println(a); // [name=abincaps, age=10]
-
 ```
 
 ## 方法重写(覆盖)
@@ -312,7 +244,7 @@ Derived a = new Derived();
 a.print(); // Derived
 ```
 
-## 方法重写中的异常
+## 方法重写(覆盖)中的异常
 
 ```java
 方法的重写(Override)中
@@ -322,7 +254,34 @@ a.print(); // Derived
 如果可以捕获处理异常，子类方法可以不再声明throws
 ```
 
-## tip 12
+## toString
+
+```java
+// 下面两句相同
+System.out.println(a.toString());
+System.out.println(a); //  默认调用toString
+
+public class Student {
+
+    private String name;
+    private int age;
+
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "[name=" + name + ", age=" + age + "]";
+    }
+}
+
+Student a = new Student("abincaps", 10);
+System.out.println(a); // [name=abincaps, age=10]
+```
+
+## this和super
 
 ```java
 public class Base {
@@ -342,11 +301,11 @@ public class Derived extends Base {
         System.out.println(super.name); // Base
     }
 
-    // 方法的访问也和上面类似
+    // 方法的访问也和上面变量的访问类似
 }
 ```
 
-## tip 13
+## 子类构造器
 
 ```java
 public class Base {
@@ -360,7 +319,7 @@ public class Derived extends Base {
         super(); // 写不写都会默认调用父类的无参构造器
         // 如果父类的无参构造器不存在，则会报错
         // 报错就要用super指定调用父类的有参构造器
-        // 构造器不能被重写(Override)
+        // 构造器不能被重写(覆盖)
         System.out.println("Derived");
     }
 }
@@ -371,7 +330,7 @@ new Derived();
 // Derived
 ```
 
-## tip 14
+## 多态
 
 ```java
 public class People {
@@ -488,6 +447,160 @@ public abstract class Foo {
 }
 ```
 
+## 内部类
+
+```java
+public class Outer {
+    int age = 30;
+
+    // 成员内部类 定义在外部类的成员位置
+    public class Inner {
+
+        public static int a; // jdk 16 开始支持定义静态成员
+        int age = 20;
+        public void print() {
+            int age = 10;
+
+            // 结局重名冲突
+            System.out.println(age); // 10
+            System.out.println(this.age); // 20
+            System.out.println(Outer.this.age); // 30
+        }
+    }
+}
+
+// 内部类创建
+Outer.Inner in = new Outer().new Inner();
+```
+
+## 静态内部类
+
+```java
+static不可以修饰外部类, 但可以修饰内部类
+
+因为静态内部类不持有外部类的this引用, 不依赖于外部类的实例
+也就是静态内部类不能直接引用外部类的this
+
+public class Outer {
+    static int outerStaticNum;
+    int outerNum;
+
+    // 静态内部类
+    static class Inner {
+        
+        void accessMembers() {
+            System.out.println(outerStaticNum); // 直接访问外部类的静态成员
+
+            // 不能直接访问外部类的非静态成员
+            // 需要先实例化外部类, 再通过外部类实例才能访问
+            Outer outer = new Outer();
+            System.out.println(outer.outerNum);
+
+        }
+
+        static void staticInnerMethod(){
+            // 静态内部类可以包含静态成员
+            System.out.println("static inner method");
+        }
+    }
+}
+
+// 访问静态内部类
+Outer.Inner.staticInnerMethod();
+
+// 静态内部类可以在外部类没有实例化的情况下直接使用new进行实例化
+Outer.Inner inner = new Outer.Inner();
+inner.accessMembers();
+```
+
+## 匿名内部类
+
+```java
+public class Foo {
+
+    public void print() {
+        System.out.println("Foo");
+    }
+}
+// 匿名内部类 是一种特殊的内部类
+// 经常作为参数
+// 不能使用访问修饰符和static修饰
+// 必须继承父类或实现接口
+new Foo() {
+    @Override
+    public void print() {
+        System.out.println("anonymous");
+    }
+}.print(); // anonymous
+```
+
+## lambda
+
+```java
+lambda表达式是Java 8开始引入的特殊匿名内部类 
+本质上是继承父类的子类
+参数类型可以省略不写
+如果只有一个参数, () 可以省略
+如果代码体只有一行, {} 和 return 可以省略
+```
+
+## 枚举类
+
+```java
+枚举类 常量集合
+枚举类是final修饰的类 不可以被继承
+枚举类会隐式继承Enum
+枚举类既可以在类的内部声明, 也可以作为独立的类声明
+
+public enum Color {
+
+    // 默认从0开始数
+
+    // 成员变量默认声明为final
+    // 第一行只能定义常量
+    RED, GREEN, BLUE;
+    // 枚举类的构造器默认私有
+}
+
+Color a = Color.RED;
+System.out.println(a); // RED
+
+// 返回一个数组包含所有常量
+Color[] b = Color.values();
+
+for (int i = 0; i < b.length; i++) {
+    System.out.print(b[i] + " ");
+}
+// RED GREEN BLUE
+Color c = Color.valueOf("RED");
+
+System.out.println(c); // RED
+// 序号
+System.out.println(c.ordinal()); // 0
+
+
+public enum Color {
+    RED, GREEN, BLUE;
+
+    public void print() {
+        System.out.println(this);
+    }
+}
+
+Color.BLUE.print(); // BLUE
+
+// 枚举类实现单例
+
+// TODO
+// 抽象枚举类
+```
+
+## 枚举类中的values方法
+
+```java
+values方法返回一个包含此枚举类型常量的数组
+```
+
 ## 接口
 
 ```java
@@ -553,7 +666,6 @@ a.method3(); // 错误
 A.method3(); // 只能接口名调用静态方法
 ```
 
-
 ## 接口的默认值
 
 ```java
@@ -569,108 +681,39 @@ interface Example {
 扩展接口时保持向后兼容。
 ```
 
-## tip 18
+## 函数式接口
 
 ```java
-public class Outer {
-    int age = 30;
+// Lambda表达式是Java 8开始引入
+// 匿名内部类 本质上是子类
+// 参数类型可以省略不写
+// 如果只有一个参数, ()可以省略
+// 如果代码体只有一行, {}可以省略
 
-    // 成员内部类 定义在外部类的成员位置
-    public class Inner {
+// 函数式接口
+@FunctionalInterface
+interface Func {
+    // 只能有一个抽象方法
+    void run();
+ }
 
-        public static int a; // jdk 16 开始支持定义静态成员
-        int age = 20;
-        public void print() {
-            int age = 10;
+Func a =  () -> {
+    System.out.println("run");
+};
 
-            // 结局重名冲突
-            System.out.println(age); // 10
-            System.out.println(this.age); // 20
-            System.out.println(Outer.this.age); // 30
-        }
-    }
+a.run(); // run
+
+// 函数式接口
+@FunctionalInterface
+public interface Runnable {
+    // 只能有一个抽象方法
+    public abstract void run();
 }
 
-// 内部类创建
-Outer.Inner in = new Outer().new Inner();
-```
-
-## tip 19
-
-```java
-public class Foo {
-
-    public void print() {
-        System.out.println("Foo");
-    }
-}
-// 匿名内部类 是一种特殊的内部类
-// 经常作为参数
-// 不能使用访问修饰符和static修饰
-// 必须继承父类或实现接口
-new Foo() {
-    @Override
-    public void print() {
-        System.out.println("anonymous");
-    }
-}.print(); // anonymous
-```
-
-## 枚举类
-
-```java
-枚举类 常量集合
-枚举类是final修饰的类 不可以被继承
-枚举类会隐式继承Enum
-枚举类既可以在类的内部声明, 也可以作为独立的类声明
-
-public enum Color {
-
-    // 默认从0开始数
-
-    // 成员变量默认声明为final
-    // 第一行只能定义常量
-    RED, GREEN, BLUE;
-    // 枚举类的构造器默认私有
-}
-
-Color a = Color.RED;
-System.out.println(a); // RED
-
-// 返回一个数组包含所有常量
-Color[] b = Color.values();
-
-for (int i = 0; i < b.length; i++) {
-    System.out.print(b[i] + " ");
-}
-// RED GREEN BLUE
-Color c = Color.valueOf("RED");
-
-System.out.println(c); // RED
-// 序号
-System.out.println(c.ordinal()); // 0
-
-
-public enum Color {
-    RED, GREEN, BLUE;
-
-    public void print() {
-        System.out.println(this);
-    }
-}
-
-Color.BLUE.print(); // BLUE
-
-// 枚举类实现单例
-
-// TODO
-// 抽象枚举类
-```
-
-## 枚举类中的values方法
-
-```java
-values方法返回一个包含此枚举类型常量的数组
+Thread thread = new Thread(() -> {
+    // 方法体内就是重写的run方法体
+    // 线程执行的代码
+});
 ```
 
 ## 泛型
@@ -754,19 +797,19 @@ ArrayList<? super Derived> b = new ArrayList<Base>();
 // 读取使用协变， 写入使用逆变
 ```
 
-## tip 101
+## 子类与父类存在同名变量
 
 ```java
-TODO
-子类与父类存在同名变量,这种情况下:
+子类与父类存在同名变量
 
-实例变量会隐藏父类变量,但两者不是同一个变量。
-静态变量也不会被父类所隐藏,两者也不是同一个变量。
+实例变量会隐藏父类变量, 两者不是同一个变量
+静态变量不会被父类所隐藏, 两者不是同一个变量
+TODO
 ```
 
-## tip 102
+## 类型擦除
 
 ```java
-TODO
-类型擦除
+将泛型参数的类型信息在编译时替换为对象类型
+也就是将泛型类型“擦除”, 转换为普通的非泛型类型的代码
 ```
