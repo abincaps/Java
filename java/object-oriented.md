@@ -1,17 +1,12 @@
-# 面向对象
+---
+description: 面向对象的三大特征：封装，继承，多态
+---
 
-## 三大特征
-
-```java
-面向对象的三大特征：封装，继承，多态
-```
+# 面向对象(OOP)
 
 ## 构造器
 
 ```java
-如果没有写任何构造器，类会默认生成一个无参构造器
-如果写了有参构造器， 类不会自动生成无参构造器
-
 public class Student {
     // 构造器重载
     // 无参构造器
@@ -26,14 +21,13 @@ public class Student {
 }
 ```
 
-## 实体类
+{% hint style="info" %}
+如果没有写任何构造器，类会默认生成一个无参构造器&#x20;
+{% endhint %}
 
-```java
-实体类 用于封装 数据以及操作数据的行为
-1. 有一个public的无参构造器
-2. 所有的成员变量用private修饰
-3. 提供public的setter和getter方法来访问成员变量
-```
+{% hint style="warning" %}
+如果写了有参构造器， 类不会自动生成无参构造器
+{% endhint %}
 
 ## static
 
@@ -98,10 +92,8 @@ java.lang包下的Math类是典型的工具类
 ## 实例成员和静态成员
 
 ```java
-类成员指类变量和类方法
-
 public class Student {
-
+    // 类成员指类变量和类方法
     // 静态方法
     public static void print() {
         System.out.println(age); // 正确 类方法可以放访问类成员
@@ -121,11 +113,12 @@ public class Student {
 
     }
 }
-
 // 报错 non-static method get() cannot be referenced from a static context
-
-实例方法可以访问类成员，也可以访问实例成员
 ```
+
+{% hint style="info" %}
+实例方法可以访问静态成员和实例成员
+{% endhint %}
 
 ## 类的初始化顺序
 
@@ -165,8 +158,6 @@ new Student();
 ## 单例设计模式
 
 ```java
-单例设计模式 要求一个类只能有一个实例
-
 public class Foo {
     // 饿汉式单例模式 在类装载时就完成实例化
     private static Foo a = new Foo(); 
@@ -180,7 +171,6 @@ public class Foo {
         return a;
     }
 }
-
 
 public class Foo {
 
@@ -201,12 +191,23 @@ public class Foo {
 }
 ```
 
+{% hint style="info" %}
+单例设计模式 要求一个类只能有一个实例
+{% endhint %}
+
 ## 继承
 
-<pre class="language-java"><code class="lang-java"><strong>只支持单继承, 一个类只能继承一个直接父类
-</strong><strong>支持多层继承 例如 c继承b， b继承a
-</strong>子类(派生类)可以继承父类(基类或超类) 的非私有成员(成员变量，成员方法)
-</code></pre>
+{% hint style="warning" %}
+只支持单继承, 不支持多继承，一个类只能继承一个直接父类&#x20;
+{% endhint %}
+
+{% hint style="info" %}
+支持多层继承 例如c继承b，b继承a&#x20;
+{% endhint %}
+
+{% hint style="info" %}
+子类(派生类)可以继承父类(基类或超类)的非私有成员(成员变量和成员方法)
+{% endhint %}
 
 ## 访问权限修饰符
 
@@ -214,9 +215,9 @@ public class Foo {
 
 ## Object类
 
-```
+{% hint style="info" %}
 Object类是所有类的基类, 默认继承Object类
-```
+{% endhint %}
 
 ## 方法重写(覆盖)
 
@@ -229,10 +230,6 @@ public class Base {
 
 public class Derived extends Base {
 
-    // 方法重写 子类的方法必须与父类被重写的方法有相同的方法名和参数列表
-    // 子类方法的访问权限必须大于等于父类方法
-    // 当然父类的访问权限不能是private 因为在子类中不可见
-    // 静态方法不能被重写
     // @Override注解 检查重写方法是否正确
     @Override
     public void print() {
@@ -244,22 +241,44 @@ Derived a = new Derived();
 a.print(); // Derived
 ```
 
+{% hint style="info" %}
+子类重写的方法必须与父类被重写的方法有相同的方法签名（方法名和参数类型列表 ）
+{% endhint %}
+
+{% hint style="info" %}
+重写方法的返回值类型必须是被重写方法返回值的类型或子类型&#x20;
+{% endhint %}
+
+{% hint style="info" %}
+子类方法的访问权限必须大于等于父类方法&#x20;
+{% endhint %}
+
+{% hint style="info" %}
+父类的访问权限不能是`private`，因为在子类中不可见
+{% endhint %}
+
+{% hint style="info" %}
+静态方法不能被重写
+{% endhint %}
+
 ## 方法重写(覆盖)中的异常
 
-```java
-方法的重写(Override)中
-子类方法不允许抛出比父类更广泛的异常
-如果父类方法没有throws声明, 则子类重写方法也不能有throws声明(除非是RuntimeException及其子类)
-父类方法throws的异常, 子类必须处理或者再次声明throws
-如果可以捕获处理异常，子类方法可以不再声明throws
-```
+> 方法的重写(Override)中 子类方法不允许抛出比父类更广泛的异常&#x20;
+>
+> 如果父类方法没有throws声明, 则子类重写方法也不能有throws声明(除非是RuntimeException及其子类)&#x20;
+>
+> 父类方法throws的异常, 子类必须处理或者再次声明throws&#x20;
+>
+> 如果可以捕获处理异常，子类方法可以不再声明throws
 
 ## toString
 
 ```java
 // 下面两句相同
 System.out.println(a.toString());
-System.out.println(a); //  默认调用toString
+System.out.println(a); 
+// println 默认调用String.valueOf() 
+// valueOf 再调用toString
 
 public class Student {
 
@@ -427,11 +446,15 @@ final修饰的引用变量，其地址不可以改变，但是可以通过地址
 
 ## 抽象类
 
+> 抽象类不能实例化， 必须继承后才能实例化
+>
+> 可以包含抽象方法和非抽象方法
+>
+> 子类继承抽象类时,必须实现抽象类的所有抽象方法
+>
+> 如果子类没有实现父类所有的抽象方法, 那么子类也必须声明为抽象类
+
 ```java
-// 抽象类不能实例化， 必须继承后才能实例化
-// 可以包含抽象方法和非抽象方法
-// 子类继承抽象类时,必须实现抽象类的所有抽象方法
-// 如果子类没有实现父类所有的抽象方法, 那么子类也必须声明为抽象类
 public abstract class Foo {
 
     // 有构造器也不能实例化
@@ -597,9 +620,9 @@ Color.BLUE.print(); // BLUE
 
 ## 枚举类中的values方法
 
-```java
+{% hint style="info" %}
 values方法返回一个包含此枚举类型常量的数组
-```
+{% endhint %}
 
 ## 接口
 
@@ -627,9 +650,11 @@ public class C implements A, B {
 
     }
 }
-
-接口可以继承
 ```
+
+{% hint style="info" %}
+接口可以继承
+{% endhint %}
 
 ## 接口的默认方法和私有方法
 
@@ -797,7 +822,7 @@ ArrayList<? super Derived> b = new ArrayList<Base>();
 // 读取使用协变， 写入使用逆变
 ```
 
-## 子类与父类存在同名变量
+## 子类和父类存在同名变量
 
 ```java
 子类与父类存在同名变量
@@ -807,9 +832,8 @@ ArrayList<? super Derived> b = new ArrayList<Base>();
 TODO
 ```
 
-## 类型擦除
+## 类型擦除&#x20;
 
-```java
 将泛型参数的类型信息在编译时替换为对象类型
-也就是将泛型类型“擦除”, 转换为普通的非泛型类型的代码
-```
+
+也就是将泛型类型“擦除”, 转换为普通的非泛型类型的代码。

@@ -1,5 +1,15 @@
 # 集合框架
 
+## Diamond语法
+
+```java
+Map<String, List<Integer>> map = new HashMap<这里不需要填写类型>();
+```
+
+{% hint style="info" %}
+Diamond语法是Java 7中新增的语言特性, 用于简化泛型代码的书写
+{% endhint %}
+
 ## ArrayList的构造器
 
 ```java

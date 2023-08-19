@@ -1,18 +1,12 @@
-# Java 多线程
+# 多线程
 
 ## 线程的状态
 
-```java
-NEW - 线程被创建, 但是还未启动 初始状态
-RUNNABLE - 线程正在运行中, 或者准备就绪（Ready）, 等待CPU时间片
-BLOCKED - 线程被阻塞
-WAITING - 线程进入无限等待状态, 等待其它线程通知
-TIMED_WAITING - 线程进入计时等待状态, 在指定时间后会被自动唤醒 （超时等待）
-TERMINATED - 线程已终止运行完成
+<table><thead><tr><th width="247"></th><th></th></tr></thead><tbody><tr><td>NEW</td><td>线程被创建, 但是还未启动 初始状态</td></tr><tr><td>RUNNABLE</td><td>线程正在运行中 或者准备就绪（Ready）等待CPU时间片</td></tr><tr><td>BLOCKED</td><td>线程被阻塞</td></tr><tr><td>WAITING</td><td>线程进入无限等待状态，等待其它线程通知</td></tr><tr><td>TIMED_WAITING</td><td>线程进入计时等待（超时等待）状态, 在指定时间后会被自动唤醒 </td></tr><tr><td>TERMINATED</td><td>线程已终止运行完成</td></tr></tbody></table>
 
-在 java.lang 包下   
-Thread.State是个描述线程状态的枚举类
-```
+{% hint style="info" %}
+在 java.lang 包下, Thread.State是一个描述线程状态的枚举类
+{% endhint %}
 
 ## 守护线程
 

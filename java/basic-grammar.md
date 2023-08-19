@@ -9,15 +9,13 @@ float a = 100.0F;
 
 ## 基本类型的隐式转换
 
-```java
-在表达式中, byte, short, char, 直接转换成int类型参与运算 
-如果表达式中混合了int和long, 则提升到long类型
-```
+在表达式中, `byte`, `short`, `char`, 直接转换成`int`类型参与运算&#x20;
+
+如果表达式中混合了`int`和`long`, 则提升到`long`类型
 
 ## 基本类型的强制转换
 
-```java
-boolean b = true;
+<pre class="language-java"><code class="lang-java">boolean b = true;
 int n = (int) b; //编译错误, 不能强制转换
 
 // 从long类型向int类型的赋值需要强制转换, 否则会报错
@@ -25,7 +23,45 @@ int d = (int)100L;
 // 类似的范围大的到范围小的赋值, 注意是赋值=，+=有表达式计算, 会触发截断
 
 // 浮点数到整型需要强制转换 而整数到浮点数则不需要
-int a = (int)100F;
+<strong>int a = (int)100F;
+</strong></code></pre>
+
+## 八大基本类型和包装类
+
+| 基本类型    | 包装类       | 字节数 |
+| ------- | --------- | --- |
+| byte    | Byte      | 1   |
+| short   | Short     | 2   |
+| int     | Integer   | 4   |
+| long    | Long      | 8   |
+| float   | Float     | 4   |
+| double  | Double    | 8   |
+| char    | Character | 2   |
+| boolean | Boolean   | 1   |
+
+## 包装类
+
+```java
+// 包装类构造方法已过时 使用valueOf
+System.out.println(Integer.valueOf(10)); // 10
+System.out.println(Integer.valueOf("10")); // 10
+// 进制转换 需要符合进制规则
+System.out.println(Integer.valueOf("10", 2)); // 2
+System.out.println(Integer.valueOf("10", 8)); // 8
+```
+
+{% hint style="info" %}
+包装类是把基本类型包装成类
+{% endhint %}
+
+## 自动装箱和自动拆箱
+
+```java
+Integer a = 10; // 自动装箱 基本类型到包装类的自动转换
+int b = a; // 自动拆箱 包装类到基本类型的自动转换
+
+System.out.println(Integer.toString(a) + 1); // 101
+System.out.println(Integer.parseInt("10") + 1); // 11
 ```
 
 ## 字符和字符串的连接
@@ -48,18 +84,17 @@ String s2 = "a" + "b" + "c"; // 编译器会优化成 “abc"
 System.out.println(s1 == s2); // true
 ```
 
-## next和nextLine
+## next和nextLin
 
-```java
-next() 读取输入的字符串，直到遇到空白符(空格，回车，换行)结束
-nextLine() 读取输入的一行字符串，包括空格
-```
+> `next()` 读取输入的字符串，直到遇到空白符(空格，回车，换行)结束&#x20;
+>
+> `nextLine()` 读取输入的一行字符串，包括空格
 
 ## switch
 
-```java
-switch case 表达式类型支持byte，short, int, char, 枚举类型，String
-```
+{% hint style="info" %}
+switch case 表达式中的类型支持`byte，short, int, char,` 枚举类型，`String`
+{% endhint %}
 
 ## 数组初始化
 
@@ -75,34 +110,37 @@ int[] c = new int[3]; // 正确
 
 ## ==
 
-```java
-== 是关系运算符
-用来判断两个对象的内存地址是否相同，即变量是否指向同一个对象
-```
+\== 是关系运算符，用来判断两个对象的内存地址是否相同，即变量是否指向同一个对象
 
 ## 方法重载
 
-```java
-一个类中方法名相同，形参列表不同，就是方法重载，和返回值类型，形参名称无关
-```
+{% hint style="info" %}
+方法重载是根据方法签名（方法名+参数类型列表）相同，和返回值无关
+{% endhint %}
 
 ## public class
 
-```java
-一个代码文件中可以写多个class类，但只能有一个类用public修饰
+{% hint style="info" %}
+一个代码文件中可以写多个`class`类，但只能有一个类用`public`修饰
+{% endhint %}
+
+{% hint style="info" %}
 public修饰的类的名称必须和文件名一致
-注意没有私有类，只有内部私有类
-```
+{% endhint %}
+
+{% hint style="info" %}
+没有私有类，只有内部私有类
+{% endhint %}
 
 ## package(包)
 
 <table><thead><tr><th width="379">类所在位置</th><th>是否需要导包才可以访问</th></tr></thead><tbody><tr><td>同一个包下的类</td><td>否</td></tr><tr><td>java.lang包下的类</td><td>否</td></tr><tr><td>其他包下的类</td><td>是</td></tr></tbody></table>
 
 ```java
-访问多个包下的同名类，默认只能导入一个包下的类，另一些类必须带包名访问
-
+// 访问多个包下的同名类，默认只能导入一个包下的类，另一些类必须带包名访问
 Student a = new Student();
-com.abincaps.Student b = new com.abincaps.Student();
+com.abincaps.Student b = new com.abincaps.Student(); 
+// 直接使用完整类名(全限定类名)可以不需要import导包
 
 import java.time.*; // 用*通配符 导入java.time包下的所有类
 ```
@@ -163,22 +201,23 @@ System.out.println(c.equals(d)); // true
 String e = "abincaps", f = "ABINcaps";
 ```
 
-## 可变参数(Varargs)
+## 可变参数
+
+可变参数(Varargs)允许方法接受个数不确定的同类型参数, 在编译时会转换为数组&#x20;
 
 ```java
-可变参数允许方法接受个数不确定的同类型参数
-在方法声明中使用Type...参数名的语法
-可变参数在编译时会转换为数组
-一个方法中只能指定一个可变参数, 且必须是方法的最后一个参数
-
-public void printMessages(String... msgs) {
+public void print(String... msgs) {
   for (String msg : msgs) {
     System.out.println(msg);
   }
 }
 
-printMessages("Hi","Hello","Bye");
+print("ab","in","caps");
 ```
+
+{% hint style="info" %}
+一个方法中只能指定一个可变参数, 且必须是方法的最后一个参数
+{% endhint %}
 
 ## 异常
 
@@ -276,13 +315,13 @@ public class Foo implements WithEx {
 
 ## 异常传递
 
-```java
-当一个方法抛出了异常, 并没有被当前方法捕获异常并处理
+当一个方法抛出了异常, 并没有被当前方法捕获异常并处理&#x20;
+
 那么这个异常会被传递给当前方法的调用者, 一直向上抛出, 直到被捕获或者程序终止
 
-异常传递明确调用者需要处理传播过来的异常
-强制处理异常或者向上抛出, 防止异常被隐藏
-```
+{% hint style="info" %}
+异常传递明确调用者需要处理传播过来的异常 强制处理异常或者向上抛出, 防止异常被隐藏
+{% endhint %}
 
 ## 自定义异常类
 
@@ -352,26 +391,25 @@ try {
 
 ## 常见异常
 
-```java
-NullPointerException  发生空指针异常, 比如调用空对象的方法。
-IndexOutOfBoundsException 索引越界, 访问了数组或集合中不存在的索引。
-ClassCastException  强制类型转换错误, 转换不兼容的类型
-IOException  IO操作异常, 如文件没找到
-ClassNotFoundException  加载类失败异常
-```
+|                             |                       |
+| --------------------------- | --------------------- |
+| `NullPointerException`      | 空指针异常, 比如调用空对象的方法     |
+| `IndexOutOfBoundsException` | 索引越界, 访问了数组或集合中不存在的索引 |
+| `ClassCastException`        | 强制类型转换错误, 转换不兼容的类型    |
+| `IOException`               | IO操作异常, 如文件没找到        |
+| `ClassNotFoundException`    | 加载类失败异常               |
 
 ## 注解
 
-```java
-注解(annotation)是一种用于为代码提供元数据的工具
-编译时和部署时的处理 运行时的检查
-@Override 重写
-检查是否正确重写 如果父类不存在该方法或签名不一致, 编译器会报错
+注解(annotation)是一种用于为代码提供元数据（Metadata）的工具&#x20;
 
- @Target(ElementType.METHOD)
- @Retention(RetentionPolicy.SOURCE)
- public @interface Override {
- }
+`@Override`注解 检查是否正确重写 如果父类不存在该方法或签名不一致, 编译器会报错
+
+```java
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.SOURCE)
+public @interface Override {
+}
 
 @Deprecated
 表示被标注的元素已过时 但并不会阻止过时元素的使用
@@ -391,21 +429,19 @@ public @interface Myannotation {
 
 ## JDK和JRE
 
-```java
-JDK 是 Java Development Kit， 是Java开发套件
-JRE 是 Java Runtime Environment， 是Java运行环境
+JDK 是 Java Development Kit (Java开发套件 )
+
+JRE 是 Java Runtime Environment (Java运行环境)
+
 JDK中包含了JRE，并且包含开发调试程序相关的工具
-```
 
 ## java 和 javax
 
-```java
-javax包位于Java EE平台的库中, javax不是Java SE标准库的一部分
-java - Java核心库
-javax - Java扩展库
-```
+java    Java核心库  位于Java SE平台的库中
 
-## 序列化id (serialVersionUID)
+javax  Java扩展库  位于Java EE平台的库中
+
+## 序列化id
 
 ```java
 TODO

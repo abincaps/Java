@@ -1,4 +1,4 @@
-# java常用api
+# 常用API
 
 ## tip1
 
@@ -59,29 +59,6 @@ System.out.println(Objects.nonNull(a)); // true
 ## tip2
 
 ```java
-// 8中基本类型 后面对应包装类
-byte: 1字节 Byte
-short: 2字节 Short
-int: 4字节 Integer
-long: 8字节 Long
-float: 4字节 Float
-double: 8字节 Double
-char: 2字节 Character
-boolean: 1字节 Boolean
-// 包装类是把基本类型包装成类 
-
-// 包装类构造方法已过时 使用valueOf
-System.out.println(Integer.valueOf(10)); // 10
-System.out.println(Integer.valueOf("10")); // 10
-// 进制转换 需要符合进制规则
-System.out.println(Integer.valueOf("10", 2)); // 2
-System.out.println(Integer.valueOf("10", 8)); // 8
-
-Integer a = 10; // 自动装箱 基本类型到包装类的自动转换
-int b = a; // 自动拆箱 包装类到基本类型的自动转换
-
-System.out.println(Integer.toString(a) + 1); // 101
-System.out.println(Integer.parseInt("10") + 1); // 11
 ```
 
 ## tip3
