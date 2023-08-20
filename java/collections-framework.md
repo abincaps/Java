@@ -94,30 +94,34 @@ for (String key : h.keySet()) {
 // 必须保证hashCode 和 equals 方法都重写(覆盖)
 ```
 
-## 泛型为什么选择包装类而不是基本类
+## 泛型为什么选择包装类而不是基本类？
 
-```java
+* 基本类型不能为`null`
+* 泛型实现时使用了[类型擦除](object-oriented.md#lei-xing-ca-chu)机制, 需要对象类型信息来保持类型安全
+* 泛型的主要目的是实现通用算法和集合, 与对象相关性更强
+
+{% hint style="info" %}
 泛型不支持基本类型，只支持引用类型
-基本类型不能为null
-泛型实现时使用了擦除机制, 需要对象类型信息来保持类型安全
-泛型的主要目的是实现通用算法和集合, 与对象相关性更强
-```
-
-## tip 102
-
-```java
-TODO
-hashCode和equals的约定
-equals返回true hashCode必须相等
-hashCode不相等 equals一定是false
-hashCode相等 equals不一定是true
- 
-hashCode相当于人名
-hashCode一样并不代表是同一个人
-```
+{% endhint %}
 
 ## Iterator 和 Iterable接口
 
 ```java
 TODO
 ```
+
+## Collection\<E>接口
+
+* `stream` 方法返回以此集合为源的顺序 `Stream`
+
+## Stream\<T>接口
+
+* `Stream map(Function<? super T, ? extends R> mapper)` 返回一个流，由给定函数应用于此流的元素的结果所组成，说人话就是，将每个元素进行对应规则的映射(转换）
+
+```java
+list.stream().map(o -> o.getId().toString())
+```
+
+* `collect`  使用收集器对该数据流的元素执行可变还原操作
+
+## Function\<T,R>接口

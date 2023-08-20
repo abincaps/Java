@@ -1,8 +1,8 @@
 ---
-description: 面向对象的三大特征：封装，继承，多态
+description: 面向对象(OOP)的三大特征：封装，继承，多态
 ---
 
-# 面向对象(OOP)
+# 面向对象
 
 ## 构造器
 
@@ -48,7 +48,7 @@ public class Student {
 实例方法 
 ```
 
-## 静态变量和实例变量的访问
+## 静态变量和实例变量
 
 ```java
 public class Student {
@@ -63,11 +63,11 @@ System.out.println(a.name); // 对象名访问类变量 不推荐
 System.out.println(a.age); // 实例变量只能用对象名访问
 ```
 
-## 工具类
+## 静态方法和实例方法
 
 ```java
 public class Student {
-    // 类方法
+    // 静态方法
     public static void print() {
         System.out.println("Student");
     }
@@ -83,11 +83,11 @@ Student.print(); // Student
 Student a = new Student();
 // 类方法调用
 a.method(); // method
-
-类方法最常见的应用场景是做工具类 
-建议将工具类的构造器进行私有来阻止创建对象
-java.lang包下的Math类是典型的工具类
 ```
+
+{% hint style="info" %}
+静态方法最常见的应用场景是做[工具类 ](gong-ju-lei/)
+{% endhint %}
 
 ## 实例成员和静态成员
 
@@ -155,63 +155,15 @@ new Student();
 // Student
 ```
 
-## 单例设计模式
-
-```java
-public class Foo {
-    // 饿汉式单例模式 在类装载时就完成实例化
-    private static Foo a = new Foo(); 
-
-    // 必须私有构造器 外部无法直接实例化
-    private Foo() {
-
-    }
-    // 调用静态方法(类方法）来返回已创建的实例
-    public static Foo getObject() {
-        return a;
-    }
-}
-
-public class Foo {
-
-    private static Foo a;
-    
-    private Foo() {
-
-    }
-
-    // 懒汉式单例模式
-    public static Foo getObject() {
-        // 静态成员变量在第一次被使用时进行初始化
-        if (a == null) {
-            a = new Foo();
-        }
-        return a;
-    }
-}
-```
-
-{% hint style="info" %}
-单例设计模式 要求一个类只能有一个实例
-{% endhint %}
-
 ## 继承
 
-{% hint style="warning" %}
-只支持单继承, 不支持多继承，一个类只能继承一个直接父类&#x20;
-{% endhint %}
-
-{% hint style="info" %}
-支持多层继承 例如c继承b，b继承a&#x20;
-{% endhint %}
-
-{% hint style="info" %}
-子类(派生类)可以继承父类(基类或超类)的非私有成员(成员变量和成员方法)
-{% endhint %}
+* 只支持单继承, 不支持多继承，一个类只能继承一个直接父类&#x20;
+* 支持多层继承 例如c继承b，b继承a&#x20;
+* 子类(派生类)可以继承父类(基类或超类)的非私有成员(成员变量和成员方法)
 
 ## 访问权限修饰符
 
-<table><thead><tr><th width="166">关键字</th><th>访问权限范围</th></tr></thead><tbody><tr><td>private</td><td>只能在本类中可见</td></tr><tr><td>缺省</td><td>在同一包下的类可见</td></tr><tr><td>protected</td><td>在同一包下的类可见，且在任意包下的子类里可见</td></tr><tr><td>public</td><td>在任意包下的任意类里可见</td></tr></tbody></table>
+<table><thead><tr><th width="222">关键字</th><th>访问权限范围</th></tr></thead><tbody><tr><td><code>private</code></td><td>只能在本类中可见</td></tr><tr><td>缺省</td><td>在同一包下的类可见</td></tr><tr><td><code>protected</code></td><td>在同一包下的类可见，且在任意包下的子类里可见</td></tr><tr><td><code>public</code></td><td>在任意包下的任意类里可见</td></tr></tbody></table>
 
 ## Object类
 
@@ -220,6 +172,11 @@ Object类是所有类的基类, 默认继承Object类
 {% endhint %}
 
 ## 方法重写(覆盖)
+
+* 子类重写的方法必须与父类被重写的方法有相同的方法签名（方法名和参数类型列表 ）
+* 重写方法的返回值类型必须是被重写方法返回值的类型或子类型&#x20;
+* 子类方法的访问权限必须大于等于父类方法&#x20;
+* 父类的访问权限不能是`private`，因为在子类中不可见
 
 ```java
 public class Base {
@@ -242,34 +199,14 @@ a.print(); // Derived
 ```
 
 {% hint style="info" %}
-子类重写的方法必须与父类被重写的方法有相同的方法签名（方法名和参数类型列表 ）
-{% endhint %}
-
-{% hint style="info" %}
-重写方法的返回值类型必须是被重写方法返回值的类型或子类型&#x20;
-{% endhint %}
-
-{% hint style="info" %}
-子类方法的访问权限必须大于等于父类方法&#x20;
-{% endhint %}
-
-{% hint style="info" %}
-父类的访问权限不能是`private`，因为在子类中不可见
-{% endhint %}
-
-{% hint style="info" %}
 静态方法不能被重写
 {% endhint %}
 
 ## 方法重写(覆盖)中的异常
 
-> 方法的重写(Override)中 子类方法不允许抛出比父类更广泛的异常&#x20;
->
-> 如果父类方法没有throws声明, 则子类重写方法也不能有throws声明(除非是RuntimeException及其子类)&#x20;
->
-> 父类方法throws的异常, 子类必须处理或者再次声明throws&#x20;
->
-> 如果可以捕获处理异常，子类方法可以不再声明throws
+* 方法的重写(`Override`)中 子类方法不允许抛出比父类更广泛的异常
+* 如果父类方法没有`throws`声明, 则子类重写方法也不能有`throws`声明(除非是`RuntimeException`及其子类)&#x20;
+* 父类方法`throws`的异常, 子类必须捕获处理（不用声明`throws`）或者声明`throws`&#x20;
 
 ## toString
 
@@ -299,6 +236,16 @@ public class Student {
 Student a = new Student("abincaps", 10);
 System.out.println(a); // [name=abincaps, age=10]
 ```
+
+## hashCode和equals
+
+* `hashCode`不相等, `equals`一定是`false`
+* `hashCode`相等, `equals`不一定是`true`
+* `equals`返回`true`, `hashCode`必须相等
+
+{% hint style="info" %}
+`hashCode`相当于人名, `hashCode`一样并不代表是同一个人
+{% endhint %}
 
 ## this和super
 
@@ -836,4 +783,4 @@ TODO
 
 将泛型参数的类型信息在编译时替换为对象类型
 
-也就是将泛型类型“擦除”, 转换为普通的非泛型类型的代码。
+也就是将泛型类型“擦除”, 转换为普通的非泛型类型的代码
