@@ -437,6 +437,7 @@ JDK中包含了JRE，并且包含开发调试程序相关的工具
 
 ## java 和 javax
 
+
 java    Java核心库  位于Java SE平台的库中
 
 javax  Java扩展库  位于Java EE平台的库中

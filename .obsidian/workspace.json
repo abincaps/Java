@@ -1,0 +1,200 @@
+{
+  "main": {
+    "id": "aaa1aa2d56de108a",
+    "type": "split",
+    "children": [
+      {
+        "id": "57ee2575a071e119",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "addad73291511fb1",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "README.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "e442e47bf0514181",
+    "type": "split",
+    "children": [
+      {
+        "id": "90c82c0991dabd71",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "99e10ea8f927e37d",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "5f1977a5dfa2639a",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "3ac03a59d501a00e",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "0b6ebee2d4370be1",
+    "type": "split",
+    "children": [
+      {
+        "id": "9bf3a9b16cd2efab",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7d2a466bbd5a6eb5",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "README.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": true,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "ee58b40fdd594bf0",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "README.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "ca38916479040554",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "47d682fe927c4f91",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "README.md"
+              }
+            }
+          },
+          {
+            "id": "a42a538646298301",
+            "type": "leaf",
+            "state": {
+              "type": "advanced-tables-toolbar",
+              "state": {}
+            }
+          },
+          {
+            "id": "e48a416654edcf27",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {}
+            }
+          }
+        ],
+        "currentTab": 5
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "table-editor-obsidian:Advanced Tables Toolbar": false
+    }
+  },
+  "active": "e48a416654edcf27",
+  "lastOpenFiles": [
+    "Untitled.canvas",
+    "README.md",
+    "docker.md",
+    "database/basic-concept.md",
+    "design-patterns.md",
+    "architecture.md",
+    "tool-chain/Git.md",
+    "SUMMARY.md",
+    "spring/log/slf4j.md",
+    "spring/core.md",
+    "tool-chain/maven.md",
+    "software-engineering/basic-concept.md",
+    "spring/test/http.md",
+    "software-engineering",
+    "spring/web-servlet.md",
+    "spring/web-reactive.md",
+    "spring/spring-boot.md",
+    "spring/test",
+    "spring/Untitled.md",
+    "spring/log",
+    "tool-chain/README.md",
+    "database/README.md",
+    "middleware/no-sql/mongo.md",
+    "middleware/no-sql",
+    "java/tools/arrays.md",
+    "middleware",
+    "java/multithreading.md",
+    "spring/data/jpa.md",
+    "docker",
+    "spring/data/repository.md",
+    "spring/data/mybatis.md",
+    "java/basic-grammar.md"
+  ]
+}

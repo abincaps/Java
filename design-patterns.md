@@ -2,6 +2,8 @@
 
 ## 单例设计模式
 
+- 单例设计模式 要求一个类只能有一个实例
+
 ```java
 public class Foo {
     // 饿汉式单例模式 在类装载时就完成实例化
@@ -36,6 +38,3 @@ public class Foo {
 }
 ```
 
-{% hint style="info" %}
-单例设计模式 要求一个类只能有一个实例
-{% endhint %}
