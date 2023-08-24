@@ -1,6 +1,3 @@
----
-description: 包含各种操作数组方法的类
----
 
 # Arrays
 

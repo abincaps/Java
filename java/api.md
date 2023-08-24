@@ -1,5 +1,37 @@
 # 常用API
 
+## String
+
+```java
+// String类是不可变的字符串, 不能通过[]下标索引来获取或修改其中的某个字符
+// 使用charAt返回此字符串指定索引处的 char 值
+
+String str = "abincaps";
+for (int i = 0; i < str.length(); i++) {
+    System.out.print(str.charAt(i) + " ");
+}
+
+
+// 使用 toCharArray 返回一个新分配的字符数组，其内容为该字符串
+
+String str = "abincaps";
+char[] c_str = str.toCharArray();
+
+for (int i = 0; i < c_str.length; i++) {
+    System.out.print(c_str[i] + " ");
+}
+```
+
+## replace
+
+```java
+String str = "abincaps";
+
+// replace 替换所有 并不会改变String本身
+System.out.println(str.replace("a", "bc")); // bcbincbcps
+System.out.println(str); // abincaps
+```
+
 ## tip1
 
 ```java

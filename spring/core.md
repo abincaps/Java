@@ -1,14 +1,15 @@
 # 核心特性
 
-## IoC 容器 <a href="#beans" id="beans"></a>
+## IoC 容器 
 
-> IoC(Inversion of Control),即控制反转
->
-> 通过依赖注入 DI(Dependency Injection)实现对象之间的依赖和解耦
->
-> IoC容器负责对象的创建、初始化等完整生命周期
->
-> IoC容器自动装配对象, 统一了对象管理和配置
+- IoC(Inversion of Control),即控制反转
+- 通过依赖注入 DI(Dependency Injection)实现对象之间的依赖和解耦
+- IoC容器负责对象的创建、初始化等完整生命周期
+- IoC容器自动装配对象, 统一了对象管理和配置
+
+## 组件
+
+- `@Repository` （持久层） `@Service` （服务层） 和 `@Controller` （表现层） 是 `@Component` 的特殊化
 
 ### Bean
 
@@ -24,15 +25,12 @@
 
 ## Service层
 
-> Service层包含应用核心的业务逻辑处理，对业务逻辑进行封装
->
-> 可以通过接口调用DAO层进行数据库操作
+- Service层包含应用核心的业务逻辑处理，对业务逻辑进行封装
+- 可以通过接口调用DAO层进行数据库操作
 
 ## Spring Framework版本
 
-{% hint style="info" %}
-Spring Framework 5.x 需要  java SE 8+ / java EE 7+
-{% endhint %}
+- Spring Framework 5.x 需要  java SE 8+ / java EE 7+
 
 
 ## AOP
@@ -64,7 +62,37 @@ Spring Framework 5.x 需要  java SE 8+ / java EE 7+
 - `(*)` 模式匹配一个需要任何类型的参数的方法
 - `(*,String)` 匹配一个需要两个参数的方法，第一个参数可以是任何类型，而第二个参数必须是一个 `String`
 
-
 ## @Before
 
 - 在切点匹配的方法执行之前
+
+## @Around
+
+- Around advice "围绕" 一个匹配的方法的执行而运行，它有机会在方法运行之前和之后进行工作，并决定何时、如何、甚至是否真正运行该方法
+- 该方法应该声明 `Object` 为其返回类型，并且该方法的第一个参数必须是 `ProceedingJoinPoint` 类型
+
+## 执行顺序
+
+1. @Around 调用proceed之前
+2. @Before
+3. 方法执行
+4. @After
+5. @Around 调用proceed之后
+
+## ProceedingJoinPoint
+
+
+## JoinPoint
+
+- 公共接口连接点，提供对连接点可用状态及其静态信息的反射访问
+- 任何 advice method 都可以声明一个 `JoinPoint` 类型的参数作为其第一个参数
+
+### 常见方法
+
+- `getArgs()` 返回方法的参数
+- `getThis()` 返回代理对象
+- `getTarget()` 返回目标对象
+- `getSignature()` 返回正在被 advice 的方法的签名
+- `toString()` 打印对所 advice 的方法的有用描述
+
+

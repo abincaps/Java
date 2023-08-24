@@ -9,13 +9,14 @@ float a = 100.0F;
 
 ## 基本类型的隐式转换
 
-在表达式中, `byte`, `short`, `char`, 直接转换成`int`类型参与运算&#x20;
+在表达式中, `byte`, `short`, `char`, 直接转换成`int`类型参与运算
 
 如果表达式中混合了`int`和`long`, 则提升到`long`类型
 
 ## 基本类型的强制转换
 
-<pre class="language-java"><code class="lang-java">boolean b = true;
+```
+boolean b = true;
 int n = (int) b; //编译错误, 不能强制转换
 
 // 从long类型向int类型的赋值需要强制转换, 否则会报错
@@ -23,8 +24,8 @@ int d = (int)100L;
 // 类似的范围大的到范围小的赋值, 注意是赋值=，+=有表达式计算, 会触发截断
 
 // 浮点数到整型需要强制转换 而整数到浮点数则不需要
-<strong>int a = (int)100F;
-</strong></code></pre>
+int a = (int)100F;
+```
 
 ## 八大基本类型和包装类
 
@@ -41,6 +42,8 @@ int d = (int)100L;
 
 ## 包装类
 
+- 包装类是把基本类型包装成类
+
 ```java
 // 包装类构造方法已过时 使用valueOf
 System.out.println(Integer.valueOf(10)); // 10
@@ -49,10 +52,6 @@ System.out.println(Integer.valueOf("10")); // 10
 System.out.println(Integer.valueOf("10", 2)); // 2
 System.out.println(Integer.valueOf("10", 8)); // 8
 ```
-
-{% hint style="info" %}
-包装类是把基本类型包装成类
-{% endhint %}
 
 ## 自动装箱和自动拆箱
 
@@ -84,17 +83,14 @@ String s2 = "a" + "b" + "c"; // 编译器会优化成 “abc"
 System.out.println(s1 == s2); // true
 ```
 
-## next和nextLin
+## next和nextLine
 
-> `next()` 读取输入的字符串，直到遇到空白符(空格，回车，换行)结束&#x20;
->
-> `nextLine()` 读取输入的一行字符串，包括空格
+- `next()` 读取输入的字符串，直到遇到空白符(空格，回车，换行)结束
+- `nextLine()` 读取输入的一行字符串，包括空格
 
 ## switch
 
-{% hint style="info" %}
-switch case 表达式中的类型支持`byte，short, int, char,` 枚举类型，`String`
-{% endhint %}
+- switch case 表达式中的类型支持 `byte`，`short`, `int`, `char`, 枚举类型，`String`
 
 ## 数组初始化
 
@@ -108,74 +104,42 @@ int[] c = new int[3] {1, 3, 5}; // 编译错误
 int[] c = new int[3]; // 正确
 ```
 
-## ==
+## 关系运算符
 
-\== 是关系运算符，用来判断两个对象的内存地址是否相同，即变量是否指向同一个对象
+- `==` 用来判断两个对象的内存地址是否相同，即变量是否指向同一个对象
 
 ## 方法重载
 
-{% hint style="info" %}
-方法重载是根据方法签名（方法名+参数类型列表）相同，和返回值无关
-{% endhint %}
+- 方法重载是根据方法签名（方法名+参数类型列表）相同，和返回值无关
+
 
 ## public class
 
-{% hint style="info" %}
-一个代码文件中可以写多个`class`类，但只能有一个类用`public`修饰
-{% endhint %}
-
-{% hint style="info" %}
-public修饰的类的名称必须和文件名一致
-{% endhint %}
-
-{% hint style="info" %}
-没有私有类，只有内部私有类
-{% endhint %}
+- 一个代码文件中可以写多个 `class` 类，但只能有一个类用 `public` 修饰
+- `public` 修饰的类的名称必须和文件名一致
+- 没有私有类，只有内部私有类
 
 ## package(包)
 
-<table><thead><tr><th width="379">类所在位置</th><th>是否需要导包才可以访问</th></tr></thead><tbody><tr><td>同一个包下的类</td><td>否</td></tr><tr><td>java.lang包下的类</td><td>否</td></tr><tr><td>其他包下的类</td><td>是</td></tr></tbody></table>
+| 类所在位置        | 是否需要导包才可以访问 |
+| -| -|
+|同一个包下的类    | 否|
+|java.lang包下的类| 否|
+|其他包下的类      | 是|
+
+##  访问多个包下的同名类
+
+- 访问多个包下的同名类，默认只能导入一个包下的类，另一些类必须带包名访问
+- 直接使用完整类名可以不需要 `import` 导包
 
 ```java
-// 访问多个包下的同名类，默认只能导入一个包下的类，另一些类必须带包名访问
 Student a = new Student();
 com.abincaps.Student b = new com.abincaps.Student(); 
-// 直接使用完整类名(全限定类名)可以不需要import导包
-
-import java.time.*; // 用*通配符 导入java.time包下的所有类
 ```
 
-## String
+## 通配符
 
-```java
-// String类是不可变的字符串, 不能通过[]下标索引来获取或修改其中的某个字符
-// 使用charAt返回此字符串指定索引处的 char 值
-
-String str = "abincaps";
-for (int i = 0; i < str.length(); i++) {
-    System.out.print(str.charAt(i) + " ");
-}
-
-
-// 使用 toCharArray 返回一个新分配的字符数组，其内容为该字符串
-
-String str = "abincaps";
-char[] c_str = str.toCharArray();
-
-for (int i = 0; i < c_str.length; i++) {
-    System.out.print(c_str[i] + " ");
-}
-```
-
-## replace
-
-```java
-String str = "abincaps";
-
-// replace 替换所有 并不会改变String本身
-System.out.println(str.replace("a", "bc")); // bcbincbcps
-System.out.println(str); // abincaps
-```
+- `import java.util.*;` 用\*通配符 导入java.util包下的所有类
 
 ## 常量池和堆内存
 
@@ -203,21 +167,18 @@ String e = "abincaps", f = "ABINcaps";
 
 ## 可变参数
 
-可变参数(Varargs)允许方法接受个数不确定的同类型参数, 在编译时会转换为数组&#x20;
+- 可变参数(Varargs)允许方法接受个数不确定的同类型参数, 在编译时会转换为数组
+- 一个方法中只能指定一个可变参数, 且必须是方法的最后一个参数
 
 ```java
 public void print(String... msgs) {
   for (String msg : msgs) {
-    System.out.println(msg);
+    System.out.print(msg);
   }
 }
 
 print("ab","in","caps");
 ```
-
-{% hint style="info" %}
-一个方法中只能指定一个可变参数, 且必须是方法的最后一个参数
-{% endhint %}
 
 ## 异常
 
@@ -315,13 +276,8 @@ public class Foo implements WithEx {
 
 ## 异常传递
 
-当一个方法抛出了异常, 并没有被当前方法捕获异常并处理&#x20;
-
-那么这个异常会被传递给当前方法的调用者, 一直向上抛出, 直到被捕获或者程序终止
-
-{% hint style="info" %}
-异常传递明确调用者需要处理传播过来的异常 强制处理异常或者向上抛出, 防止异常被隐藏
-{% endhint %}
+- 当一个方法抛出了异常, 并没有被当前方法捕获异常并处理，那么这个异常会被传递给当前方法的调用者, 一直向上抛出, 直到被捕获或者程序终止
+- 异常传递明确调用者需要处理传播过来的异常 强制处理异常或者向上抛出, 防止异常被隐藏
 
 ## 自定义异常类
 
@@ -345,7 +301,12 @@ public class MyException extends Exception {
 
 ## try-catch-finally
 
+- return结束还是异常结束都会执行 finally
+- finally 里最好不要有return语句
+- finally 里尝试改变 return 值 没有作用
+
 ```java
+// 以下程序直观的展示了try-catch-finally的执行顺序
 public static int func() {
     int len = 0;
     try {
@@ -357,9 +318,6 @@ public static int func() {
         System.out.println("return");
         return len;
     } finally {
-        // return结束还是异常结束都会执行 finally
-        // finally 最好不要有return语句
-        // finally 里尝试改变 return 值 没有作用
         System.out.println("finally");
         len = 0;
     }
@@ -383,7 +341,7 @@ try {
 }
 
 try {
-// 其中之一
+// 其中之一满足即可
 } catch (NullPointerException e | IOException e) {
 
 }
@@ -391,7 +349,7 @@ try {
 
 ## 常见异常
 
-|                             |                       |
+| 关键字                           | 解释                      |
 | --------------------------- | --------------------- |
 | `NullPointerException`      | 空指针异常, 比如调用空对象的方法     |
 | `IndexOutOfBoundsException` | 索引越界, 访问了数组或集合中不存在的索引 |
@@ -401,9 +359,7 @@ try {
 
 ## 注解
 
-注解(annotation)是一种用于为代码提供元数据（Metadata）的工具&#x20;
-
-`@Override`注解 检查是否正确重写 如果父类不存在该方法或签名不一致, 编译器会报错
+- 注解(annotation)是一种用于为代码提供元数据（Metadata）的工具
 
 ```java
 @Target(ElementType.METHOD)
@@ -411,8 +367,6 @@ try {
 public @interface Override {
 }
 
-@Deprecated
-表示被标注的元素已过时 但并不会阻止过时元素的使用
 
 // 不定义Target 缺省就是METHOD
 @Target(ElementType.METHOD) // 可使用的位置
@@ -427,20 +381,25 @@ public @interface Myannotation {
 }
 ```
 
+
+## 常见注解
+
+- `@Override` 注解 检查是否正确重写，如果父类不存在该方法或签名不一致, 编译器会报错
+- `@Deprecated` 表示被标注的元素已过时弃用，但不会阻止过时元素的使用
+
 ## JDK和JRE
 
-JDK 是 Java Development Kit (Java开发套件 )
+- JDK 是 Java Development Kit (Java开发套件 )
 
-JRE 是 Java Runtime Environment (Java运行环境)
+- JRE 是 Java Runtime Environment (Java运行环境)
 
-JDK中包含了JRE，并且包含开发调试程序相关的工具
+- JDK中包含了JRE，并且包含开发调试程序相关的工具
 
 ## java 和 javax
 
+- java Java核心库 位于Java SE平台的库中
 
-java    Java核心库  位于Java SE平台的库中
-
-javax  Java扩展库  位于Java EE平台的库中
+- javax Java扩展库 位于Java EE平台的库中
 
 ## 序列化id
 

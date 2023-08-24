@@ -1,0 +1,9 @@
+
+# Data
+
+## 数据库配置
+
+- `spring.datasource.url=jdbc:mysql://localhost`
+- `spring.datasource.username=`
+- `spring.datasource.password=`
+- `spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver` 

@@ -19,8 +19,6 @@ description: 提升开发效率
 
 ## builder和build
 
-&#x20;
-
 ```java
 Coffee coffee = Coffee.builder().name("abincaps").price(20).build();
 // 最后使用build来返回Coffee对象    
