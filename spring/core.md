@@ -9,19 +9,13 @@
 
 ## 组件
 
+- `@Component` 是一个通用的，适用于任何Spring管理的组件
 - `@Repository` （持久层） `@Service` （服务层） 和 `@Controller` （表现层） 是 `@Component` 的特殊化
-
-### Bean
-
-> Bean是一个由Spring IoC容器实例化、组装和管理的对象
->
-> Bean以及它们之间的依赖关系都反映在容器使用的配置元数据中
 
 ## DAO 层
 
-> DAO(Data Access Object) 层是访问数据持久层的接口
->
-> 包含各种数据库操作,如CRUD
+- DAO(Data Access Object) 层是访问数据持久层的接口
+- 包含各种数据库操作, 如CRUD
 
 ## Service层
 
@@ -37,7 +31,6 @@
 
 - AOP(Aspect Oriented Programming) 面向切面的编程 
 - OOP中模块化的单位是类，而AOP中模块化的单位是切面
-
 
 ## 切点指定器
 

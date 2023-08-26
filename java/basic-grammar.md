@@ -9,9 +9,8 @@ float a = 100.0F;
 
 ## 基本类型的隐式转换
 
-在表达式中, `byte`, `short`, `char`, 直接转换成`int`类型参与运算
-
-如果表达式中混合了`int`和`long`, 则提升到`long`类型
+- 在表达式中, `byte`, `short`, `char`, 直接转换成 `int` 类型参与运算
+- 如果表达式中混合了 `int` 和 `long` , 则提升到 `long` 类型
 
 ## 基本类型的强制转换
 
@@ -27,18 +26,19 @@ int d = (int)100L;
 int a = (int)100F;
 ```
 
-## 八大基本类型和包装类
+## 基本类型和包装类
 
-| 基本类型    | 包装类       | 字节数 |
-| ------- | --------- | --- |
-| byte    | Byte      | 1   |
-| short   | Short     | 2   |
-| int     | Integer   | 4   |
-| long    | Long      | 8   |
-| float   | Float     | 4   |
-| double  | Double    | 8   |
-| char    | Character | 2   |
-| boolean | Boolean   | 1   |
+| 基本类型 | 包装类    | 字节数 |
+| -------- | --------- | ------ |
+| byte     | Byte      | 1      |
+| short    | Short     | 2      |
+| int      | Integer   | 4      |
+| long     | Long      | 8      |
+| float    | Float     | 4      |
+| double   | Double    | 8      |
+| char     | Character | 2      |
+| boolean  | Boolean   | 1      |
+| void     | Void      |-       |
 
 ## 包装类
 
@@ -83,7 +83,7 @@ String s2 = "a" + "b" + "c"; // 编译器会优化成 “abc"
 System.out.println(s1 == s2); // true
 ```
 
-## next和nextLine
+## Scanner
 
 - `next()` 读取输入的字符串，直到遇到空白符(空格，回车，换行)结束
 - `nextLine()` 读取输入的一行字符串，包括空格
@@ -126,6 +126,10 @@ int[] c = new int[3]; // 正确
 |同一个包下的类    | 否|
 |java.lang包下的类| 否|
 |其他包下的类      | 是|
+
+## 包的命名
+
+- 包的命名惯例，使用域名反转作为包名 例如 `com.example.project`
 
 ##  访问多个包下的同名类
 
@@ -301,12 +305,11 @@ public class MyException extends Exception {
 
 ## try-catch-finally
 
-- return结束还是异常结束都会执行 finally
-- finally 里最好不要有return语句
-- finally 里尝试改变 return 值 没有作用
+- `return` 结束还是异常结束都会执行 finally
+- `finally` 里最好不要有 `return` 语句, `finally` 里尝试改变 `return` 的值没有任何作用
 
 ```java
-// 以下程序直观的展示了try-catch-finally的执行顺序
+// try-catch-finally 的执行顺序
 public static int func() {
     int len = 0;
     try {
@@ -390,15 +393,12 @@ public @interface Myannotation {
 ## JDK和JRE
 
 - JDK 是 Java Development Kit (Java开发套件 )
-
 - JRE 是 Java Runtime Environment (Java运行环境)
-
 - JDK中包含了JRE，并且包含开发调试程序相关的工具
 
 ## java 和 javax
 
 - java Java核心库 位于Java SE平台的库中
-
 - javax Java扩展库 位于Java EE平台的库中
 
 ## 序列化id

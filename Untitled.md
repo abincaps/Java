@@ -18,4 +18,15 @@
 
 - 时间回拨问题 暂时不启动服务器 
 
+## 单点登录
+
+- redis + token
+- JWT
+
+## JWT
+
+- JSON Web Token 用于作为 JSON 对象在各方之间安全地传输信息
+
+- token被解密 加盐值（密钥）
+- token被第三方使用 限流
 
