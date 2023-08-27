@@ -2,29 +2,36 @@
 
 ## 字面量
 
-```java
-// 浮点数默认字面量是double 需要用F指定float 或者强制转换
-float a = 100.0F;
-```
+- `long a = 1L;` L 表示 long 类型
+- `float a = 1.0F;` F 表示 float 类型
+- `double a = 1.0D;` D 表示 double 类型 浮点数默认字面量是 double , 可以不指定 D
+- 前缀 `0x` 或 `0X` 十六进制
+- 前缀 `0` 八进制
+- 前缀 `0b` 或 `0B` 二进制
+
+## 字面量里的下划线
+
+- 只能使用单个下划线，不能连续使用多个
+- 开头或结尾不能有下划线
+- 前缀和后缀周围不能有下划线
 
 ## 基本类型的隐式转换
 
-- 在表达式中, `byte`, `short`, `char`, 直接转换成 `int` 类型参与运算
-- 如果表达式中混合了 `int` 和 `long` , 则提升到 `long` 类型
+- byte, short, char, 自动转换成 int 类型参与运算
+- 表达式中混合了 int 和 long , 则提升到 long 类型
+- 宽化转型（widening conversion），不必显式进行类型转换
 
 ## 基本类型的强制转换
 
-```
-boolean b = true;
-int n = (int) b; //编译错误, 不能强制转换
+- boolean 类型 无法强制转换和自动转换（不允许任何类型的转换处理）
+- 浮点数到整型需要强制转换 而整数到浮点数则不需要
+- 窄化转型（narrowing conversation）， 需要显式类型转换
 
-// 从long类型向int类型的赋值需要强制转换, 否则会报错
-int d = (int)100L;
-// 类似的范围大的到范围小的赋值, 注意是赋值=，+=有表达式计算, 会触发截断
 
-// 浮点数到整型需要强制转换 而整数到浮点数则不需要
-int a = (int)100F;
-```
+## 类型推断（type inference）
+
+- `var` 关键字 
+- `var a;` 错误 无法推断没有初始化的变量
 
 ## 基本类型和包装类
 
@@ -37,60 +44,84 @@ int a = (int)100F;
 | float    | Float     | 4      |
 | double   | Double    | 8      |
 | char     | Character | 2      |
-| boolean  | Boolean   | 1      |
+| boolean  | Boolean   | -      |
 | void     | Void      |-       |
 
 ## 包装类
 
 - 包装类是把基本类型包装成类
-
-```java
-// 包装类构造方法已过时 使用valueOf
-System.out.println(Integer.valueOf(10)); // 10
-System.out.println(Integer.valueOf("10")); // 10
-// 进制转换 需要符合进制规则
-System.out.println(Integer.valueOf("10", 2)); // 2
-System.out.println(Integer.valueOf("10", 8)); // 8
-```
+- 包装类的构造方法已过时 使用valueOf方法
 
 ## 自动装箱和自动拆箱
 
-```java
-Integer a = 10; // 自动装箱 基本类型到包装类的自动转换
-int b = a; // 自动拆箱 包装类到基本类型的自动转换
+- 自动装箱（autoboxing）机制能够将基本类型自动转换为包装类对象
+- 自动拆箱 包装类到基本类型的自动转换
 
-System.out.println(Integer.toString(a) + 1); // 101
-System.out.println(Integer.parseInt("10") + 1); // 11
-```
+## BigInteger 和 BigDecimal
+
+- 支持高精度计算的类
 
 ## 字符和字符串的连接
 
 ```java
-System.out.println('a' + 1 + "str"); // 98str
-System.out.println("str" + 'a' + 1); // stra1
+System.out.println('a' + 1 + "bin"); // 98bin
+System.out.println("abi" + 'n' + 1); // abin1
 ```
 
 ## 字符串连接优化
 
 ```java
-String a = "ab";
-String b = "abc";
-String c = a + "c"; // 连接后的结果放在堆内存中
-System.out.println(b == c); // false
-
-String s1 = "abc";
-String s2 = "a" + "b" + "c"; // 编译器会优化成 “abc"
-System.out.println(s1 == s2); // true
+String a = "ab";  
+String b = "abc";  
+String c = a + "c";  
+String d = "a" + "b" + "c"; // 编译器会优化成 “abc"  
+System.out.println(b == c); // false  
+System.out.println(b == d); // true
 ```
 
 ## Scanner
 
-- `next()` 读取输入的字符串，直到遇到空白符(空格，回车，换行)结束
-- `nextLine()` 读取输入的一行字符串，包括空格
+- `next()` 方法 读取输入的字符串，直到遇到空白符(空格，回车，换行)结束
+- `nextLine()` 方法 读取输入的一行字符串，包括空格
 
 ## switch
 
-- switch case 表达式中的类型支持 `byte`，`short`, `int`, `char`, 枚举类型，`String`
+- switch case 表达式中的类型支持 char, byte, short, int, Character, Byte, Short, Integer, String, or enum
+
+## 作用域
+
+- 隐藏变量的方式在java中是不被允许的
+
+```java
+// 对于c/c++合法，但是在java中语法错误
+{  
+    int x = 1;  
+    {  
+        int x = 0;  
+    }  
+}
+```
+
+## 基本类型的默认值
+
+- 当基本类型作为类成员存在，才会初始化默认值，这种机制不会应用于局部变量
+
+## printf中的格式字符串
+
+- `%n` 换行
+- `%b` boolean
+
+## 关系运算符
+
+- `==` 比较的是对象的引用是否相同，即变量是否指向同一个对象
+
+## 操作符 
+
+- 索引操作符 （indexing operator） `[]`
+
+## 短路
+
+- 此内容省略
 
 ## 数组初始化
 
@@ -104,22 +135,28 @@ int[] c = new int[3] {1, 3, 5}; // 编译错误
 int[] c = new int[3]; // 正确
 ```
 
-## 关系运算符
+## enhanced for
 
-- `==` 用来判断两个对象的内存地址是否相同，即变量是否指向同一个对象
+```java
+for (x : a) {
+	...
+}
+```
 
 ## 方法重载
 
 - 方法重载是根据方法签名（方法名+参数类型列表）相同，和返回值无关
 
-
 ## public class
 
-- 一个代码文件中可以写多个 `class` 类，但只能有一个类用 `public` 修饰
+- 一个代码文件（编译单元）中可以写多个 `class` 类，但只能有一个类用 `public` 修饰
 - `public` 修饰的类的名称必须和文件名一致
 - 没有私有类，只有内部私有类
 
 ## package(包)
+
+- 一个包 包含了一组类
+- 默认导入java.lang
 
 | 类所在位置        | 是否需要导包才可以访问 |
 | -| -|

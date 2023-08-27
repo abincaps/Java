@@ -1,159 +1,71 @@
----
-description: 面向对象(OOP)的三大特征：封装，继承，多态
----
 
 # 面向对象
 
+## 面向对象编程(OOP)
+
+- 三大特征：封装，继承，多态
+
 ## 构造器
 
-```java
-public class Student {
-    // 构造器重载
-    // 无参构造器
-    public Student() {
-        ...
-    }
+- 如果没有写任何构造器，类会自动生成一个无参构造器, 术语零参构造器（zero-argument constructor）
+- 如果写了构造器（无论是否有参数）， 类不会再自动生成无参构造器
 
-    // 有参构造器
-    public Student(String name) {
-        ...
-    }
-}
-```
+## 静态成员和实例成员的调用
 
-{% hint style="info" %}
-如果没有写任何构造器，类会默认生成一个无参构造器&#x20;
-{% endhint %}
-
-{% hint style="warning" %}
-如果写了有参构造器， 类不会自动生成无参构造器
-{% endhint %}
-
-## static
-
-```java
-在静态方法里定义的变量就是静态的，不需再加static
-在静态方法里不能访问实例变量
-
-在实例方法里不能定义静态变量，但可以访问静态变量
-
-类变量(class variable)是定义在类中, 被static修饰，也称为静态变量
-静态变量在内存中只存在一份副本, 存在方法区的静态域中
-
-实例变量(Instance Variable)是定义在类中的非静态变量
-实例变量存储在堆内存的对象中
-
-类似的
-类方法 也叫静态方法
-实例方法 
-```
-
-## 静态变量和实例变量
-
-```java
-public class Student {
-    public static String name = "abincaps";
-    int age = 10;
-}
-
-// 在没new之前也可以访问类变量
-System.out.println(Student.name); // 类名访问类变量 推荐
-Student a = new Student();
-System.out.println(a.name); // 对象名访问类变量 不推荐
-System.out.println(a.age); // 实例变量只能用对象名访问
-```
+- static 成员 通过对象来调用（不推荐）或 通过类名调用（推荐）
+- 非 static 成员 只能通过对象调用
 
 ## 静态方法和实例方法
 
-```java
-public class Student {
-    // 静态方法
-    public static void print() {
-        System.out.println("Student");
-    }
+- 静态方法可以放访问静态成员，但不能访问实例成员
+- 实例方法可以访问静态成员和实例成员
+- 静态方法里定义的变量默认是静态的，不需再额外加 static
+- 在实例方法里不能定义静态变量
 
-    // 实例方法
-    public void method() {
-        System.out.println("method");
-    }
-}
+## static 代码块和 非 static 代码块
 
-// 类名调用类方法 
-Student.print(); // Student
-Student a = new Student();
-// 类方法调用
-a.method(); // method
-```
-
-{% hint style="info" %}
-静态方法最常见的应用场景是做[工具类 ](gong-ju-lei/)
-{% endhint %}
-
-## 实例成员和静态成员
-
-```java
-public class Student {
-    // 类成员指类变量和类方法
-    // 静态方法
-    public static void print() {
-        System.out.println(age); // 正确 类方法可以放访问类成员
-        System.out.println(name); // 错误 类方法不能访问实例成员
-        System.out.println(get()); // 错误 静态方法不能调用实例方法
-        System.out.println(this.name); // 错误 只有实例方法中可以出现this
-    }
-
-    static int age = 10; // 静态成员
-    String name = "abincaps"; // 实例成员
-
-    public String get() {
-        return name;
-    }
-
-    private Student() {
-
-    }
-}
-// 报错 non-static method get() cannot be referenced from a static context
-```
-
-{% hint style="info" %}
-实例方法可以访问静态成员和实例成员
-{% endhint %}
+- 静态代码块在类加载时执行, 并且只执行一次
+- 静态代码块只能访问类中的静态成员
+- 实例代码块在创建对象时运行, 每创建一个对象, 就执行一次该代码块
+- 实例代码块运行顺序在构造器前
 
 ## 类的初始化顺序
 
 ```java
-public class Student {
+public class Foo {
 
     static {
-        // 静态代码块在类加载时执行,并且只执行一次
-        // 主要用于在类加载时进行静态资源的初始化
-        // 静态代码块只能访问类中的静态成员
         System.out.println("static");
-
     }
 
     {
-        // 实例代码块在创建对象时运行, 每创建一个对象, 就执行一次该代码块
-        // 实例代码块运行顺序在构造器前
         System.out.println("non-static");
     }
 
     public Student() {
-        System.out.println("Student");
+        System.out.println("Foo");
     }
 }
 
-new Student();
-new Student();
+new Foo();
+new Foo();
 
-// 初始化顺序
 // static
 // non-static
-// Student
+// Foo
 // non-static
-// Student
+// Foo
 ```
+
+## this关键字
+
+- this 只能在非静态方法中使用
+- this 不能同时调用两个构造器
+
+
+## 前向引用（forward referencing）
+
+- 此内容省略
 
 ## 继承
 
@@ -167,16 +79,15 @@ new Student();
 
 ## Object类
 
-{% hint style="info" %}
-Object类是所有类的基类, 默认继承Object类
-{% endhint %}
+- Object 类 是所有类的基类, 默认继承 Object 类
 
 ## 方法重写(覆盖)
 
-* 子类重写的方法必须与父类被重写的方法有相同的方法签名（方法名和参数类型列表 ）
-* 重写方法的返回值类型必须是被重写方法返回值的类型或子类型&#x20;
-* 子类方法的访问权限必须大于等于父类方法&#x20;
-* 父类的访问权限不能是`private`，因为在子类中不可见
+* 子类重写的方法必须与父类被重写的方法有相同的方法签名（方法名和参数类型列表）
+* 重写方法的返回值类型必须是被重写方法返回值的类型或子类型
+* 子类方法的访问权限必须大于等于父类方法
+* 父类的访问权限不能是 private，因为在子类中不可见
+* 静态方法不能被重写
 
 ```java
 public class Base {
@@ -187,7 +98,6 @@ public class Base {
 
 public class Derived extends Base {
 
-    // @Override注解 检查重写方法是否正确
     @Override
     public void print() {
         System.out.println("Derived");
@@ -198,15 +108,11 @@ Derived a = new Derived();
 a.print(); // Derived
 ```
 
-{% hint style="info" %}
-静态方法不能被重写
-{% endhint %}
-
 ## 方法重写(覆盖)中的异常
 
-* 方法的重写(`Override`)中 子类方法不允许抛出比父类更广泛的异常
-* 如果父类方法没有`throws`声明, 则子类重写方法也不能有`throws`声明(除非是`RuntimeException`及其子类)&#x20;
-* 父类方法`throws`的异常, 子类必须捕获处理（不用声明`throws`）或者声明`throws`&#x20;
+* 方法的重写(Override)中 子类方法不允许抛出比父类更广泛的异常
+* 如果父类方法没有`throws`声明, 则子类重写方法也不能有 `throws` 声明(除非是 `RuntimeException` 及其子类)
+* 父类方法 `throws` 的异常, 子类必须捕获处理（不用声明 `throws` ）或者声明 `throws`
 
 ## toString
 
@@ -357,65 +263,28 @@ Student d = (Student)a; // 错误 不报错 运行后抛出ClassCastException异
 
 ## final
 
-```java
-// 声明为final的类不能被继承,该类不能作为父类
-public final class Base {
-}
+- final 修饰的类不能被继承
+- final 修饰的方法不能被子类重写
+- final 修饰的变量, 必须在声明时或构造器或代码块中初始化
+- final 修饰的引用变量，无法重新赋值，但可以修改对象的内容
 
-// 错误 不能继承
-public class Derived extends Base {
-}
+## static final
+
+- static final 修饰的变量必须直接初始化
 
 
-public class Base {
-    public final void method() {
-    }
-}
+## private 和 final
 
-public class Derived extends Base {
-    
-    // 声明为final的方法不能被子类重写
-    @Override
-    public final void method() {
-    }
-}
+- 类中的任何 private 方法都是隐式 final
 
-final int b = 10;
-b = 10; // 不能进行二次赋值
+## 抽象类和抽象方法
 
-// final static 修饰的变量必须直接赋值 称为常量
-final static int a = 0;
-
-final修饰的引用变量，其地址不可以改变，但是可以通过地址修改对象内容
-
-在类中使用final修饰的变量, 必须在声明时或者构造函数中初始化
-```
-
-## 抽象类
-
-> 抽象类不能实例化， 必须继承后才能实例化
->
-> 可以包含抽象方法和非抽象方法
->
-> 子类继承抽象类时,必须实现抽象类的所有抽象方法
->
-> 如果子类没有实现父类所有的抽象方法, 那么子类也必须声明为抽象类
-
-```java
-public abstract class Foo {
-
-    // 有构造器也不能实例化
-    // 构造器不能被声明为 abstract
-    // 构造器的目的是创建对象, 假如构造器是抽象的, 就无法实例化该类的对象
-    public Foo() {
-
-    }
-
-    // 有抽象方法的类必须声明为抽象类
-    // 抽象方法只包含方法签名, 没有方法体, 也就是不实现
-    public abstract void run();
-}
-```
+- 抽象类即使有构造器也不能实例化
+- abstract不能修饰构造器
+- 抽象类可以包含抽象方法和非抽象方法
+- 抽象方法只包含方法签名, 没有方法体（也就是不实现）
+- 有抽象方法的类必须声明为抽象类
+- 子类继承抽象类时, 必须实现抽象类的所有抽象方法，否则子类必须声明为抽象类
 
 ## 内部类
 
@@ -779,7 +648,7 @@ ArrayList<? super Derived> b = new ArrayList<Base>();
 TODO
 ```
 
-## 类型擦除&#x20;
+## 类型擦除
 
 将泛型参数的类型信息在编译时替换为对象类型
 
