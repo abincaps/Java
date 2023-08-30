@@ -2,29 +2,24 @@
 
 ## 文件路径分隔符
 
-```java
-import java.io.File
-
-...
-
-// 文件路径
-// window分隔符是用的 \ 反斜杠
-// 类unix 是 /
-// File.separator 对应系统的文件路径分隔符
-// File.pathSeparator 对应系统的环境变量的路径分隔符
-
-// win下
-System.out.println(File.separator); // \
-System.out.println(File.pathSeparator); // ;
-```
+- Window 分隔符是 \\\\ 反斜杠
+- 类 Unix 分隔符是 / 
+- `File.separator` 系统相关的默认名称分隔符 返回 String
+- `File.separatorChar` 系统相关的默认名称分隔符 返回 char
 
 ## 三代IO框架
 
-```java
-第一代 流式阻塞IO
-第二代 NIO 是非阻塞的
-第三代 NIO AIO asyncIO 异步IO
-```
+- 第一代 流式阻塞IO
+- 第二代 NIO 是非阻塞的
+- 第三代 NIO AIO asyncIO 异步IO
+
+## InputStream
+
+- InputStream 抽象类是所有表示字节输入流的类的超类
+
+## FileInputStream
+
+- FileInputStream 用于读取原始字节流
 
 ## 文件写入
 
