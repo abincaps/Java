@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "middleware/sql/mysql.md",
+                "file": "spring/ioc.md",
                 "mode": "source",
                 "source": false
               }
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "middleware/sql/mysql.md",
+                "file": "spring/ioc.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -111,7 +111,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "middleware/sql/mysql.md",
+                "file": "spring/ioc.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -134,7 +134,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "middleware/sql/mysql.md"
+                "file": "spring/ioc.md"
               }
             }
           },
@@ -166,25 +166,27 @@
   },
   "active": "e48a416654edcf27",
   "lastOpenFiles": [
+    "spring/core.md",
+    "spring/ioc.md",
+    "java/basic-grammar.md",
+    "java/object-oriented.md",
+    "java/api.md",
+    "java/tools-class/arrays.md",
+    "README.md",
+    "java/collections-framework.md",
+    "middleware/sql/mysql.md",
     "Untitled",
     "spring-cloud/gateway.md",
-    "README.md",
     "Untitled.md",
     "tool-chain/git.md",
     "tool-chain/docker.md",
     "tool-chain/maven.md",
-    "java/basic-grammar.md",
-    "middleware/sql/mysql.md",
     "database.md",
     "nodejs/Untitled.md",
     "java/io.md",
     "java/jvm.md",
-    "java/collections-framework.md",
-    "java/api.md",
     "java/multithreading.md",
-    "java/object-oriented.md",
     "database/basic-concept.md",
-    "spring/core.md",
     "spring/servlet/spring-web-mvc.md",
     "spring-boot/spring-boot.md",
     "tool-chain/README.md",
@@ -192,7 +194,6 @@
     "network-protocol/Untitled.md",
     "spring-boot/validated.md",
     "network-protocol",
-    "java/tools-class/arrays.md",
     "spring/reactive",
     "nodejs",
     "spring/servlet",

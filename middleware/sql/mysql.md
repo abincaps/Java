@@ -52,7 +52,7 @@
 - `INSERT INTO student VALUES(1, "name", 20);` 向指定表插入全部字段数据
 - `UPDATE student SET sname = "sname" WHERE sid = 1;`  条件更新指定的字段的值
 - `UPDATE student SET sname = "sname", age = 10 WHERE sid = 1;` 指定字段值的条件来更新指定的多个字段的值
-- `TRUNCATE TABLE table_name;` 删除整张表再创建新的空表
+- `TRUNCATE TABLE table_name;` 删除整张表再创建新的空表，执行效率高
 
 ## DQL查用命令
 

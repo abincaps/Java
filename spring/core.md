@@ -28,7 +28,6 @@
 ## Bean
 
 - 一个Spring IoC容器管理着一个或多个Bean
-- 
 
 ## 组件
 

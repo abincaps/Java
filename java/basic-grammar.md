@@ -421,7 +421,6 @@ public @interface Myannotation {
 }
 ```
 
-
 ## 常见注解
 
 - `@Override` 注解 检查是否正确重写，如果父类不存在该方法或签名不一致, 编译器会报错
@@ -440,6 +439,23 @@ public @interface Myannotation {
 
 ## 序列化id
 
-```java
-TODO
-```
+- TODO
+## 全限定名
+
+- TODO
+
+## Diamond语法
+
+- Diamond（钻石）语法是Java 7中新增的语言特性, 用于简化泛型代码的书写
+- `Map<String> map = new HashMap<这里不需要填写类型>();`
+
+## 泛型为什么选择包装类而不是基本类？
+
+- 泛型不支持基本类型，只支持引用类型
+* 基本类型不能为 `null`
+* 泛型实现时使用了[类型擦除](object-oriented.md#lei-xing-ca-chu)机制, 需要对象类型信息来保持类型安全
+* 泛型的主要目的是实现通用算法和集合, 与对象相关性更强
+
+
+
+

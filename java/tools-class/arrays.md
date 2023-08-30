@@ -8,3 +8,17 @@
 * 任何对返回List的修改都会同步反映到原数组
 * 不能添加和删除元素，否则保持列表不变并抛出 `UnsupportedOperationException`
 
+## toString方法
+
+- 返回指定数组内容的字符串表示形式
+- 如果指定数组是 `null`，则返回 `"null"`
+
+```java
+int[] a = {1, 2, 3};  
+System.out.println(Arrays.toString(a)); // [1, 2, 3]  
+System.out.println(a.toString()); // [I@4eec7777
+
+int[] b = null;  
+System.out.println(Arrays.toString(b)); // null
+```
+
