@@ -1,4 +1,6 @@
 
+# Git
+
 ## 初次配置
 
 `git config --global user.name "abincaps"`  没有空格可以不用双引号

@@ -1,8 +1,10 @@
 # 后端开发之路
 
-推荐使用obsidian获取更好的阅读体验
 
-README页面待完善
+## 如何开始阅读？
+
+- 推荐使用 [obsidian](https://obsidian.md/) 获取更好的阅读体验
+
 ## Java
 
 * [x] [[basic-grammar|基础语法]]
@@ -10,7 +12,6 @@ README页面待完善
 * [ ] 集合框架
 * [ ] IO流
 * [ ] 多线程
-* [ ] java8特性
 * [ ] JVM
 
 ## 数据库
@@ -23,15 +24,31 @@ README页面待完善
 
 ## Spring Boot
 
+* [ ] 核心特性
+
 ## Spring Cloud
+
+- [ ] Gateway
 
 ## 中间件
 
+- [ ] Mysql
+* [ ] MongoDB
+
 ## 工具链
+
+- [ ] Git
+- [ ] Maven
 
 ## 软件工程
 
 * [ ] 设计模式
+
+## 网络协议
+
+* [ ] Http
+
+
 
 
 

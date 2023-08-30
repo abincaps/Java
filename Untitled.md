@@ -26,7 +26,6 @@
 ## JWT
 
 - JSON Web Token 用于作为 JSON 对象在各方之间安全地传输信息
-
 - token被解密 加盐值（密钥）
 - token被第三方使用 限流
 

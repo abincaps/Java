@@ -1,11 +1,34 @@
 # 核心特性
 
+## 协作模式
+
+- 分层思想
+
+## Spring AOP
+
+- AOP(Aspect Oriented Programming) 面向切面的编程 
+- OOP中模块化的单位是类，而AOP中模块化的单位是切面
+- 增加中间层来实现所有对象的托管，进而管理对象生命周期和对象装配
+- 接口类型 JdkProxy 动态代理
+- 非接口类型 CGlib 生成子类
+
 ## IoC 容器 
 
-- IoC(Inversion of Control),即控制反转
-- 通过依赖注入 DI(Dependency Injection)实现对象之间的依赖和解耦
+- IoC(Inversion of Control) 控制反转，也被称为依赖注入（DI）（Dependency Injection）
+- 实现对象之间的依赖和解耦
 - IoC容器负责对象的创建、初始化等完整生命周期
 - IoC容器自动装配对象, 统一了对象管理和配置
+- 对象A直接引用和操作new出来对象B，变成对象A只依赖接口B，系统启动和装配阶段，把B接口的实例对象注入到对象A中， 对象A就无需依赖B接口的具体实现
+
+## 循环依赖
+
+- 打破循环依赖，形成单向依赖
+
+
+## Bean
+
+- 一个Spring IoC容器管理着一个或多个Bean
+- 
 
 ## 组件
 
@@ -22,15 +45,15 @@
 - Service层包含应用核心的业务逻辑处理，对业务逻辑进行封装
 - 可以通过接口调用DAO层进行数据库操作
 
-## Spring Framework版本
+## @Bean和@Configuration
 
-- Spring Framework 5.x 需要  java SE 8+ / java EE 7+
+- `@Bean` 注解用来表示一个方法 实例化、配置和初始化了一个新的对象，由Spring IoC容器管理
+- `@Configuration` 注解的类，表明它是作为Bean定义的来源
+- `@Configuration` 类允许通过调用同一个类中的其他 `@Bean` 方法来定义bean间的依赖关系
 
+## 组件扫描
 
-## AOP
-
-- AOP(Aspect Oriented Programming) 面向切面的编程 
-- OOP中模块化的单位是类，而AOP中模块化的单位是切面
+- `@ComponentScan(basePackages = "com.abincaps")` 
 
 ## 切点指定器
 
@@ -66,22 +89,17 @@
 
 ## 执行顺序
 
-1. @Around 调用proceed之前
-2. @Before
-3. 方法执行
-4. @After
-5. @Around 调用proceed之后
-
-## ProceedingJoinPoint
-
+1. `@Around` 调用 proceed 之前
+2. `@Before`
+3. `joinPoint.proceed`
+4. `@Around` 调用 proceed 之后
+5. `@After`
+6. `@AfterReturning` 或 `@AfterThrowing`
 
 ## JoinPoint
 
 - 公共接口连接点，提供对连接点可用状态及其静态信息的反射访问
 - 任何 advice method 都可以声明一个 `JoinPoint` 类型的参数作为其第一个参数
-
-### 常见方法
-
 - `getArgs()` 返回方法的参数
 - `getThis()` 返回代理对象
 - `getTarget()` 返回目标对象

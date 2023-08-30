@@ -148,10 +148,7 @@ System.out.println(a); // [name=abincaps, age=10]
 * `hashCode`不相等, `equals`一定是`false`
 * `hashCode`相等, `equals`不一定是`true`
 * `equals`返回`true`, `hashCode`必须相等
-
-{% hint style="info" %}
-`hashCode`相当于人名, `hashCode`一样并不代表是同一个人
-{% endhint %}
+- `hashCode`相当于人名, `hashCode`一样并不代表是同一个人
 
 ## this和super
 

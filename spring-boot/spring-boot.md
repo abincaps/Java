@@ -38,6 +38,7 @@
 ## 配置文件
 
 - 在 `application.properties` 或 `application.yml` 下
+- 当同时有 `.properties` 和 YAML 格式的配置文件时，`.properties` 优先
 
 ## 常见配置
 

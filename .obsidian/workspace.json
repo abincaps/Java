@@ -8,31 +8,18 @@
         "type": "tabs",
         "children": [
           {
-            "id": "49bc0788a8f21434",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "spring/servlet/spring-web-mvc.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
             "id": "46bc8c5e635b53cf",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "java/object-oriented.md",
+                "file": "middleware/sql/mysql.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -107,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "java/object-oriented.md",
+                "file": "middleware/sql/mysql.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -124,7 +111,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "java/object-oriented.md",
+                "file": "middleware/sql/mysql.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -147,7 +134,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "java/object-oriented.md"
+                "file": "middleware/sql/mysql.md"
               }
             }
           },
@@ -179,33 +166,33 @@
   },
   "active": "e48a416654edcf27",
   "lastOpenFiles": [
-    "java/basic-grammar.md",
-    "java/object-oriented.md",
-    "java/jvm.md",
-    "java/io.md",
-    "java/multithreading.md",
-    "java/collections-framework.md",
-    "java/api.md",
-    "java/tools-class/arrays.md",
-    "java/tools-class/collections.md",
-    "java/tools/README.md",
-    "gong-ju-lei.md",
-    "spring-boot/spring-boot.md",
-    "spring/logging/slf4j.md",
-    "spring/servlet/spring-web-mvc.md",
-    "spring/test/http.md",
-    "spring/core.md",
-    "spring-boot/mybatis.md",
-    "spring-boot/logging.md",
-    "spring-boot/mybatis-generator.md",
-    "spring-boot/data.md",
-    "spring-boot/validated.md",
-    "Untitled.md",
-    "axios.md",
+    "Untitled",
     "spring-cloud/gateway.md",
     "README.md",
-    "software-engineering/design-patterns.md",
-    "Untitled",
+    "Untitled.md",
+    "tool-chain/git.md",
+    "tool-chain/docker.md",
+    "tool-chain/maven.md",
+    "java/basic-grammar.md",
+    "middleware/sql/mysql.md",
+    "database.md",
+    "nodejs/Untitled.md",
+    "java/io.md",
+    "java/jvm.md",
+    "java/collections-framework.md",
+    "java/api.md",
+    "java/multithreading.md",
+    "java/object-oriented.md",
+    "database/basic-concept.md",
+    "spring/core.md",
+    "spring/servlet/spring-web-mvc.md",
+    "spring-boot/spring-boot.md",
+    "tool-chain/README.md",
+    "network-protocol/http.md",
+    "network-protocol/Untitled.md",
+    "spring-boot/validated.md",
+    "network-protocol",
+    "java/tools-class/arrays.md",
     "spring/reactive",
     "nodejs",
     "spring/servlet",
@@ -214,7 +201,6 @@
     "spring-cloud/gateway",
     "spring-cloud",
     "Untitled.canvas",
-    "software-engineering",
-    "spring/test"
+    "software-engineering"
   ]
 }
