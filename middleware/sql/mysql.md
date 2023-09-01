@@ -27,6 +27,117 @@
 
 - `mysql -u username -p password` 或 `mysql -u username -p` 登录
 - `mysql -h host -u username -p password`  指定 host 登录
+- `systemctl start mysql` 启动mysql服务
+- `systemctl enable mysql` 设置mysql自启动
+- `systemctl status mysqld` 查看mysql状态
+- `systemctl restart mysql` 重启mysql服务
+- `systemctl restart mysql` 停止mysql服务
+
+## 设置相关配置
+
+- `/etc/mysql/my.cnf` 
+
+## MySQL存储架构
+
+- server 层
+- 存储引擎层
+- 客户端 -> 连接模块 -> 词法解析 -> 语法解析 -> 预处理器 -> 查询优化器 -> 执行引擎
+- 连接模块 -> 缓存模块
+
+## 存储引擎
+
+- 在磁盘或者内存中存储的组织方式
+- `SHOW TABLE STATUS FROM demo`  查看 demo 数据库中的表的状态
+- `SHOW CREATE TABLE demo` 查看创建 demo 表的 SQL 语句 
+- `SHOW VARIABLES LIKE 'default_storage_engine'` 查看默认存储引擎
+- `SHOW VARIABLES LIKE 'datadir'` 查看数据存储的目录
+- InnoDB 中的表定义和表数据存在 idb 文件中
+- MyISAM 中的表定义存在 sdi 文件中
+- `ibd2sdi demo.ibd` 查看 idb 文件，以 json 格式显示、
+
+## 存储引擎的区别
+
+|                | InnoDB               | MyISAM             |
+| -------------- | -------------------- | ------------------ |
+| 是否支持事务   | 是                   | 否                 |
+| 锁的粒度       | 表锁，行锁           | 表锁               |
+| 是否支持外键   | 是                   | 否                 |
+| 数据的存储方式 | 索引和数据存放在一起 | 索引和数据分开存放 |
+| 数据存储的结构 | B+Tree               | B+Tree             |
+
+## 索引的分类
+
+- 主键索引 每个表有且只有一个主键索引， 如果没有指定主键索引，对于表会默认生成一个非空且唯一的主键索引
+- 唯一索引 可以为空，但不能重复，一个表可以有多个唯一索引
+- 普通索引 可以为空，可以重复
+
+## 创建索引
+
+- 如果索引名没有指定，默认使用列名作为索引名
+
+- 主键索引
+
+```sql
+CREATE table t (
+	id int not null PRIMARY KEY,
+	name varchar(20)
+)
+
+CREATE table t (
+	id int not null,
+	name varchar(20),
+	PRIMARY KEY (id)
+)
+```
+
+- 唯一索引 
+
+```sql
+CREATE table t (
+	id int not null,
+	name varchar(20),
+	UNIQUE KEY idx_name(name)
+)
+```
+
+- 普通索引
+
+```sql
+CREATE table t (
+	id int not null,
+	name varchar(20),
+	KEY idx_name (name)
+)
+```
+
+## 添加索引
+
+- `SHOW INDEX FROM t `查看索引
+- `ALTER TABLE t add PRIMARY KEY (id)` 对表中的 id 字段添加主键索引
+- `ALTER TABLE t add UNIQUE KEY idx_name (name)` 对表中的 name 字段添加唯一索引
+- `ALTER TABLE t add KEY idx_name (name)` 对表中的 name 字段添加普通索引
+
+## 删除索引
+
+- `ALTER TABLE t DROP PRIMARY KEY` 删除 t 表中 主键索引
+- `ALTER TABLE t DROP index idx_name` 删除 t 表中 唯一索引或普通索引
+
+## 复合索引
+
+- 复合索引是多个列同时创建一个索引
+- `ALTER TABLE t add KEY idx_name_age (name, age)` 注意(name, age)和(age, name) 是不同的
+
+## 为什么不选择 Hash 算法？
+
+- hash索引不能快速处理范围查询
+- hash索引没有顺序，对排序数据需要重排
+- hash索引不能 like 模糊查询
+- hash 冲突 影响性能 不稳定
+
+## B+Tree 对比 B-Tree
+
+- 叶子节点存储了所有节点的数据
+- 叶子节点通过链表的方式连接
 
 ## DDL常用命令
 
@@ -39,12 +150,12 @@
 - `SELECT DATABASE();` 查询当前正在使用的数据库 `DATABASE()` 函数
 - `SHOW TABLES;` 列出数据库包含的所有表
 - `show create database database_name;` 查询创建指定数据库的SQL语句
-- `show create table table_name;` 查询创建指定表的SQL语句
 - `DROP TABLE IF EXISTS table_name`; 判断表是否存在再删除
 - `RENAME TABLE test TO new_test;`  修改表名
 - `ALTER TABLE test ADD tname varchar(10);` 向表添加字段
 - `ALTER TABLE test modify tname varchar(10);` 修改表中字段的类型
 - `ALTER TABLE test change tname new_name varchar(10);` 修改表中字段名以及类型
+- `CREATE TABLE B AS SELECT * FROM A` 创建 B 表 并拷贝 A 表中的所有数据
 
 ## DML常用命令
 
@@ -60,6 +171,10 @@
 - `SELECT sid, sname FROM table_name;` 查询指定字段的所有记录
 - `SELECT sid AS 编号 FROM student;` 查询结果的列名使用别名
 - `SELECT DISTINCT sname FROM student;` 去重
+
+## 其他命令
+
+- `SHOW PROFILES` 查看性能
 
 ## LIKE
 
@@ -118,5 +233,11 @@
 - 例如：事务A更新一个字段,事务B随后读取同一字段值,然后事务A回滚，这样事务B读到的就是无效数据
 
 ## 纵向分表
+
+
+
+
+
+
 
  
