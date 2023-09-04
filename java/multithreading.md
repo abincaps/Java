@@ -2,11 +2,7 @@
 
 ## 线程的状态
 
-<table><thead><tr><th width="247"></th><th></th></tr></thead><tbody><tr><td>NEW</td><td>线程被创建, 但是还未启动 初始状态</td></tr><tr><td>RUNNABLE</td><td>线程正在运行中 或者准备就绪（Ready）等待CPU时间片</td></tr><tr><td>BLOCKED</td><td>线程被阻塞</td></tr><tr><td>WAITING</td><td>线程进入无限等待状态，等待其它线程通知</td></tr><tr><td>TIMED_WAITING</td><td>线程进入计时等待（超时等待）状态, 在指定时间后会被自动唤醒 </td></tr><tr><td>TERMINATED</td><td>线程已终止运行完成</td></tr></tbody></table>
-
-{% hint style="info" %}
-在 java.lang 包下, Thread.State是一个描述线程状态的枚举类
-{% endhint %}
+- 在 java.lang 包下, Thread.State是一个描述线程状态的枚举类
 
 ## 守护线程
 
@@ -441,11 +437,7 @@ void set(T  value) 将此线程局部变量的当前线程副本设置为指定�
 ## 指令重排
 
 ```java
-指令重排(Instruction Reordering)指的是编译器和处理器为了优化程序性能
-可以对指令序列进行重排序的一种技术
 
-单线程环境下, 指令重排不会影响程序执行结果
-多线程环境下, 存在可见性问题和有序性问题
 
 可见性问题 
 多个线程之间无法及时看到对方的操作
