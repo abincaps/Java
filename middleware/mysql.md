@@ -1,59 +1,183 @@
 
 # MySQL
 
-## SQL
+## 逻辑架构
 
-- SQL（Structured Query Language）结构化查询语言
-- 所有关系型数据库的统一查询规范
-- 不区分大小写
+- 客户端连接器 （负责和客户端建立连接）
+- 系统管理和控制工具 
+- 连接池 （管理用户连接，监听并接收连接的请求，转发所有连接的请求到线程管理模块）
+- SQL 接口：接受用户的SQL命令，并且返回SQL执行结果
+- 解析器：语法解析， 词法解析）
+- 查询优化器：在查询之前会使用查询优化器对查询进行优化，explain 执行计划
+- 缓存：在MySQL8中移除
+- 存储引擎：存取数据、建立和更新索引、查询数据
+- 文件和日志
 
-## SQL分类
-
-- 数据定义语言 DDL （Data Definition Language）
-- 数据操作语言 DML （Data Manipulation Language）
-- 数据查询语言 DQL （Data Query Language）
-- 数据控制语言 DCL （Data Control Language）
-
-## DDL常用命令
-
-- `create database database_name;` 创建指定名称的数据库
-- `use database_name;` 指定使用的数据库
-
-## 端口
-
-- MySQL数据库默认端口 `3306` 
-
-## 常用命令
-
-- `mysql -u username -p password` 或 `mysql -u username -p` 登录
-- `mysql -h host -u username -p password`  指定 host 登录
-- `systemctl start mysql` 启动mysql服务
-- `systemctl enable mysql` 设置mysql自启动
-- `systemctl status mysqld` 查看mysql状态
-- `systemctl restart mysql` 重启mysql服务
-- `systemctl restart mysql` 停止mysql服务
-
-## 设置相关配置
+## 设置配置
 
 - `/etc/mysql/my.cnf` 
 
-## MySQL存储架构
+## 端口
 
-- server 层
-- 存储引擎层
-- 客户端 -> 连接模块 -> 词法解析 -> 语法解析 -> 预处理器 -> 查询优化器 -> 执行引擎
-- 连接模块 -> 缓存模块
+- MySQL数据库默认端口 3306
 
-## 存储引擎
+## 日志文件
 
-- 在磁盘或者内存中存储的组织方式
-- `SHOW TABLE STATUS FROM demo`  查看 demo 数据库中的表的状态
-- `SHOW CREATE TABLE demo` 查看创建 demo 表的 SQL 语句 
-- `SHOW VARIABLES LIKE 'default_storage_engine'` 查看默认存储引擎
-- `SHOW VARIABLES LIKE 'datadir'` 查看数据存储的目录
-- InnoDB 中的表定义和表数据存在 idb 文件中
-- MyISAM 中的表定义存在 sdi 文件中
-- `ibd2sdi demo.ibd` 查看 idb 文件，以 json 格式显示、
+- MySQL 从物理结构上可以分为日志文件和数据及索引文件
+- MySQL 在 Linux 中的数据索引文件和日志文件通常放在 `/var/lib/mysql` 目录下
+- MySQL 通过日志记录了数据库操作信息和错误信息
+
+## 常用日志文件
+
+- 错误日志
+- 二进制日志
+- 查询日志：general_query.log 
+- 慢查询日志：slow_query_log.log 
+- 事务重做日志：redolog 
+- 中继日志：relaylog
+- Undo log
+- `mysql> show variables like 'log_%';` 查看当前数据库中的日志使用信息
+
+## 错误日志
+
+- 默认开启，错误日志记录了运行过程中遇到的所有严重的错误信息，以及 MySQL 每次启动和关闭的详细信息
+- log_error：指定错误日志存储位置
+- 在8.0.3 被移除 log-warnings：配置警告信息级别 
+- 0 禁用警告日志,只记录错误
+- 1 记录错误和严重警告
+- 2 记录错误和所有警告
+- 3 记录错误、警告和提示信息
+- 4 记录错误、警告、提示和调试信息
+- log_error_verbosity
+
+## 二进制日志
+
+- 默认关闭，binlog 记录了数据库所有的 DDL 语句和 DML 语句，不包括 DQL 语句
+- 语句以事件的形式保存，描述了数据的变更顺序，还包括了每个更新语句的执行时间信息
+- 主要用于实现 mysql 主从复制、数据备份、数据恢复
+- 不需要查看
+
+## 通用查询日志
+
+- 默认关闭，通用查询日志会记录用户的所有操作，包含增删查改等信息
+- 在并发操作大的环境下会产生大量的信息从而导致不必要的磁盘IO，会影响MySQL的性能
+- `general_log=ON|OFF`
+- `general_log_file=`指定路径
+
+## 慢查询日志
+
+- 默认关闭，记录执行时间超过 long_query_time 秒的所有查询，收集查询时间比较长的SQL语句
+- `slow_query_log=ON|OFF`
+- `long_query_time=`慢查询的阈值(秒)
+- `slow_query_log_file=`日志存储路径
+
+## 数据文件
+
+- `show variables like '%datadir%';` 查看 mysql 数据文件
+- ibdata 文件：使用系统表空间存储表数据和索引信息，所有表共同使用一个或者多个ibdata文件
+
+## InnoDB 存储引擎的数据文件
+
+- 表名.frm文件：存储表相关的数据信息，主要包括表结构的定义信息  在MySQL 8.0中, frm 文件已被移除
+- 表名.ibd文件：使用独享表空间存储表数据和索引信息，一张表对应一个ibd文件
+- 在MySQL 8.0中，InnoDB 中的表定义和表数据存在 idb 文件中
+
+## MyISAM 存储引擎的数据文件
+
+- 表名.frm文件：存储表相关的数据信息，主要包括表结构的定义信息 在MySQL 8.0中, frm 文件已被移除
+- 表名.myd文件：存储表数据信息 
+- 表名.myi文件：存储索引
+
+## 一条SQL语句的完整执行流程
+
+- MySQL 可以分为 Server层和存储引擎层
+- 第1步 连接到数据库
+- 第2步 查询缓存
+- 第3步 分析SQL语句
+- 第4步 优化SQL语句
+- 第5步 执行SQL语句
+
+## Server层
+
+- 连接器、查询缓存、分析器、优化器、执行器等
+- 所有的内置函数（如日期、时间、数学和加密函数等）
+- 存储过程、触发器、视图
+
+## 存储引擎层
+
+- 负责数据的存储和提取
+- 可插拔式存储引擎：InnoDB、MyISAM、Memory
+- 从 MySQL 5.5 版本开始，默认存储引擎是 InnoDB
+
+## 连接到数据库
+
+- `mysql -u username -p password` 或 `mysql -u username -p` 登录
+- `mysql -h host -u username -p password`  指定 host 登录
+- 连接完成后，如果你没有后续的动作，这个连接就处于空闲状态
+- 客户端如果太长时间没动静，连接器就会自动断开
+- 这个时间是由参数 wait_timeout 控制的默认值是 8 小时
+- `mysql> show processlist;` 其中的 Command 列显示为 Sleep 表示空闲连接
+
+## 查询缓存
+
+- MySQL 拿到一个查询请求后，会先到查询缓存中看之前有没有执行过这条语句
+- 之前执行过的语句和其结果，可能会以 key-value 对的形式直接缓存在内存中
+- key 是查询的语句 hash 之后的值，value 是查询的结果
+- 如果查询语句在缓存中，会直接返回给客户端
+- 如果查询语句不在查询缓存中，就会继续后面的执行阶段，执行完成后，执行结果会被存入查询缓存中
+- 不建议使用MySQL的内置缓存功能
+- `mysql> show variables like 'query_cache_type';` 查看是否开启缓存, 在 MySQL 8.0 版本中, 查询缓存功能已被移除
+
+## 为什么不建议使用MySQL的查询缓存？
+
+- 查询缓存的失效非常频繁，只要有对一个表的更新，这个表上所有的查询缓存都会被清空 
+- 对于更新压力大的数据库，查询缓存的命中率会非常低
+- 功能不如专业的缓存工具更好：redis
+
+## 分析SQL语句
+
+- 对SQL语句字符串做分析，判断请求的语法是否正确
+- 从SQL语句字符串中将要查询的表、列和各种查询条件提取出来
+- 本质上是对一个SQL语句编译的过程，涉及词法解析、语法分析、预处理器
+- 词法分析是把一个完整的 SQL 语句分割成一个个的字符串 
+- 语法分析器根据词法分析的结果做语法检查，判断输入的 SQL 语句是否满足 MySQL 语法
+- 预处理器会进一步去检查解析树是否合法，比如表名是否存在，语句中表的列是否存在，检验用户是否有表的操作权限
+
+## 优化SQL语句
+
+- 对查询进行优化，作用是根据解析树生成不同的执行计划，然后选择最优的执行计划
+- MySQL 使用的是基于成本模型的优化器，选择 执行时成本最小的执行计划 Explain 
+- io_cost 和 cpu_cost 的开销总和
+- `mysql> show status like 'Last_query_cost';` 查看上次查询成本开销
+
+## 优化器
+
+- 当有多个索引可用的时，决定使用哪个索引
+- 在一个语句有多表关联（join）时，决定各个表的连接顺序，以哪个表为基准表
+
+## 执行SQL语句
+
+- 判断执行权限
+- 调用存储引擎接口查询
+
+## 存储引擎种类
+
+- InnoDB 支持事务和行级锁，支持外键，支持分布式事务的解决方案
+- MyISAM 不支持事务
+- Memory 内存存储引擎，拥有极高的插入，更新和查询效率
+- CSV CSV 存储引擎是基于 CSV 格式文件存储数据，应用于跨平台的数据交换
+
+## 存储引擎查看和设置
+
+- `mysql> show engines;` 查看支持的存储引擎
+
+```sql
+create table t (
+a int primary key, 
+b int
+) engine=innodb;
+```
+
 
 ## 存储引擎的区别
 
@@ -236,41 +360,13 @@ CREATE table t (
 - Using temporary 创建临时表来处理查询， 可以进行优化
 - Using filesort 需要对潮汛的结果集进行排序， 数据小在内存中排序， 数据大借助磁盘外部排序，可以进行优化
 
-## DDL常用命令
-
-- `create database database_name character set utf8mb4;`  创建数据库时指定字符集
-- `ALTER DATABASE demo CHARACTER SET utf8mb4;` 修改数据库字符集
-- `drop database database_name;` 删除数据库
-- `DESC database_name;` 查看表结构
-- `create table database_name like database_name；` 创建和指定的表的表结构相同的表
-- `show databases;` 查看所有数据库列表
-- `SELECT DATABASE();` 查询当前正在使用的数据库 `DATABASE()` 函数
-- `SHOW TABLES;` 列出数据库包含的所有表
-- `show create database database_name;` 查询创建指定数据库的SQL语句
-- `DROP TABLE IF EXISTS table_name`; 判断表是否存在再删除
-- `RENAME TABLE test TO new_test;`  修改表名
-- `ALTER TABLE test ADD tname varchar(10);` 向表添加字段
-- `ALTER TABLE test modify tname varchar(10);` 修改表中字段的类型
-- `ALTER TABLE test change tname new_name varchar(10);` 修改表中字段名以及类型
-- `CREATE TABLE B AS SELECT * FROM A` 创建 B 表 并拷贝 A 表中的所有数据
-
-## DML常用命令
-
-- `INSERT INTO student(sid, sname, age) VALUES(1, "name", 20);` 向指定表插入指定字段数据
-- `INSERT INTO student VALUES(1, "name", 20);` 向指定表插入全部字段数据
-- `UPDATE student SET sname = "sname" WHERE sid = 1;`  条件更新指定的字段的值
-- `UPDATE student SET sname = "sname", age = 10 WHERE sid = 1;` 指定字段值的条件来更新指定的多个字段的值
-- `TRUNCATE TABLE table_name;` 删除整张表再创建新的空表，执行效率高
-
-## DQL查用命令
-
-- `SELECT * FROM table_name;` 查询表中所有记录
-- `SELECT sid, sname FROM table_name;` 查询指定字段的所有记录
-- `SELECT sid AS 编号 FROM student;` 查询结果的列名使用别名
-- `SELECT DISTINCT sname FROM student;` 去重
-
 ## 其他命令
 
+- `SHOW TABLE STATUS FROM demo`  查看 demo 数据库中的表的状态
+- `SHOW CREATE TABLE demo` 查看创建 demo 表的 SQL 语句 
+- `SHOW VARIABLES LIKE 'default_storage_engine'` 查看默认存储引擎
+- `SHOW VARIABLES LIKE 'datadir'` 查看数据存储的目录
+- `ibd2sdi demo.ibd` 查看 idb 文件，以 json 格式显示
 - `SHOW PROFILES` 查看性能
 
 ## LIKE
@@ -329,7 +425,6 @@ CREATE table t (
 - 脏读是数据库事务中的一个概念, 指一个事务读取了另一个事务还未提交的修改的数据
 - 例如：事务A更新一个字段,事务B随后读取同一字段值,然后事务A回滚，这样事务B读到的就是无效数据
 
-## 纵向分表
 
 
 
