@@ -7,9 +7,9 @@
 
 ## Java
 
-* [x] [[basic-grammar|基础语法]]
-* [x] 面向对象
+* [x] [[basic|基础语法]]
 * [ ] 常用API
+* [ ] 反射
 * [ ] IO流
 * [ ] 多线程
 * [ ] JVM
