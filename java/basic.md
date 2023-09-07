@@ -877,15 +877,6 @@ new Foo() {
 }.print(); // anonymous
 ```
 
-## lambda
-
-```java
-lambda表达式是Java 8开始引入的特殊匿名内部类 
-本质上是继承父类的子类
-参数类型可以省略不写
-如果只有一个参数, () 可以省略
-如果代码体只有一行, {} 和 return 可以省略
-```
 
 ## 枚举类
 
@@ -1021,41 +1012,6 @@ interface Example {
 
 提供默认的通用实现,简化客户端使用。
 扩展接口时保持向后兼容。
-```
-
-## 函数式接口
-
-```java
-// Lambda表达式是Java 8开始引入
-// 匿名内部类 本质上是子类
-// 参数类型可以省略不写
-// 如果只有一个参数, ()可以省略
-// 如果代码体只有一行, {}可以省略
-
-// 函数式接口
-@FunctionalInterface
-interface Func {
-    // 只能有一个抽象方法
-    void run();
- }
-
-Func a =  () -> {
-    System.out.println("run");
-};
-
-a.run(); // run
-
-// 函数式接口
-@FunctionalInterface
-public interface Runnable {
-    // 只能有一个抽象方法
-    public abstract void run();
-}
-
-Thread thread = new Thread(() -> {
-    // 方法体内就是重写的run方法体
-    // 线程执行的代码
-});
 ```
 
 ## 泛型
