@@ -1,6 +1,68 @@
 
 # MySQL
 
+## SQL
+
+- SQL（Structured Query Language）结构化查询语言
+- 所有关系型数据库的统一查询规范
+- 不区分大小写
+
+## SQL分类
+
+- 数据定义语言 DDL （Data Definition Language）
+- 数据操作语言 DML （Data Manipulation Language）
+- 数据查询语言 DQL （Data Query Language）
+- 数据控制语言 DCL （Data Control Language）
+
+## DDL常用命令
+
+- `create database database_name;` 创建指定名称的数据库
+- `use database_name;` 指定使用的数据库
+- `create database database_name character set utf8mb4;`  创建数据库时指定字符集
+- `ALTER DATABASE demo CHARACTER SET utf8mb4;` 修改数据库字符集
+- `drop database database_name;` 删除数据库
+- `DESC database_name;` 查看表结构
+- `create table database_name like database_name；` 创建和指定的表的表结构相同的表
+- `show databases;` 查看所有数据库列表
+- `SELECT DATABASE();` 查询当前正在使用的数据库 `DATABASE()` 函数
+- `SHOW TABLES;` 列出数据库包含的所有表
+- `show create database database_name;` 查询创建指定数据库的SQL语句
+- `DROP TABLE IF EXISTS table_name`; 判断表是否存在再删除
+- `RENAME TABLE test TO new_test;`  修改表名
+- `ALTER TABLE test ADD tname varchar(10);` 向表添加字段
+- `ALTER TABLE test modify tname varchar(10);` 修改表中字段的类型
+- `ALTER TABLE test change tname new_name varchar(10);` 修改表中字段名以及类型
+- `CREATE TABLE B AS SELECT * FROM A` 创建 B 表 并拷贝 A 表中的所有数据
+
+## DML常用命令
+
+- `INSERT INTO student(sid, sname, age) VALUES(1, "name", 20);` 向指定表插入指定字段数据
+- `INSERT INTO student VALUES(1, "name", 20);` 向指定表插入全部字段数据
+- `UPDATE student SET sname = "sname" WHERE sid = 1;`  条件更新指定的字段的值
+- `UPDATE student SET sname = "sname", age = 10 WHERE sid = 1;` 指定字段值的条件来更新指定的多个字段的值
+- `TRUNCATE TABLE table_name;` 删除整张表再创建新的空表，执行效率高
+
+## DQL查用命令
+
+- `SELECT * FROM table_name;` 查询表中所有记录
+- `SELECT sid, sname FROM table_name;` 查询指定字段的所有记录
+- `SELECT sid AS 编号 FROM student;` 查询结果的列名使用别名
+- `SELECT DISTINCT sname FROM student;` 去重
+
+## 聚簇索引
+
+- 是一种数据存储方式
+- 聚簇索引是指数据库表中数据的物理顺序和键值的索引顺序相同，数据和索引的数据结构存储在一起
+- InnoDB 的主键索引中所有叶子节点都存储了对应行的数据
+
+## 非聚簇索引
+
+- 将数据存储和索引分开，索引结构的叶子节点指向了对应的数据
+
+## 二级索引（辅助索引）
+
+- 除了聚簇索引之外的所有索引都是二级索引
+
 ## 逻辑架构
 
 - 客户端连接器 （负责和客户端建立连接）
@@ -15,7 +77,7 @@
 
 ## 设置配置
 
-- `/etc/mysql/my.cnf` 
+- `/etc/mysql/my.cnf` 配置文件路径
 
 ## 端口
 
@@ -167,18 +229,6 @@
 - Memory 内存存储引擎，拥有极高的插入，更新和查询效率
 - CSV CSV 存储引擎是基于 CSV 格式文件存储数据，应用于跨平台的数据交换
 
-## 存储引擎查看和设置
-
-- `mysql> show engines;` 查看支持的存储引擎
-
-```sql
-create table t (
-a int primary key, 
-b int
-) engine=innodb;
-```
-
-
 ## 存储引擎的区别
 
 |                      | InnoDB               | MyISAM             |
@@ -190,6 +240,244 @@ b int
 | 索引                 | 聚簇索引             | 非聚簇索引         |
 | 数据存储的结构       | B+Tree               | B+Tree             |
 | 是否要求表必须有主键 | 是                   | 否                 |
+
+## 存储引擎查看
+
+- `mysql> show engines;` 查看支持的存储引擎
+- `mysql> show engine innodb status;` 查看innodb存储引擎状态
+
+## 存储引擎设置
+
+```sql
+create table t (
+a int primary key, 
+b int
+) engine=innodb;
+```
+
+## InnoDB内存结构
+
+- Buffer Pool 缓冲池
+- Change Buffer 修改缓冲
+- Adaptive Hash Index 自适应索引
+- Log Buffer 日志缓冲
+
+## Buffer Pool 缓冲池
+
+- Buffer Pool 用于加速热点数据读写，将热点数据缓存在内存，最大限度地减少磁盘IO
+- 默认大小为128MB
+- Buffer Pool 中的数据以页为存储单位
+- 实现的数据结构是以页为单位的单链表
+- Buffer Pool 使用LRU算法（Least Recently Used 最近最少使用）淘汰非热点数据页
+- LRU：根据页数据的历史访问来淘汰数据，优先淘汰最近没有被访问到的数据
+- `mysql> show variables like 'innodb_buffer_pool_size';` 查看 Buffer Pool 大小
+
+## Change Buffer 修改缓冲
+
+- Change Buffer 用于加速非热点数据中二级索引的写入操作
+- 由于二级索引数据的不连续性，导致 修改二级索引时需要进行频繁的磁盘 IO 消耗大量性能
+- Change Buffer 对二级索引的修改操作会录入 redo log 中
+- 在缓冲到一定量或系统较空闲时进行 merge 操作将修改写入磁盘中
+- Change Buffer 在系统表空间中有相应的持久化区域
+- Change Buffer 大小默认占 Buffer Pool 的25%，最大50%
+- 物理结构为一棵名为 ibuf 的 B Tree
+
+## AHI 自适应哈希索引
+
+- 自适应哈希索引（Adaptive Hash Index）用于实现对于热数据页的一次查询（哈希索引O1查询）
+- AHI 是建立在索引之上的索引, 使用聚簇索引进行数据页定位的时候需要根据索引树的高度从根节点走到叶子节点
+- AHI 的大小为 Buffer Pool 的 1/64
+- AHI 所作用的目标是频繁查询的数据页和索引页
+- 由于数据页是聚簇索引的一部分，因此 AHI 是建立 在索引之上的索引
+- 对于二级索引，若命中 AHI，则将直接从 AHI 获取二级索引页的记录指针, 再根据主键沿着聚簇索引查找数据
+- 若聚簇索引查询同样命中 AHI，则直接返回目标数据页的记录指针，此时就可以根据记录指针直接定位数据页
+- `mysql> show variables like 'innodb_adaptive_hash_index';` 查看是否开启自适应哈希索引配置，默认是开启的
+
+## Log Buffer 日志缓冲
+
+- 使用 Log Buffer 来缓冲日志文件的写入操作
+- 内存写入和日志文件顺序写
+
+## InnoDB磁盘结构
+
+- InnoDB 将所有数据都逻辑地存放在一个空间中，称为 Tablespace 表空间
+- 表空间由 Segment 段 、extent 区、Page 页 组成
+- 关闭独占表空间 innodb_file_per_table=0，所有基于InnoDB存储引擎的表数据都会记录到系统 表空间，即 ibdata1 文件
+
+## 表空间
+
+- System Tablespace 系统表空间
+- File-per-table Tablespace 独立表空间
+- General Tablespace 通用表空间
+- Undo Tablespace 回滚表空间 
+- The Temporary Tablespace 临时表空间
+
+## 系统表空间
+
+- 系统表空间是 InnoDB 数据字典、双写缓冲、修改缓冲和回滚日志的存储位置
+- 如果关闭独立表空间，系统表空间将存储所有表数据和索引
+- 默认下是一个初始大小 12MB 的 ibdata1 文件
+- `innodb_data_file_path=`系统表空间的文件路径和大小
+- Data Dictionary 数据字典： 数据字典是由各种表对象的元数据信息（表结构，索引，列信息）组成的内部表
+- Doublewrite Buffer 双写缓冲：双写缓冲用于保证写入磁盘时页数据的完整性，防止发生部分写失效问题
+- Change Buffer 修改缓冲： 内存中 Change Buffer 对应的持久化区域
+- 系统表空间不会缩容
+
+## 独立表空间
+
+- 独立表空间用于存放每个表的数据和索引
+- `innodb_file_per_table=ON`
+- 默认开启独立表空间 
+- 数据库文件夹内，每个数据表单独建立一个表空间文件 表名.ibd 存储数据和索引, 同时创建一个 表名.frm 文件用于保存表结构信息
+- 每个独立表空间的初始大小是 96KB
+
+## 通用表空间
+
+- 通用表空间存在的目的是为了在系统表空间与独立表空间之间作出平衡
+- 系统表空间中的表无法直接与独立表空间中的表相互转化， 需要向通用表空间移动
+- 
+## 回滚表空间
+
+- Undo TableSpace 用于存放 Undo log 文件
+- 默认 Undo log 存储在系统表空间中
+- 支持自定义 Undo log 表空间
+- 一旦用户定义了 Undo Tablespace，则系统 表空间中的 Undo log 区域将失效
+- Undo Tablespace 默认大小为 10MB
+
+## 临时表空间
+
+- MySQL 5.7 之前临时表存储在系统表空间中，会导致 ibdata1 在使用临时表的场景下疯狂增长
+- MySQL 5.7 之后 InnoDB 引擎从系统表空间中抽离出临时表空间，用于独立保存临时表数据及其回滚信息
+
+## Segment 段
+
+- 表空间由各个段组成
+- 段类型分为数据段、索引段、回滚段
+- InnoDB 采用 聚簇索引和 B+Tree 的结构存储数据，数据页和二级索引页是 B+Tree 的叶子节点，Leaf node segment 数据段
+- Non-Leaf node 索引段指的是 B+Tree 的非叶子节点
+- 一个段会包含多个区，至少会有一个区，段扩展的最小单位是区
+
+## Extent 区
+
+- 区是由连续的页组成的空间
+- 大小固定为 1MB
+- 一个区默认存储64个连续的页，默认页大小为16K
+- 保证页的连续性，InnoDB 存储引擎会一次从磁盘申请 4 ~ 5 个区
+
+## Page 页
+
+- 页是 InnoDB 的基本存储单位
+- 每个页默认大小为 16KB 
+- `innodb_page_size=`页大小
+- InnoDB 首次加载后无法更改页大小
+- 操作系统读写磁盘的最小单位是页， 4KB
+- `mysql> show variables like 'innodb_page_size';` 查看MySQL页大小
+
+## Row 行
+
+- InnoDB 的数据是以行为单位存储
+- 一个页中包含多个行
+- InnoDB 提供了4种行格式：Compact，Redundant，Dynamic，Compressed
+- Dynamic 为 MySQL 5.7 默认的行格式
+
+```sql
+CREATE TABLE t (
+	id INT
+) ROW_FORMAT=DYNAMIC;
+```
+
+- `SET GLOBAL innodb_default_row_format=DYNAMIC;` 修改全局行的默认格式
+- `SHOW TABLE STATUS LIKE '表名';` 查看指定表的行格式
+
+## 脏页
+
+- 对于数据的修改操作，首先修改在缓冲区中的页，缓冲区中的页与磁盘中的页数据不一致，则缓冲区中的页是脏页
+
+## 脏页进入磁盘持久化数据
+
+- 脏页从缓冲区刷新到磁盘，不是每次页更新后触发，是通过 CheckPoint 机制进行脏页落盘
+- 日志先行，所有操作前先写 Redo 日志
+
+## 写入性能
+
+- 在内存中写，操作过程记录日志, 通过定期批量写入磁盘的方式提高写入效率减少磁盘 IO
+- 分散写变成顺序写
+
+## 数据安全性
+
+- 记录操作日志：Force Log at Commit 机制与 Write Ahead Log（WAL）策略
+- CheckPoint 机制 
+- Double Write 机制
+
+## Force Log at Commit 机制
+
+- 当事务提交时，所有事务产生的日志都必须刷到磁盘
+- 如果日志刷新成功后，缓冲池中的数据刷新到磁盘前数据库发生了宕机，那么重启时，数据库可以从日志中恢复数据
+
+## Write Ahead Log（WAL）策略
+
+- 要求数据的变更写入到磁盘前，必须将内存中的日志写入到磁盘
+- InnoDB 的 WAL（Write Ahead Log）技术的产物就是 redo log
+- 对于写操作，永远都是日志先行，先写入 redo log 确保一致性之后，再对修改数据进行落盘
+
+## 确保日志安全
+
+- 为了确保日志写入到磁盘，将 redo log 写入 Log Buffer 后调用 fsync 函数，将缓冲文件从文件系统缓存中写入磁盘
+
+## Redo日志落盘
+
+- Redo日志默认落盘策略，事务提交立即落盘
+- Log Buffer 写入磁盘的时机由参数 innodb_flush_log_at_trx_commit 控制， 此参数控制每次事务提交时 InnoDB 的行为
+
+## innodb_flush_log_at_trx_commit 配置
+
+- TODO
+
+## CheckPoint 检查点机制
+
+- CheckPoint 决定了脏页落盘（将缓冲池中的脏页数据刷到磁盘上）的时机，条件，脏页的选择，避免数据更改直接操作磁盘
+- 缩短数据库的恢复时间，Checkpoint 之前的页都已经刷新回磁盘，当数据库发生宕机时，数据库不需要重做所有的日志
+- 数据库只需对 Checkpoint 后的 redo log 进行恢复
+- 缓冲池不够用时，根据LRU算法会溢出最近最少使用的页，如果此页为脏页，需要执行 Checkpoint，将脏页刷新回磁盘
+- redo日志不可用时，刷新脏页，日志文件可以循环使用，不会无限增长
+- InnoDB通过LSN（Log Sequence Number）来标记日志刷新的版本
+- LSN 是8字节的数字
+
+## Checkpoint分类
+
+- sharp checkpoint：在关闭数据库的时候，将 buffer pool 中的脏页全部刷新到磁盘中
+- fuzzy checkpoint：数据库正常运行时，在不同的时机，将部分脏页写入磁盘，仅刷新部分脏页到磁盘，避免一次刷新全部的脏页造成的性能问题
+
+## fuzzy checkpoint
+
+- Master Thread Checkpoint ：在主线程中，会以每秒或者每10秒一次的固定频率，将部分脏页从内存中刷新到磁盘，异步不会阻塞用户线程
+- FLUSH_LRU_LIST Checkpoint：缓冲池不够用时，根据LRU算法会淘汰最近最少使用的页（淘汰非热点数据），如果该页是脏页，执行 CheckPoint, 将该脏页刷新回磁盘
+- Async/Sync Flush Checkpoint：一般不会发生，redo log 不可用时，强制脏页落盘
+- Dirty Page too much：脏页数量太多，强制进行 Checkpoint，由参数 innodb_max_dirty_pages_pt 来控制，默认75（%）
+
+
+## 写失效
+
+- 页大小默认为 16KB，文件系统页大小为 4KB
+- 数据库准备刷新脏页，将16KB的刷入磁盘，但当写入了8KB时，宕机了
+
+## Double Write 双写
+
+- 写两次，解决写失效问题
+- redo log 不能解决写失效问题，redo log 记录的是对页的修改记录，而不是数据本身
+- 在 redo log 前，对需要写入的页的做个副本，当写失效发生时，通过页的副本来还原该页再重做
+
+## Double write脏页刷新流程
+
+- 复制，脏页刷新时不直接写磁盘，而是先将脏页复制到内存的 Doublewrite  buffer
+- 顺序写, 内存的 Doublewrite buffer 分两次，每次 1MB 顺序写入共享表空间的物理磁盘上，立即调用 fsync 函数同步 OS缓存 到磁盘中
+- 离散写, 内存的 Doublewrite buffer 最后将页写入各自表空间文件中
+
+## Double write崩溃恢复
+
+- 从系统表空间中的 Double write 中找到该页的一个副本
+- 将其复制到独立表空间
+- 应用并清空 redo log
 
 ## 索引的分类
 
@@ -260,27 +548,15 @@ CREATE table t (
 
 ## 索引为什么不选择 Hash 算法？
 
-- hash索引不能快速处理范围查询
-- hash索引没有顺序，对排序数据需要重排
-- hash索引不能 like 模糊查询
-- hash 冲突 影响性能 不稳定
+- hash 索引不能快速处理范围查询
+- hash 索引没有顺序，对排序数据需要重排
+- hash 索引不能 like 模糊查询
+- hash 冲突影响性能, 不稳定
 
 ## B+Tree 对比 B-Tree
 
 - 叶子节点存储了所有节点的数据
 - 叶子节点通过链表的方式连接
-
-## 辅助索引
-
-- TODO
-
-## 聚簇索引
-
-- 聚簇索引是指数据库表中数据的物理顺序和键值的索引顺序相同，数据存储和索引放在一起
-
-## 非聚簇索引
-
-- 将数据存储和索引分开， 索引结构的叶子节点指向了对应的数据
 
 ## 为什么选择/不选择索引？
 
