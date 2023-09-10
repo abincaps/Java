@@ -28,7 +28,7 @@
 - `ResultSet  executeQuery(String  sql)` 执行给定的静态 SQL 语句
 - `int executeUpdate(String  sql)`  执行给定的静态 SQL 语句，`INSERT`, `UPDATE`, `DELETE` 语句或不返回任何内容的 SQL 语句, 返回受影响的行数
 
-## ResultSet
+## ResultSet接口
 
 - 表示数据库结果集的数据
 - `boolean next()` `ResultSet` 游标最初位于第一行之前, 不是在第一行，第n次调用方法 `next` 使第n行成为当前行
@@ -133,5 +133,52 @@ public class JdbcUtils {
     public Connection getConnection() throws SQLException {  
         return DriverManager.getConnection(URL, USER, PASSWORD);  
     }  
+}
+```
+
+
+## 数据库连接池
+
+- 数据库连接池负责分配、管理和释放数据库连接
+
+## Druid
+
+- Druid 是一个 JDBC 组件库
+
+```java
+# druid.properties 文件
+driveClassName=com.mysql.cj.jdbc.Driver  
+url=jdbc:mysql://192.168.80.1:3306/demo  
+username=root  
+password=  
+initialSize=5  
+maxActive=10  
+maxWait=1000
+```
+
+## 封装Druid工具类
+
+```java
+public class JdbcUtils {  
+    private static DataSource ds = null;  
+  
+    // 加载配置  
+    static {  
+  
+        Properties prop = new Properties();  
+        InputStream is = JdbcUtils.class.getClassLoader().getResourceAsStream("druid.properties");  
+  
+        try {  
+            prop.load(is);  
+            ds = DruidDataSourceFactory.createDataSource(prop);  
+        } catch (Exception e) {  
+            throw new RuntimeException(e);  
+        }  
+    } 
+    
+	// 获取 DataSource
+	public static DataSource getDataSource() {  
+	    return ds;  
+	}  
 }
 ```
