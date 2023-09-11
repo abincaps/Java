@@ -49,13 +49,13 @@ public static Comparator<String> getComparator() {
 }
 ```
 
-## Supplier
+## Supplier\<T> 生产者接口
 
-- `Supplier<T>` 生产者接口 `T get()` () -> T 创建对象
+- `T get()` () -> T 创建对象
 
-## Consumer
+## Consumer\<T> 消费者接口
 
-- `Consumer<T>` 消费者接口 `void accept(T t) ` T -> void
+- `void accept(T t) ` T -> void
 - `default Consumer <T> andThen(Consumer <? super T > after)`  按顺序执行此操作，然后是 `after` 操作
 
 ```java
@@ -65,16 +65,16 @@ con2.accept(str);
 con1.andThen(con2).accept(str);
 ```
 
-## Predicate
+## Predicate\<T>
 
-- `Predicate<T>` `boolean test(T t)` 布尔表达式
+- `boolean test(T t)` 布尔表达式
 - `default Predicate<T> negate()` 逻辑否定, 逻辑非
 - `default Predicate<T> and(Predicate<? super T> other)` 逻辑与
 - `default Predicate<T> or(Predicate<? super T> other)` 逻辑或
 
-## Function
+## Function\<T,R>
 
-- `Function<T, R>` `R apply(T t)`  T -> R 类型转换, 加工处理
+- `R apply(T t)`  T -> R 类型转换, 加工处理
 - `default <V> Function<T, V> andThen(Function<? super R, ? extends V> after)` 先将此函数应用于其输入，然后将 `after` 函数应用于结果
 
 ```java
@@ -85,3 +85,9 @@ private static void func(String str, Function<String, Integer> fun1, Function<In
     fun1.andThen(fun2).apply(str);  
 }
 ```
+
+# Comparator\<T> 比较器接口
+
+- `int compare(T  o1, T  o2)`  当第一个参数小于、等于或大于第二个参数时，返回负整数、零或正整数（依次对应返回值）
+- `default Comparator <T > thenComparing(Comparator <? super T > other)` 如果这个 `Comparator` 认为两个元素相等，即 `compare(a, b) == 0` ，则使用 `other` 来确定顺序
+- `default Comparator <T > reversed()` 反向排序, 逆序
