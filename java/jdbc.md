@@ -182,3 +182,19 @@ public class JdbcUtils {
 	}  
 }
 ```
+
+## Druid数据源配置
+
+```java
+try (DruidDataSource dataSource = new DruidDataSource()) {  
+
+    dataSource.setDriverClassName(MYSQL_DRIVER);  
+    dataSource.setUrl(URL);  
+    dataSource.setUsername(USER);  
+    dataSource.setPassword(PASSWORD);  
+    DruidPooledConnection con = dataSource.getConnection(); 
+      
+} catch (SQLException e) {  
+    e.printStackTrace();  
+}
+```
