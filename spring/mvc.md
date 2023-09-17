@@ -10,7 +10,11 @@
 - `<servlet-mapping>` 将 URL 模式映射到 Servlet
 
 ```xml
-<!-- web.xml -->
+<!-- web.xml --> 
+<listener>  
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>  
+</listener>
+
 <context-param>  
     <param-name>contextConfigLocation</param-name>  
     <param-value>classpath:ApplicationContext.xml</param-value>  
@@ -33,8 +37,20 @@
 ```
 
 ```xml
-<!-- SpringWebMVC.xml 开启组件扫描 -->
-<context:component-scan base-package="com.abincaps.controller"/>
+<!-- SpringWebMVC.xml -->
+
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"  
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+       xmlns:context="http://www.springframework.org/schema/context"  
+       xsi:schemaLocation="http://www.springframework.org/schema/beans  
+       http://www.springframework.org/schema/beans/spring-beans.xsd       
+       http://www.springframework.org/schema/context       
+       http://www.springframework.org/schema/context/spring-context.xsd">  
+
+	<!-- 开启组件扫描 -->
+    <context:component-scan base-package="com.abincaps.controller"/>  
+</beans>
 ```
 
 ## @RequestMapping
@@ -543,6 +559,125 @@ public void test(String username, MultipartFile[] uploadFiles) throws IOExceptio
 }
 ```
 
+## 拦截器
 
+- 拦截器必须实现 `org.springframework.web.servlet` 包中的 `HandlerInterceptor`
+- 注册拦截器来应用于传入的请求
+- 映射的拦截器并不适合作为安全层
 
+## 配置拦截器
+
+- `**` 匹配多级目录，包括子目录（子文件夹）
+- `*` 匹配零个或多个字符，不包括子文件夹
+- `/` 根目录
+- `<mvc:interceptors>`：定义拦截器
+- `<mvc:mapping path="/**"/>` 指定拦截器要拦截的 URL 路径
+- `<bean class="com.abincaps.interceptor.MyInterceptor"/>` 配置拦截器的具体实现 (完全限定名)
+
+```xml
+<mvc:interceptors>  
+    <mvc:interceptor>  
+        <mvc:mapping path="/**"/>  
+        <bean class="com.abincaps.interceptor.MyInterceptor"/>  
+    </mvc:interceptor>  
+</mvc:interceptors>
+```
+
+## HandlerInterceptor接口
+
+- 为某些处理程序注册自定义拦截器，拦截处理程序的执行以添加常见的预处理行为，而无需修改每个处理程序实现
+- `boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)` 在实际 handler 运行之前执行, `false` 不放行， `true` 放行
+- `void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable ModelAndView modelAndView)` handler 运行后, 在 DispatcherServlet 呈现视图之前调用
+- `void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex)` 在整个请求处理完成后, 即呈现视图后，仅当此拦截器 `preHandle`方法返回 `true` 时才会调用
+
+```java
+public class MyInterceptor implements HandlerInterceptor { 
+// HandlerInterceptor重写接口的默认方法
+}
+```
+
+## 异常的处理方式
+
+- SimpleMappingExceptionResolver
+- HandlerExceptionResolver
+
+## SimpleMappingExceptionResolver
+
+- `SimpleMappingExceptionResolver`是`HandlerExceptionResolver`的实现, 处理异常类名称和错误视图名称之间的映射, 在浏览器应用程序中渲染错误页面
+- `void setDefaultErrorView(String defaultErrorView)` 指定名称来设置默认错误视图
+- `void setExceptionMappings(Properties mappings)` 设置异常类名和错误视图名之间的映射
+
+```xml
+<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">  
+    <property name="defaultErrorView" value="defaultException.jsp"/>  
+    <property name="exceptionMappings">  
+        <props>            
+	        <prop key="java.lang.ArithmeticException">ArithmeticException.jsp</prop>  
+            <prop key="java.lang.NullPointerException">NullPointerException.jsp</prop>  
+            <prop key="com.abincaps.exception.MyException">MyException.jsp</prop>  
+        </props>    
+    </property>
+</bean>
+```
+
+```java
+@Controller  
+public class MyExceptionController {  
+  
+    @RequestMapping("/test1")  
+    public String test1() {  
+  
+        String str = null;  
+        System.out.println(str.length());  
+  
+        return "success.jsp";  
+    }  
+  
+    @RequestMapping("/test2")  
+    public String test2() {  
+  
+        int num = 10 / 0;  
+        return "success.jsp";  
+    }  
+  
+    @RequestMapping("/test3")  
+    public String test3() throws MyException {  
+        throw new MyException();  
+    }  
+}
+```
+
+## HandlerExceptionResolver
+
+- 如果在请求映射过程中发生异常或从 Controller 抛出异常， `DispatcherServlet` 会委托给`HandlerExceptionResolver` (处理程序异常解析器) 来解析异常并提供替代处理（错误响应）
+- 解决处理程序映射或执行期间引发的异常, 返回错误视图，实现器通常在 application context（应用程序上下文）中注册为 bean
+- 返回 `ModelAndView` 指定错误视图
+- `Exception ex` 处理程序执行期间引发的异常
+
+```java
+package com.abincaps.resolver;
+
+public class MyExceptionResolver implements HandlerExceptionResolver {  
+    @Override  
+    public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {  
+        ModelAndView modelAndView = new ModelAndView();  
+  
+        modelAndView.setViewName("MyExceptionResolver.jsp");  
+  
+        if (ex instanceof NullPointerException) {  
+            modelAndView.addObject("info", "NullPointerException");  
+        } else if (ex instanceof ArithmeticException) {  
+            modelAndView.addObject("info", "ArithmeticException");  
+        } else if (ex instanceof MyException) {  
+            modelAndView.addObject("info", "ArithmeticException");  
+        }  
+        
+        return modelAndView;  
+    }  
+}
+```
+
+```xml
+<bean class="com.abincaps.resolver.MyExceptionResolver"/>
+```
 
