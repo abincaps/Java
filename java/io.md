@@ -1,165 +1,140 @@
-# java IO流
+# java.io
+
+## 换行符
+
+- windows `\r\n`
+- linux `\n`
+- mac `\r`
+
+## printf中的格式字符串
+
+- `%n` 换行
+- `%b` boolean
 
 ## 文件路径分隔符
 
-- Window 分隔符是 \\\\ 反斜杠
-- 类 Unix 分隔符是 / 
-- `File.separator` 系统相关的默认名称分隔符 返回 String
-- `File.separatorChar` 系统相关的默认名称分隔符 返回 char
+- Window `\\` 
+- 类 Unix `/` 
 
 ## 三代IO框架
 
-- 第一代 流式阻塞IO
+- 第一代 流式阻塞 IO
 - 第二代 NIO 是非阻塞的
-- 第三代 NIO AIO asyncIO 异步IO
+- 第三代 NIO AIO asyncIO 异步 IO
 
-## InputStream
+## File类
+
+- 文件和目录路径名的抽象表示
+
+## File类构造方法
+
+- `File(String pathname)` 指定路径名来创建 
+- `File(String parent, String child)` 指定父路径名和子路径名创建
+
+## File类常用字段
+
+- `static final String separator` 系统相关的文件路径分隔符
+- `static final char separatorChar` 系统相关的文件路径分隔符
+
+## File类常用方法
+
+- `boolean mkdir()` 创建单级目录
+- `boolean mkdirs()` 创建多级目录
+- `boolean isDirectory()` 是否是目录
+- `boolean isFile()` 是否是文件
+- `boolean exists()` 文件或目录是否存在
+- `File getAbsoluteFile()` 返回绝对路径
+- `String getPath()` 返回路径名
+- `String getName()` 返回文件或目录的最后一个名称
+
+## InputStream抽象类
 
 - InputStream 抽象类是所有表示字节输入流的类的超类
 
-## FileInputStream
+## InputStream类的常用方法
 
-- FileInputStream 用于读取原始字节流
+- `int read()` 返回从输入流中读取下一个字节的数据, 如果到达流的末尾而没有可用字节，则返回 -1
+- `int read(byte b[])` 从输入流中读取一定数量的字节存储到缓冲区字节数组 `b` 中， 返回实际读取的字节数
 
-## 文件写入
+## FileOutputStream类
+
+- 文件输出流用于写入原始字节流
+
+## FileOutputStream类的构造方法
+
+- `FileOutputStream(String name)` 用来写入指定文件名的文件
+- `FileOutputStream(File file)` 用来写入由指定的`File`对象的文件
+- `FileOutputStream(File file, boolean append)` append 参数如果是 `true` ，则将写入文件末尾而不是开头
+
+## FileInputStream类
+
+- 从文件中读取原始字节流
+
+## BufferedOutputStream类
+
+- 实现缓冲输出流
+
+## BufferedOutputStream类构造方法
+ `
+- `BufferedOutputStream(OutputStream out)` 默认缓冲区大小 8192（8KB）
+- `BufferedOutputStream(OutputStream out, int size)` size 参数指定缓冲区大小
+
+## Writer类
+
+- 写入字符流的抽象类
+
+## Writer类的常用方法
+
+- `void write(String str)` 写一个字符串
+
+## InputStreamReader类
+
+- 字符输入流
+
+## InputStreamReader类的构造方法
+
+- `InputStreamReader(InputStream in, String charsetName)` charsetName 参数指定字符集
+
+## FileReader类
+
+- 简化实例化过程
+- 只有构造方法
+- `class FileReader extends InputStreamReader`
+
+## FileReader类构造方法
+
+- `FileReader(String fileName)` 指定要读取的文件名(路径名)
+
+## BufferedReader类
+
+- 带有缓冲区的字符输入流
+
+## BufferedReader类构造方法
+
+- `BufferedReader(Reader in)` 使用默认输入缓冲区大小 8192（8KB）
+- `BufferedReader(Reader in, int sz)` 使用 sz 参数指定输入缓冲区的大小
+
+## BufferedReader类常用方法
+
+- `String readLine()` 读取一行文本
+
+## BufferedWriter类常用方法
+
+- `void newLine()` 写入与系统相关的行分隔符
+
+## ObjectOutputStream类
+
+- 将对象序列化为字节流
+- 只有实现 java.io.Serializable 接口的对象才能写入流
+- `serialVersionUID` 是序列化机制中的一个标识符，用于确定一个类的版本是否与序列化的实例的版本匹配, 防止类改变导致的问题
+- 成员变量被`transient`修饰不会被序列化
 
 ```java
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
-
-
-public class Test {
-
-    private static final Scanner in = new Scanner(System.in);
-
-    public static void main(String[] args) throws IOException {
-
-        File target_file = createFile();
-
-        writeToFile(target_file);
-
-        System.out.println("finished");
-    }
-    
-    private static void writeToFile(File target_file) throws IOException {
-
-        // try-with-resources
-        // 在try语句中声明所要使用的资源对象
-        // 被声明的资源类必须实现java.lang.AutoCloseable接口
-        // try代码块结束后,会自动关闭这个资源对象,即调用其close()方法
-        // 无需在finally块中手动关闭资源
-        try (
-
-                // FileOutputStream 是用于向文件中写入数据的输出流
-                FileOutputStream fos = new FileOutputStream(target_file);
-                // OutputStreamWriter是一个字符流类 使用指定的字符集将字符写入到字节流
-                OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
-                // PrintWriter类允许方便地打印格式化字符串到文本输出流
-                PrintWriter pw = new PrintWriter(osw);
-
-
-        ) {
-
-            System.out.println("输入的内容会写入文件， 输入空格结束");
-
-            while (true) {
-                // trim 返回一个字符串，其值为该字符串，删除了所有前导和尾随空格
-                String line_to_write = in.nextLine().trim();
-                System.out.println("输入内容：" + line_to_write);
-
-                if (line_to_write.trim().isBlank()) {
-                    System.out.println("输入结束");
-                    break;
-                } else {
-                    pw.println(line_to_write);
-                    pw.flush(); // 刷新缓存
-                }
-            }
-
-        }
-
-    }
-
-    private static File createFile() throws IOException {
-        System.out.println("输入文件名：");
-        String file_name = in.nextLine();
-        File f = new File("." + File.separator + file_name + ".txt");
-        // isFile返回 true 当且仅当此路径名表示的文件存在时 并且是普通文件 否则返回false
-        if (f.isFile()) {
-            // delete删除此路径名表示的文件或目录 返回true当且仅当文件或目录被成功删除, 否则返回false
-            System.out.println("目标文件存在，删除" + f.delete());
-        }
-
-        // 当且仅当具有此名称的文件尚不存在时，以原子方式创建一个以此路径名命名的新空文件
-        // 返回 true 如果指定的文件不存在并且已成功创建， 返回 false 如果命名文件已经存在
-        System.out.println(f.createNewFile());
-
-        return f;
-    }
+class Foo implements Serializable {
+	private static final long serialVersionUID = 1L;
 }
 ```
 
-## 文件读入
+## ObjectOutputStream类常用方法
 
-```java
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
-
-public class Test {
-    public static void main(String[] args) {
-        File source_file = new File("." + File.separator + "我的文件.txt");
-
-        // System.in只能读取标准输入里的byte
-        Scanner in = new Scanner(System.in);
-        classicWay(source_file);
-        lambdaWay(source_file);
-    }
-
-    private static void classicWay(File source_file) {
-        System.out.println("经典处理方式");
-
-        try (
-                // 打开文件输入流
-                FileInputStream fis = new FileInputStream(source_file);
-                // InputStreamReader 将字节流关联到字符集, 让字节数据转换为字符数据的Reader子类
-                InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
-                // BufferedReader是一个将字符输入流包装成缓冲区的Reader子类 提高读取字符效率
-                BufferedReader reader = new BufferedReader(isr);
-        ) {
-
-            String line = null;
-            // readLine 读取一行文本
-            // 一行被认为是由换行符 ('\n')、回车符 ('\r')、紧跟换行符的回车符或到达文件末尾中的任何一个终止的(EOF)
-            // 包含行内容的 String，不包括任何行终止字符，如果在未读取任何字符的情况下已到达流末尾，则为 null
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line.trim().toUpperCase());
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void lambdaWay(File source_file) {
-        try (
-             // 打开文件输入流
-             FileInputStream fis = new FileInputStream(source_file);
-             // InputStreamReader 将字节流关联到字符集, 让字节数据转换为字符数据的Reader子类
-             InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
-             // BufferedReader是一个将字符输入流包装成缓冲区的Reader子类 提高读取字符效率
-             BufferedReader reader = new BufferedReader(isr);
-        ) {
-
-            // lines返回一个 Stream，其元素是从此 BufferedReader 读取的行
-            // Stream提供了map方法用于对 Stream 流中的每个元素应用一定的转换 该函数会将元素映射成一个新的元素
-            // forEach方法用于遍历Stream流中的每个数据元素
-            reader.lines().map(String::trim).map(String::toUpperCase).forEach(System.out::println);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-}
-```
+-  `void writeObject(Object obj)` 序列化 obj 对象
