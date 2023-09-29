@@ -524,3 +524,105 @@ public interface StudentMapper {
     List<Student> selByStuId(int lesson_id);  
 }
 ```
+
+## 数据库配置
+
+- Spring Boot 可以从 URL 中推断出大多数数据库的 JDBC driver 类
+- `spring.datasource.driver-class-name` 指定 JDBC driver 类
+
+```yaml
+spring:  
+  datasource:  
+    url: jdbc:mysql://192.168.80.1:3306/demo  
+    driver-class-name: com.mysql.cj.jdbc.Driver  
+    username: root  
+    password:
+```
+
+```java
+spring.datasource.url=jdbc:mysql://192.168.80.1:3306/demo
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.username=root
+spring.datasource.password=
+```
+
+## @Mapper
+
+- `@Mapper`注解在接口上
+- 根据接口定义自动生成实现类（不需要自己编写实现类），这个接口内的方法不能重载
+- 默认搜寻带有`@Mapper`注解的 mapper 接口
+
+```java
+package org.abincaps.mapper;  
+  
+@Mapper  
+public interface StuMapper {  
+  
+    @Select("select * from student")  
+    List<Student> findAll();  
+}
+```
+
+```java
+@SpringBootTest  
+class ApplicationTests {  
+
+    @Autowired  
+    private StuMapper stuMapper;  
+  
+    @Test  
+    void findAll() {  
+        for (Student student : stuMapper.findAll()) {  
+            System.out.println(student);  
+        }  
+    }  
+}
+```
+
+## @MapperScan
+
+- `@MapperScan`注解对类路径进行扫描来发现映射器
+
+## XML映射
+
+- `mapper-locations` 指定 Mapper 接口的 XML映射文件所在的位置
+- `type-aliases-package` 指定了类型别名的基础包路径, 会自动扫描这个包路径下的类，并注册为类型别名，在 XML 映射文件中引用这些类型时不需要使用完全限定名
+
+```java
+package org.abincaps.mapper;
+
+@Mapper  
+@Repository  
+public interface StuXmlMapper {  
+    List<Student> findAll();  
+}
+```
+
+```yaml
+mybatis:  
+  mapper-locations: classpath:mapper/*Mapper.xml  
+  type-aliases-package: com.abincaps.domain
+```
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="org.abincaps.mapper.StuXmlMapper">  
+    <select id="findAll" resultType="Student">  
+        select * from student  
+    </select>  
+</mapper>
+```
+
+## 常见配置
+
+- `mybatis.configuration.map-underscore-to-camel-case=true` 将结果集中的下划线命名方式自动映射到Java对象的驼峰命名方式
+- `mybatis.type-handlers-package=TypeHandler扫描包名` 搜索类型处理器的包名
+- `mybatis.mapper-locations=classpath:/mapper/**/*.xml` XML 映射文件的路径
+
+## @Options
+
+- `useGeneratedKeys` 是否使用自增主键
+- `keyProperty` 自增主键对应的属性
+- `@MapperScan`  对类路径进行扫描
