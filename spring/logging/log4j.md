@@ -1,0 +1,19 @@
+
+# log4j
+
+## log4j配置文件
+
+
+```java
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender  
+log4j.appender.stdout.Target=System.out  
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout  
+log4j.appender.stdout.layout.ConversionPattern=%d{ABSOLUTE} %5p %c{1}:%L -%m%n  
+
+log4j.appender.file=org.apache.log4j.FileAppender  
+log4j.appender.file.File=c:/mylog.log  
+lg4j.appender.file.layout=org.apache.log4j.PatternLayout  
+lg4j.appender.file.layout.ConversionPattern=%d{ABSOLUTE} %5p %c{1}:%L -%m%n  
+  
+log4j.rootLogger=debug, stdout
+```

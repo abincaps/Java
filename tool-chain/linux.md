@@ -11,3 +11,5 @@
 - `systemctl status mysqld` 查看mysql状态
 - `systemctl restart mysql` 重启mysql服务
 - `systemctl restart mysql` 停止mysql服务
+
+- `getconf PAGE_SIZE` 查看页大小
