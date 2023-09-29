@@ -84,31 +84,6 @@ for (String key : h.keySet()) {
 // 必须保证hashCode 和 equals 方法都重写(覆盖)
 ```
 
-
-## Iterator 和 Iterable接口
-
-```java
-TODO
-```
-
-## Collection\<E>接口
-
-* `stream` 方法返回以此集合为源的顺序 `Stream`
-
-## Stream\<T>接口
-
-* `Stream map(Function<? super T, ? extends R> mapper)` 返回一个流，由给定函数应用于此流的元素的结果所组成，说人话就是，将每个元素进行对应规则的映射(转换）
-
-```java
-list.stream().map(o -> o.getId().toString())
-```
-
-* `collect`  使用收集器对该数据流的元素执行可变还原操作
-
-## Function\<T,R>接口
-
-
-
 ## String
 
 ```java
@@ -122,7 +97,6 @@ for (int i = 0; i < str.length(); i++) {
 
 
 // 使用 toCharArray 返回一个新分配的字符数组，其内容为该字符串
-
 String str = "abincaps";
 char[] c_str = str.toCharArray();
 
@@ -197,11 +171,6 @@ System.out.println(Objects.isNull(a));; // false
 System.out.println(Objects.nonNull(a)); // true
 ```
 
-## tip2
-
-```java
-```
-
 ## tip3
 
 ```java
@@ -245,28 +214,6 @@ b.add("123");
 b.add("abc");
 b.add("efg");
 System.out.println(b); // [123,abc,efg]
-```
-
-## tip5
-
-```java
-//  Math类在java.lang下 无需导包
-// 绝对值 对多个数值类型重载
-System.out.println(Math.abs(-1)); // 1
-// 向上取整 只有double
-System.out.println(Math.ceil(1.2)); // 2.0
-// 向下取整 只有double
-System.out.println(Math.floor(1.2)); // 1.0
-// 四舍五入 有float和double两个版本
-System.out.println(Math.round(1.4)); // 1
-System.out.println(Math.round(1.5F)); // 2
-
-System.out.println(Math.max(1, 2)); // 2
-System.out.println(Math.min(1, 2)); // 1
-
-System.out.println(Math.pow(2, 8)); // 256.0
-// 随机数 返回带正号的 double 值，大于或等于 0.0 且小于 1.0
-System.out.println(Math.random());
 ```
 
 ## tip6
@@ -634,10 +581,15 @@ String[] str = {"Ab", "bA", "caps", "abin"};
 Arrays.sort(str, String::compareToIgnoreCase);
 System.out.println(Arrays.toString(str)); // [Ab, abin, bA, caps]
 
-
 TODO
 构造器引用
 ```
 
-## Time.unit
+## Properties
 
+- `Properties` 类表示一组持久属性，可以保存到流中或从流中加载，属性列表中的每个键及其对应的值都是一个字符串
+- `Object setProperty(String  key, String value)` 调用 `Hashtable` 的 `put` 方法，强制使用字符串作为属性键和值，返回指定键的先前值，如果没有则为`null`
+- `Set <String > stringPropertyNames()` 返回一组不可修改的键，其中键及其对应的值是字符串
+- `String getProperty(String  key)` 搜索具有指定键的属性, 如果未找到该属性，该方法将返回 `null`
+- `void store(Writer  writer, String  comments)` 属性列表（键值对）写入输出字符流， `comments` 可以作为识别注释写入第一行， 写入第二行 `#` 当前日期和时间，写入每行一个 键字符串 `=` 值字符串
+- `void load(Reader reader)` 以行的格式从输入字符流中读取属性列表（键值对），注释行（`'#'` 或 `'!'` 作为其第一个非空白字符）会被忽略 
