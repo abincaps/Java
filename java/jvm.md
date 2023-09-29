@@ -8,13 +8,13 @@
 
 - 字节码文件加载进 类加载子系统
 - 运行时数据区（Runtime Data Areas）包含 方法区（Method Area），堆区（Heap Area），栈区（Stack Area），PC寄存器（Register）， 本地方法栈（Native Method Area）
-- 执行引擎 （Execution Engine）包含 解释器（interpreter）， JIT编译器，垃圾回收器
+- 执行引擎 （Execution Engine）包含 解释器（interpreter），JIT编译器，垃圾回收器
 - Java 本地接口 JNI (Native Method Interface)
-- 本地方法库 （Native Method Libray）
+- 本地方法库（Native Method Libray）
 
 ## 类加载器
 
-- JVM的类加载是通过 ClassLoader 及其子类来完成的
+- JVM 的类加载是通过 ClassLoader 及其子类来完成的
 - 启动类加载器（Bootstrap ClassLoader）加载 `JAVA_HOME\lib` 目录下或通过 `-Xbootclasspath` 参数指定路径中的被虚拟机认可的类库
 - 扩展类加载器 (Extension ClassLoader) 加载 `JAVA_HOME\lib\ext` 目录下或通过 `java.ext.dirs` 系统变量指定路径中的类库
 - 应用程序类加载器 （Application ClassLoader）加载用户路径 `classpath` 上的类库
@@ -203,7 +203,6 @@ public class TestMyClassLoader {
 - 取消新生代和老年代的物理划分，没有连续的区域
 - 将堆划分成若干个区域， 这些区域包含了逻辑上的新生代和老年代
 
-
 ## 栈帧
 
 - 栈帧（Stack Frame） 是用于支持虚拟机进行方法执行的数据结构
@@ -310,8 +309,8 @@ public class TestMyClassLoader {
 
 |          | 直接内存 | 堆内存 |
 | -------- | -------- | ------ |
-| 读写操作 | 性能好   | 性能差 |
-| 分配空间 | 性能差   | 性能好 |
+| 读写操作性能 | 好   | 差 |
+| 分配空间性能 | 差   | 好 |
 
 ## 数据流的角度
 

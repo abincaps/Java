@@ -21,7 +21,7 @@
 - 每个类都有一个 Class 对象
 - 通过 Class 对象可以获取对应类的构造方法，方法，成员变量
 
-## 获取Class对象
+## 获取 Class 对象
 
 - Class.forName(“类的全限定名”)
 - 类名.class

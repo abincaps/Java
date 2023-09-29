@@ -56,7 +56,7 @@
 ## @RequestMapping
 
 - `@RequestMapping` 注解将请求映射到 controller 方法
-- 可以通过URL、HTTP方法、请求参数、header和媒体类型（meida type）进行匹配
+- 可以通过URL、HTTP方法、请求参数、header、媒体类型（meida type）进行匹配
 - `@RequestMapping` 使用在类上表示共享映射，使用在方法上来缩小到特定的端点映射
 - `value` 指定请求的URL地址(映射路径)
 - `method` 指定映射到的 HTTP 请求方法 （GET、POST）
@@ -83,6 +83,46 @@ public class UserController {
 @ResponseBody  
 public String test() {  
     return "中文";  
+}
+```
+
+## @RequestMapping的变体
+
+- `@GetMapping` 相当于 `@RequestMapping(method = RequestMethod.GET)`
+- `@PostMapping` 相当于 `@RequestMapping(method = RequestMethod.POST)`
+- `@PutMapping` 相当于 `@RequestMapping(method = RequestMethod.PUT)`
+- `@DeleteMapping` 相当于 `@RequestMapping(method = RequestMethod.DELETE)`
+- `@PatchMapping` 相当于 `@RequestMapping(method = RequestMethod.PATCH)`
+- 使用 PUT 和 DELETE 需要开启隐藏方法过滤器 `spring.mvc.hiddenmethod.filter.enabled=true` ，允许在表单或请求参数中添加一个 `_method` 的隐藏字段，用来指定 HTTP 方法
+
+```java
+@RestController  
+public class TestController {  
+  
+    @RequestMapping("request")  
+    public String request() {  
+        return "request success";  
+    }  
+  
+    @GetMapping("get")  
+    public String get() {  
+        return "get success";  
+    }  
+  
+    @PostMapping("post")  
+    public String post() {  
+        return "post success";  
+    }  
+  
+    @PutMapping("put")  
+    public String put() {  
+        return "put success";  
+    }  
+  
+    @DeleteMapping("delete")  
+    public String delete() {  
+        return "delete success";  
+    }  
 }
 ```
 
@@ -394,6 +434,7 @@ public void test(@RequestParam(value = "uname", required = false, defaultValue =
 ## @PathVariable
 
 - `value` 将请求的 URI 模板变量绑定到控制器方法的参数上, URI 模板变量是 URI中 的占位符，用花括号 `{}` 括起来
+- 如果不指定 `value` 属性，会将方法参数名和 URI 模板中的变量名称进行匹配，来确定要绑定的变量
 
 ```java
 // /myweb/test/abincaps  
@@ -431,6 +472,15 @@ public void test(@RequestHeader("Host") String host, @RequestHeader("Referer")St
 @ResponseBody  
 public void test(@CookieValue("JSESSIONID") String jsession_id) {  
     System.out.println(jsession_id);  
+}
+```
+
+## Restful
+
+```java
+@RequestMapping("restful/{username}/{password}")  
+public String restFul(@PathVariable String username, @PathVariable String password) {  
+    return "username=" + username + ", password=" + password;  
 }
 ```
 
@@ -680,4 +730,9 @@ public class MyExceptionResolver implements HandlerExceptionResolver {
 ```xml
 <bean class="com.abincaps.resolver.MyExceptionResolver"/>
 ```
+
+## @RestController
+
+- `@RestController`注解是由`@Controller`和`@ResponseBody`组成
+- 直接写入响应体，而不是用 HTML 模板进行视图解析和渲染
 

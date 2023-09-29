@@ -22,7 +22,7 @@
 - `Scanner(InputStream source)` 生成从指定输入流扫描的值 Scanner sc = new Scanner(System.in);
 - `void close()` 关闭此扫描器
 - `String next()` 读取输入的字符串，直到遇到空白符(空格，回车，换行)结束
-- `String nextLine()` 方法 读取输入的一行字符串，包括空格
+- `String nextLine()` 读取输入的一行字符串，包括空格
 - `int nextInt()` 返回从输入扫描的 int
 
 ## Arrays类

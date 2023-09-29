@@ -88,11 +88,11 @@ public class MyFactory {
 
 ## 依赖注入
 
-- `<property/>` 标签中 `name` 元素指的是 Bean 的属性名（字段名，成员变量），`ref` 元素指的是属性所依赖的另一个 Bean 的名称
-- `ref` 注入的是引用类型
-- `value` 注入的是基本类型
-- `id` 和 `ref` 元素之间的联系表达了协作对象之间的依赖关系
-- `<constructor-arg/>` 标签中 `name` 元素指定构造器参数名， `ref` 元素指的是参数名对应要注入的依赖
+- `<property/>` 标签元素中的 `name` 元素指的是 Bean 的属性名（字段名，成员变量）
+- `value` 将属性或构造方法参数指定为字符串，Spring 的转换服务将字符串转换成属性或参数的实际类型
+- `ref` 一个 bean 的指定属性的值设置为被容器所管理的另一个 bean（协作者）的引用 
+- `id` 和 `ref` 元素之间的联系表达了依赖关系， `ref=` 另一个 bean 的 id (属性所依赖的另一个 Bean 的名称)
+- `<constructor-arg/>` 标签中 `name` 元素指定构造器参数名
 - `index` 属性指定构造函数参数的索引（下标），第几个参数，从 0 开始
 
 ## 基于Setter的依赖注入
@@ -273,9 +273,7 @@ MYSQL_PASSWORD=
 
 - `@Component` 是一个通用的，适用于任何 Spring 管理的组件
 - `@Repository`  DAO层（持久层），`@Service` Service层（服务层），`@Controller`（表现层） 是 `@Component` 的特殊化
-- `@Autowired` 应用于构造方法或 setter 方法，依赖注入
-- `@Qualifier` 将限定符的值与特定的参数联系起来，缩小类型匹配的范围，提供细粒度的控制，和`@Autowired`一起使用，用于存在多个相同类型的 Bean 时，指定要注入的具体 Bean
-- `@Resource` 在字段或Bean属性设置（setter）方法且方法只有一个参数进行注入，需要一个 `name` 属性，默认情况下，该值解释为要注入的 Bean 名称
+- `@Resource` 在字段或 setter 方法且方法只有一个参数进行注入，需要一个 `name` 属性，默认情况下，该值解释为要注入的 Bean 名称
 - `@Value` 注入外部化 properties
 - `@Scope` 作用范围
 
@@ -286,6 +284,8 @@ MYSQL_PASSWORD=
 - 在使用 `<context:component-scan>` 时，通常不需要包括 `<context:annotation-config>` 元素
 
 ## @Component
+
+- `value` 指定组件的名称
 
 ```java
 package com.abincaps.dao;
@@ -300,6 +300,15 @@ public class Dao {
 ```
 
 ## @Autowired和@Qualifier
+
+- `@Autowired` 注解自动装配依赖注入
+- `@Autowired` 注解应用于
+	- 构造方法
+	- setter 方法
+	- 任意名称和多个参数的方法
+	- 字段
+	
+- `@Qualifier` 将限定符的值与特定的参数联系起来，缩小类型匹配的范围，提供细粒度的控制，和`@Autowired`一起使用，用于存在多个相同类型的 Bean 时，指定要注入的具体 Bean
 
 ```java
 package com.abincaps.service;
@@ -394,7 +403,7 @@ public class MyDruidDataSource {
 
 ## @Bean
 
-- `@Bean` 注解表示一个方法实例化、配置和初始化了一个新的对象，由Spring IoC容器管理
+- `@Bean` 注解表示一个方法实例化、配置和初始化了一个新的对象，由 Spring IoC 容器管理
 
 ## @ComponentScan
 
@@ -463,6 +472,41 @@ DataSource dataSource = (DataSource) app.getBean("dataSource");
 Connection con = dataSource.getConnection();  
 con.close();
 ```
+
+## 命名空间
+
+- TODO
+
+## Environment接口
+
+- 对 配置文件（profiles） 和 属性（properties）进行建模（抽象）
+- 用于配置属性源并解析属性
+- `interface Environment extends PropertyResolver`
+
+## PropertyResolverJ接口
+
+- 属性解析器
+
+## PropertyResolver接口常用方法
+
+- `String getProperty(String key)` 返回和指定键关联的属性值，如果无法解析键返回 `null` 
+
+```java
+@SpringBootTest  
+class ApplicationTests {  
+  
+    @Autowired  
+    private Environment env;  
+  
+    @Test  
+    void contextLoads() {  
+  
+        System.out.println(env.getProperty("name"));  
+        System.out.println(env.getProperty("person.name"));  
+    }  
+}
+```
+
 
 ## IOC 流程
 

@@ -57,8 +57,17 @@ Connection: keep-alive
 - Bit 比特流
 - Frame 帧 
 - Packet 包
-- 
 
+## HTTP 请求方法
+
+- GET：获取资源
+- POST：提交数据并创建资源
+- HEAD：类似于GET，但只返回响应头，不返回响应体
+- OPTIONS：获取有关资源支持的HTTP方法信息
+- PUT：更新或创建资源
+- PATCH：部分更新资源
+- DELETE：删除资源
+- TRACE：追踪请求的传输路径
 
 
 

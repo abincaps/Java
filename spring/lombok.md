@@ -1,8 +1,24 @@
----
-description: 提升开发效率
----
 
 # Lombok
+
+## 官方api
+
+- https://projectlombok.org/api/
+
+## Lombok简介
+
+- 提升开发效率
+
+## @Data
+
+- 为所有字段生成 getter 方法
+- 为所有非 final 字段生成 setter 方法
+- 生成 toString 实现
+- 生成 equals 实现
+- 生成 hashCode 实现
+- 生成一个构造方法
+- 相当于 @Getter、@Setter、@ToString、@EqualsAndHashCode 和 @RequiredArgsConstructor 注解
+
 
 ## 常见注解
 

@@ -387,7 +387,7 @@ CREATE TABLE t (
 ```
 
 - `SET GLOBAL innodb_default_row_format=DYNAMIC;` 修改全局行的默认格式
-- `SHOW TABLE STATUS LIKE '表名';` 查看指定表的行格式
+- `SHOW TABLE STATUS LIKE '表名'` 查看指定表的行格式
 
 ## 脏页
 
@@ -441,9 +441,9 @@ CREATE TABLE t (
 - 缓冲池不够用时，根据LRU算法会溢出最近最少使用的页，如果此页为脏页，需要执行 Checkpoint，将脏页刷新回磁盘
 - redo日志不可用时，刷新脏页，日志文件可以循环使用，不会无限增长
 - InnoDB通过LSN（Log Sequence Number）来标记日志刷新的版本
-- LSN 是8字节的数字
+- LSN 是 8 字节的数字
 
-## Checkpoint分类
+## Checkpoint 分类
 
 - sharp checkpoint：在关闭数据库的时候，将 buffer pool 中的脏页全部刷新到磁盘中
 - fuzzy checkpoint：数据库正常运行时，在不同的时机，将部分脏页写入磁盘，仅刷新部分脏页到磁盘，避免一次刷新全部的脏页造成的性能问题
@@ -454,7 +454,6 @@ CREATE TABLE t (
 - FLUSH_LRU_LIST Checkpoint：缓冲池不够用时，根据LRU算法会淘汰最近最少使用的页（淘汰非热点数据），如果该页是脏页，执行 CheckPoint, 将该脏页刷新回磁盘
 - Async/Sync Flush Checkpoint：一般不会发生，redo log 不可用时，强制脏页落盘
 - Dirty Page too much：脏页数量太多，强制进行 Checkpoint，由参数 innodb_max_dirty_pages_pt 来控制，默认75（%）
-
 
 ## 写失效
 
@@ -467,7 +466,7 @@ CREATE TABLE t (
 - redo log 不能解决写失效问题，redo log 记录的是对页的修改记录，而不是数据本身
 - 在 redo log 前，对需要写入的页的做个副本，当写失效发生时，通过页的副本来还原该页再重做
 
-## Double write脏页刷新流程
+## Double write 脏页刷新流程
 
 - 复制，脏页刷新时不直接写磁盘，而是先将脏页复制到内存的 Doublewrite  buffer
 - 顺序写, 内存的 Doublewrite buffer 分两次，每次 1MB 顺序写入共享表空间的物理磁盘上，立即调用 fsync 函数同步 OS缓存 到磁盘中
