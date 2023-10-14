@@ -46,7 +46,13 @@ password =
 </configuration>
 ```
 
-## 映射器
+## XML映射器
+
+- `parameterType` 是可选属性, MyBatis 可以根据语句中实际传入的参数计算出应该使用的 TypeHandler（类型处理器）
+- `resultType` 指定返回结果的类全限定名或别名注意，如果返回的是集合，那应该设置为集合包含的类型，而不是集合本身的类
+- `resultType`和`resultMap`之间只能同时使用一个
+- `useGeneratedKeys` 仅适用于 insert 和 update , 取出数据库支持自动生成主键的字段, 默认值：false
+- `keyProperty` 仅适用于 insert 和 update 指定能够唯一识别对象的属性, 使用`getGeneratedKeys`的返回值, 如果生成列不止一个，用逗号分隔多个属性名
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>  
@@ -70,6 +76,12 @@ password =
 	</delete>
   
 </mapper>
+```
+
+```xml
+<insert id="insert" useGeneratedKeys="true" keyProperty="id">  
+  ...
+</insert>
 ```
 
 ## SqlSession接口
@@ -280,6 +292,14 @@ public void selByUsernames() {
 }
 ```
 
+```xml
+<select id="getSetmealIdByDishIds" resultType="java.lang.Long">  
+    select setmeal_id from setmeal_dish where dish_id in  
+    <foreach collection="dishIds" item="dishId" separator="," open="(" close=")">  
+        #{dishId}  
+    </foreach>  
+</select>
+```
 ## resultMap
 
 - 处理多表的结果映射
@@ -427,7 +447,7 @@ public interface UserMapper {
     User selByUsername(String username);  
   
     @Insert("insert into user (username, password, status) values (#{username}, #{password}, #{status})")  
-    int add(User user                                                                                                                               );  
+    int add(User user);  
   
     @Update("update user set password=#{password}, status=#{status} where username=#{username}")  
     int update(User user);  
@@ -585,7 +605,7 @@ class ApplicationTests {
 
 ## XML映射
 
-- `mapper-locations` 指定 Mapper 接口的 XML映射文件所在的位置
+- `mapper-locations` 指定 Mapper 接口的 XML映射文件所在路径
 - `type-aliases-package` 指定了类型别名的基础包路径, 会自动扫描这个包路径下的类，并注册为类型别名，在 XML 映射文件中引用这些类型时不需要使用完全限定名
 
 ```java
@@ -617,9 +637,8 @@ mybatis:
 
 ## 常见配置
 
-- `mybatis.configuration.map-underscore-to-camel-case=true` 将结果集中的下划线命名方式自动映射到Java对象的驼峰命名方式
+- `mybatis.configuration.map-underscore-to-camel-case=true` 下划线命名方式自动映射到驼峰命名方式
 - `mybatis.type-handlers-package=TypeHandler扫描包名` 搜索类型处理器的包名
-- `mybatis.mapper-locations=classpath:/mapper/**/*.xml` XML 映射文件的路径
 
 ## @Options
 

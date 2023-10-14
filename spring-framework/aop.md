@@ -42,10 +42,12 @@
 
 ## AspectJ的Pointcut(切点)指定器
 
-- `execution` 匹配方法执行的连接点, 确定在哪些 method（方法）上应用 Aspect（切面）的 advice (通知)
+- `execution`
+- `@annotation`
 
 ## execution
 
+- 匹配方法执行的连接点, 确定在哪些 method（方法）上应用 Aspect（切面）的 advice (通知)
 - execution(modifiers-pattern? ret-type-pattern declaring-type-pattern? name-pattern(param-pattern) throws-pattern?)
 - execution(权限修饰符（可选） 返回值类型  类的全限定名（可选） 方法名  方法参数  抛出的异常类型（可选）)
 - 除了返回值类型，方法名，方法参数之外的所有部分都是可选的
@@ -55,6 +57,15 @@
 - `(..)` 匹配任何数量的参数
 - `.` 匹配单个层级，当前包下
 - `..` 匹配多个层级，当前包以及子包下
+
+## @annotation
+
+- `@annotation`将匹配限制在正在运行的方法上具有指定的注解
+
+```java
+@Pointcut("execution(* com.abincaps.mapper.*.*(..)) && @annotation(com.abincaps.annotation.AutoFill)")  
+public void autoFillPointCut() {}
+```
 
 ## Before Advice（前置通知）
 
@@ -256,14 +267,25 @@ public class MyAspect {
 
 ## JoinPoint接口
 
-- `JoinPoint` 被拦截的方法，提供对连接点可用状态及其静态信息的反射访问
+- 提供对连接点可用状态及其静态信息的反射访问
 - 任何 advice method 都可以声明一个 `org.aspectj.lang.JoinPoint` 类型的参数作为其第一个参数
 - `interface ProceedingJoinPoint extends JoinPoint`
-- `Object[] getArgs()` 返回方法的参数
+
+## JoinPoint接口常用方法
+
+- `Object[] getArgs()` 返回连接点处的参数
+- `Signature getSignature()` 返回连接点处的签名
+
+
+## MethodSignature接口常用方法
+
+- `Method getMethod()` 获取方法
 
 ## Exceptions(异常)
 
 - `@Controller` 和 `@ControllerAdvice` 类可以有 `@ExceptionHandler` 方法来处理来自 controller 方法的异常
 - `@ExceptionHandler` 方法，每个方法通过其签名匹配一个特定的异常类型
-- `@ControllerAdvice` 和 `@ResponseBody` 进行了元标注，这意味着 `@ExceptionHandler` 方法的返回值将通过响应体 message 转换呈现
+- `@ControllerAdvice` 和 `@ResponseBody` 进行了元标注，这意味着
+
+
 

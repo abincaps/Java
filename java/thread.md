@@ -1,8 +1,7 @@
-# 多线程
 
-## 线程的状态
+# Thread
 
-- 在 java.lang 包下, Thread.State是一个描述线程状态的枚举类
+- 在 java.lang 包下
 
 ## 守护线程
 
@@ -437,8 +436,6 @@ void set(T  value) 将此线程局部变量的当前线程副本设置为指定�
 ## 指令重排
 
 ```java
-
-
 可见性问题 
 多个线程之间无法及时看到对方的操作
 主要原因是线程间的缓存一致性问题, 导致数据没有及时刷新到主内存
@@ -614,3 +611,28 @@ future.get();
 // 如果已经关闭，则调用没有额外效果
 exe.shutdown();
 ```
+
+
+## Thread类常用方法
+
+- `static native Thread currentThread()` 返回当前正在执行的线程对象的引用
+- `long getId()` 返回该线程的标识符，线程 ID 是唯一的，在其生命周期内保持不变，当一个线程终止时，这个线程 ID 可以被重用
+
+## Thread.State枚举类
+
+- `Thread.State` 是一个描述线程状态的枚举类
+- NEW 尚未启动的线程
+- RUNNABLE 执行的线程
+- BLOCKED 阻塞等待监视器锁的线程
+- WAITING 无限期等待另一个线程执行的线程
+- TIMED_WAITING 等待另一个线程达到指定等待时间的线程
+- TERMINATED 已退出的线程
+
+## ThreadLocal\<T>类
+
+- 提供线程局部变量, 独立初始化的变量副本, 每个线程都可以访问自己的线程本地变量，而不会影响其他线程的访问, 隔离数据
+
+## ThreadLocal\<T>类常用方法
+
+- `void set(T value)` 将此线程局部变量设置为指定值
+- `T get()` 返回此线程局部变量的值

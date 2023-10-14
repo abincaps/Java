@@ -275,8 +275,9 @@ public String test(HttpServletRequest request, Model model) {
 }
 ```
 
-## XML配置启用注解驱动的Spring MVC功能
+## 启用 MVC 配置
 
+- XML配置启用注解驱动的Spring MVC功能
 - `<mvc:annotation-driven/>` 注册了一些 Spring MVC 基础设施 Bean，并适应 classpath 上可用的依赖关系（例如，JSON、XML 的 payload converter）
 
 ```xml
@@ -296,6 +297,15 @@ public String test(HttpServletRequest request, Model model) {
     <context:component-scan base-package="com.abincaps.controller"/>  
     <mvc:annotation-driven/>  
 </beans>
+```
+
+- `@EnableWebMvc` 注解来启用MVC配置
+
+```java
+@Configuration
+@EnableWebMvc
+public class WebConfig { 
+}
 ```
 
 ## jackson中的Json转换
@@ -400,7 +410,8 @@ public void test(ValueObject vo) {
 ## @RequestBody
 
 - `@RequestBody` 注解来让请求 body 通过 HttpMessageConverter 读取并反序列化为一个 Object
-- 指定方法参数应该绑定到 HTTP 请求的主体
+- 方法参数和请求的 body （主体）部分绑定， 也就是指定方法参数应该绑定到 HTTP 请求的主体部分
+- 自动将请求主体的内容，通常是 JSON 或 XML 格式，反序列化为指定参数类型的 Java 对象
 
 ```java
 // User类需要写无参构造方法
@@ -538,11 +549,11 @@ public class DateConverter implements Converter<String, Date> {
 <mvc:annotation-driven conversion-service="dateConverter"/>
 ```
 
-## Multipart接口
+## MultipartFile接口
 
 - 处理文件上传
 - `String getOriginalFilename()` 返回客户端文件系统中的原始文件名
-- `void transferTo(File var1)` 将接收到的文件传输到指定的目标文件
+- `void transferTo(File dest)` 将接收到的文件传输到指定的目标文件
 
 ```xml
 <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->  
@@ -611,9 +622,8 @@ public void test(String username, MultipartFile[] uploadFiles) throws IOExceptio
 
 ## 拦截器
 
-- 拦截器必须实现 `org.springframework.web.servlet` 包中的 `HandlerInterceptor`
+- 拦截器需要实现 `org.springframework.web.servlet.HandlerInterceptor`
 - 注册拦截器来应用于传入的请求
-- 映射的拦截器并不适合作为安全层
 
 ## 配置拦截器
 
@@ -636,13 +646,38 @@ public void test(String username, MultipartFile[] uploadFiles) throws IOExceptio
 ## HandlerInterceptor接口
 
 - 为某些处理程序注册自定义拦截器，拦截处理程序的执行以添加常见的预处理行为，而无需修改每个处理程序实现
-- `boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)` 在实际 handler 运行之前执行, `false` 不放行， `true` 放行
+- `boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)` 在实际 handler 运行之前执行, `false` 不放行，`true` 放行
 - `void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable ModelAndView modelAndView)` handler 运行后, 在 DispatcherServlet 呈现视图之前调用
 - `void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex)` 在整个请求处理完成后, 即呈现视图后，仅当此拦截器 `preHandle`方法返回 `true` 时才会调用
 
 ```java
 public class MyInterceptor implements HandlerInterceptor { 
 // HandlerInterceptor重写接口的默认方法
+}
+```
+
+## Class InterceptorRegistry
+
+- Helps with configuring a list of mapped interceptors.
+- `InterceptorRegistration addInterceptor(HandlerInterceptor interceptor)` Adds the provided HandlerInterceptor.
+
+## Class InterceptorRegistration
+
+- `InterceptorRegistration excludePathPatterns(String... patterns)` Add patterns for URLs the interceptor should be excluded from.
+- 
+
+## 注册拦截器
+
+```java
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+	@Autowired  
+	private JwtTokenInterceptor jwtTokenInterceptor;
+
+	@Override 
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(jwtTokenInterceptor).addPathPatterns("/**").excludePathPatterns("/admin/**"); 
+	}
 }
 ```
 
@@ -735,4 +770,38 @@ public class MyExceptionResolver implements HandlerExceptionResolver {
 
 - `@RestController`注解是由`@Controller`和`@ResponseBody`组成
 - 直接写入响应体，而不是用 HTML 模板进行视图解析和渲染
+
+## ResourceHandlerRegistry类
+
+- 注册资源处理程序用来提供静态资源
+
+## ResourceHandlerRegistry类常用方法
+
+- `ResourceHandlerRegistration addResourceHandler(String... pathPatterns)` 根据指定的 URL 路径模式提供静态资源
+
+## ResourceHandlerRegistration类
+
+- 封装创建资源处理程序所需的信息
+
+## ResourceHandlerRegistration类常用方法
+
+- `ResourceHandlerRegistration addResourceLocations(String... locations)` 添加资源位置以提供静态内容, 每个位置必须指向一个有效的目录, 可以将多个位置指定为逗号分隔的列表，并且将按照指定的顺序检查这些位置中是否有给定的资源
+
+## @RestControllerAdvice
+
+- `@RestControllerAdvice`是`@ControllerAdvice`和`@ResponseBody`的组合注解，被`@ExceptionHandler`注解的方法的返回值将序列化为响应体
+
+
+## Message 转换器
+
+- 重写 `extendMessageConverters`
+
+
+
+
+
+
+
+
+
 

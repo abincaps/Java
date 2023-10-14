@@ -71,7 +71,7 @@ public class MySpringBoot {
 
 ## 外部化的配置
 
-- `@ConfigurationProperties` 注解于类或方法上，和外部属性（在配置文件中）进行绑定
+- `@ConfigurationProperties` 注解于类或方法上，和外部属性（在配置文件中）进行绑定，配置属性类
 - 通过`@Value`注解直接注入 Bean
 - 通过 Spring 的 `Environment` 访问
 - 双引号会识别转义字符，单引号不会

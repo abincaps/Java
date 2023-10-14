@@ -33,12 +33,11 @@
 | `@Data`                       |                        |
 | `@Builder`                    | 生成一个builder方法来构造       |
 
-## builder和build
 
-```java
-Coffee coffee = Coffee.builder().name("abincaps").price(20).build();
-// 最后使用build来返回Coffee对象    
-```
+## @Builder
+
+- `build()` 返回原始类型的完整实例
+- `Foo foo = Foo.builder().name("abincaps").age(10).build();`
 
 ## @Slf4j
 
