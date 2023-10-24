@@ -194,7 +194,7 @@ public void test(HttpServletResponse response) throws IOException {
 
 ## @ResponseBody
 
-- 在一个方法上使用 `@ResponseBody` 注解，通过 `HttpMessageConverter` 将返回值序列化为响应体（指定方法的返回值绑定到 Web 响应体中）
+- `@ResponseBody` 注解在一个方法上，通过 `HttpMessageConverter` 将返回值序列化为响应体（指定方法的返回值绑定到 Web 响应体中）
 - 指定该方法的返回值应该作为 HTTP 响应的主体内容发送给客户端
 
 ```java
@@ -427,6 +427,7 @@ public void test(@RequestBody List<User> userList) {
 ## @RequestParam
 
 - `@RequestParam` 注解将 Servlet 请求参数绑定到 controller 中的方法参数
+- 如果目标方法参数类型不是`String`，类型转换将自动应用
 - 如果不用 `@RequestParam`，请求参数名需要和方法参数名对应一致
 - `value` 请求参数名
 - `required` 指定请求参数是否为必需，`false` 请求参数里没有该参数也不会发生错误请求(HTTP状态 400), 默认为 `true`， 绑定的方法参数需要是引用类型，否则不能表示 null, 除非指定 `defaultValue`

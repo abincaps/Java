@@ -1,5 +1,5 @@
 
-## Java.lang
+# java.lang
 
 - Object 类是类层次结构的根
 - Class 类的实例代表运行时的类

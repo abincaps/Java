@@ -52,7 +52,7 @@ password =
 - `resultType` 指定返回结果的类全限定名或别名注意，如果返回的是集合，那应该设置为集合包含的类型，而不是集合本身的类
 - `resultType`和`resultMap`之间只能同时使用一个
 - `useGeneratedKeys` 仅适用于 insert 和 update , 取出数据库支持自动生成主键的字段, 默认值：false
-- `keyProperty` 仅适用于 insert 和 update 指定能够唯一识别对象的属性, 使用`getGeneratedKeys`的返回值, 如果生成列不止一个，用逗号分隔多个属性名
+- `keyProperty` 指定用于自动生成键的 Java Bean 属性，仅适用于 insert 和 update 指定能够唯一识别对象的属性, 使用`getGeneratedKeys`的返回值, 如果生成列不止一个，用逗号分隔多个属性名
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>  

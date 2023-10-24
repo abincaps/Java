@@ -5,7 +5,6 @@
 
 - SQL（Structured Query Language）结构化查询语言
 - 所有关系型数据库的统一查询规范
-- 不区分大小写
 
 ## SQL分类
 
@@ -14,44 +13,166 @@
 - 数据查询语言 DQL （Data Query Language）
 - 数据控制语言 DCL （Data Control Language）
 
+## 连接数据库
+
+- `mysql -u username -p password`
+- `mysql -u username -p`
+- `mysql -h host -u username -p password`  指定 host 登录
+- 连接完成后，如果没有后续的动作，这个连接就处于空闲状态, 客户端如果太长时间没操作，连接器就会自动断开
+- `mysql> show variables like 'wait_timeout';` 默认值是 8 小时，在连接空闲一定时间后自动断开连接
+- `mysql> show processlist;` 其中的`Command`列显示为`Sleep`表示空闲连接
+
+## 常用命令
+
+- `\s` 显示当前数据库连接的状态信息
+- `show databases;` 查看所有数据库
+- `show tables;` 查看当前数据库所有表
+- `desc name;` 查看指定`name`的表结构
+- `select database();` 查看当前正在使用的数据库，`database()` 是函数
+- `show create database name;` 查询创建指定`name`的数据库的SQL语句
+
+## 数据类型
+
+- 整数类型（精确值）
+	- 常用 tinyint， int， bigint，和 Java 中对应类型的字节占用相同
+
+| 类型      | 字节数 |
+| --------- | ------ |
+| TINYINT   | 1      |
+| SMALLINT  | 2      |
+| MEDIUMINT | 3      |
+| INT       | 4      |
+| BIGINT    | 8      |
+
+- 定点类型 (精确值)
+	- DECIMAL(精度,小数位数) 精度表示值存储的有效位数，小数位数表示小数点后可以存储的位数
+	- NUMERIC 同 DECIMAL
+
+- 浮点类型（近似值）
+	- FLOAT 单精度 4字节
+	- DOUBLE 双精度 8字节
+	
+- 字符串类型
+	- char(len) 定长字符串
+	- varchar(len) 可变长度
+
+- 枚举类型
+	- enum
+
+- 日期类型
+	- DATE `YYYY-MM-DD`
+	- DATETIME `YYYY-MM-DD hh:mm:ss`
+	- TIMESTAMP 
+
+## 字段属性
+
+- unsigned 无符号
+- zerofill 用 0 补齐
+- auto_increment 自增
+- not null 不允许为空
+- default 设置默认值
+
 ## DDL常用命令
 
-- `create database database_name;` 创建指定名称的数据库
-- `use database_name;` 指定使用的数据库
-- `create database database_name character set utf8mb4;`  创建数据库时指定字符集
-- `ALTER DATABASE demo CHARACTER SET utf8mb4;` 修改数据库字符集
-- `drop database database_name;` 删除数据库
-- `DESC database_name;` 查看表结构
-- `create table database_name like database_name；` 创建和指定的表的表结构相同的表
-- `show databases;` 查看所有数据库列表
-- `SELECT DATABASE();` 查询当前正在使用的数据库 `DATABASE()` 函数
-- `SHOW TABLES;` 列出数据库包含的所有表
-- `show create database database_name;` 查询创建指定数据库的SQL语句
-- `DROP TABLE IF EXISTS table_name`; 判断表是否存在再删除
-- `RENAME TABLE test TO new_test;`  修改表名
-- `ALTER TABLE test ADD tname varchar(10);` 向表添加字段
-- `ALTER TABLE test modify tname varchar(10);` 修改表中字段的类型
-- `ALTER TABLE test change tname new_name varchar(10);` 修改表中字段名以及类型
-- `CREATE TABLE B AS SELECT * FROM A` 创建 B 表 并拷贝 A 表中的所有数据
+- `create database name;` 创建指定`name`的数据库
+- `use name;` 使用指定`name`的数据库
+- `create database name character set utf8mb4;`  创建数据库时指定字符集
+- `alter database name character set utf8mb4;` 修改数据库字符集
+- `drop database name;` 删除指定`name`的数据库
+- `create table B like A；` 创建和指定的表的表结构相同的表
+- `drop table if exists name;` 先判断指定`name`的表是否存在再删除
+- `rename table old_name to new_name;`  修改表名
+- `alter table name add field_name varchar(10);` 向表添加指定字段
+- `alter table name modify field_name varchar(10);` 修改表中指定字段的类型
+- `alter table name drop field_name;` 删除表中指定字段
+- `alter table name change old_name new_name varchar(10);` 修改表中字段名以及类型
+- `create table B as select * from A` 创建 B 表并复制 A 表中的所有数据
 
 ## DML常用命令
 
-- `INSERT INTO student(sid, sname, age) VALUES(1, "name", 20);` 向指定表插入指定字段数据
-- `INSERT INTO student VALUES(1, "name", 20);` 向指定表插入全部字段数据
-- `UPDATE student SET sname = "sname" WHERE sid = 1;`  条件更新指定的字段的值
-- `UPDATE student SET sname = "sname", age = 10 WHERE sid = 1;` 指定字段值的条件来更新指定的多个字段的值
-- `TRUNCATE TABLE table_name;` 删除整张表再创建新的空表，执行效率高
+- `insert into name(id, name, age) values(1, "abincaps", 10);` 向指定`name`的表中插入指定字段数据
+- `insert into name values(1, "abincaps", 20);` 向指定`name`的表中插入全部字段数据
+- `update name SET age = 10 where id = 1;`  条件更新指定`name`的表中的指定字段的值
+- `truncate table name;` 删除指定`name`的表并创建新的空表，执行效率高
 
 ## DQL查用命令
 
-- `SELECT * FROM table_name;` 查询表中所有记录
-- `SELECT sid, sname FROM table_name;` 查询指定字段的所有记录
-- `SELECT sid AS 编号 FROM student;` 查询结果的列名使用别名
-- `SELECT DISTINCT sname FROM student;` 去重
+- `select * from name;` 查询指定`name`的表的所有记录
+- `select id AS 编号 from name;` 查询结果的列名使用别名
+- `select distinct name from name;` 查询结果去重
+
+## primary key 主键索引
+
+- 非空且唯一
+- 每个表有且仅有一个主键索引
+- 如果没有显示指定主键索引，默认生成一个的主键索引（自动选择一个可以唯一标识记录的列作为主键），如果不存在可以唯一标识记录的列，会自动生成一个隐含字段 \_rowid 作为主键
+
+## unique 唯一索引
+
+- 可以为空，但不能重复，一个表可以有多个唯一索引
+
+## 普通索引
+
+-  可以为空，可以重复
+
+## 复合索引
+
+- 复合索引是多个列同时创建一个索引
+- `ALTER TABLE t add KEY idx_name_age (name, age)`,.注意`(name, age)`和`(age, name)`是不同的
+
+## 创建索引
+
+- 如果索引名没有指定，默认使用列名作为索引名
+
+- 主键索引
+
+```sql
+create table `t` (
+	`id` int not null primary key,
+	`name` varchar(20)
+)
+
+create table `t` (
+	`id` int not null,
+	`name` varchar(20),
+	primary key (id)
+)
+```
+
+- 唯一索引 
+
+```sql
+create table `t` (
+	`id` int not null,
+	`name` varchar(20),
+	unique key idx_name(name)
+)
+```
+
+- 普通索引
+
+```sql
+create table `t` (
+	`id` int not null,
+	`name` varchar(20),
+	key idx_name (name)
+)
+```
+
+## 添加索引
+
+- `show index from name;`查看指定`name`的表的索引
+- `alter table name add primary key (id);` 对表中的 id 字段添加主键索引
+- `alter table name add unique key idx_name (name);` 对表中的 name 字段添加唯一索引
+- `alter table name add key idx_name (name);` 对表中的 name 字段添加普通索引
+
+## 删除索引
+
+- `alter table name drop primary key;` 删除指定`name`的表的主键索引
+- `alter table name drop index idx_name;` 删除指定`name`的表的唯一索引或普通索引
 
 ## 聚簇索引
 
-- 是一种数据存储方式
 - 聚簇索引是指数据库表中数据的物理顺序和键值的索引顺序相同，数据和索引的数据结构存储在一起
 - InnoDB 的主键索引中所有叶子节点都存储了对应行的数据
 
@@ -62,6 +183,18 @@
 ## 二级索引（辅助索引）
 
 - 除了聚簇索引之外的所有索引都是二级索引
+
+## 为什么选择/不选择索引？
+
+- 提高表数据的检索效率
+- 降低排序成本
+- 增加数据的维护成本，需要空间存储， 新增，删除，修改需要对索引结构进行修改维护
+
+## 如何选取索引？
+
+- 频繁作为查询条件的字段适合作为索引，前提是唯一性不能太差
+- 更新频繁的字段不适合作为索引
+- 不出现在 where 子句中的字段不适合创建索引
 
 ## 逻辑架构
 
@@ -169,16 +302,7 @@
 
 - 负责数据的存储和提取
 - 可插拔式存储引擎：InnoDB、MyISAM、Memory
-- 从 MySQL 5.5 版本开始，默认存储引擎是 InnoDB
-
-## 连接到数据库
-
-- `mysql -u username -p password` 或 `mysql -u username -p` 登录
-- `mysql -h host -u username -p password`  指定 host 登录
-- 连接完成后，如果你没有后续的动作，这个连接就处于空闲状态
-- 客户端如果太长时间没动静，连接器就会自动断开
-- 这个时间是由参数 wait_timeout 控制的默认值是 8 小时
-- `mysql> show processlist;` 其中的 Command 列显示为 Sleep 表示空闲连接
+- 默认存储引擎是 InnoDB
 
 ## 查询缓存
 
@@ -249,9 +373,7 @@
 ## 存储引擎设置
 
 ```sql
-create table t (
-a int primary key, 
-b int
+create table name (
 ) engine=innodb;
 ```
 
@@ -478,73 +600,6 @@ CREATE TABLE t (
 - 将其复制到独立表空间
 - 应用并清空 redo log
 
-## 索引的分类
-
-- 主键索引 每个表有且只有一个主键索引， 如果没有指定主键索引，对于表会默认生成一个非空且唯一的主键索引
-- 唯一索引 可以为空，但不能重复，一个表可以有多个唯一索引
-- 普通索引 可以为空，可以重复
-
-## 主键索引
-
-- 如果没有显示指定索引，Mysql 会自动选择一个可以唯一表示数据记录的列作为主键
-- 如果不存在可以唯一标识数据记录的列，Mysql 会自动生成一个隐含字段 \_rowid 作为主键
-
-## 创建索引
-
-- 如果索引名没有指定，默认使用列名作为索引名
-
-- 主键索引
-
-```sql
-CREATE table t (
-	id int not null PRIMARY KEY,
-	name varchar(20)
-)
-
-CREATE table t (
-	id int not null,
-	name varchar(20),
-	PRIMARY KEY (id)
-)
-```
-
-- 唯一索引 
-
-```sql
-CREATE table t (
-	id int not null,
-	name varchar(20),
-	UNIQUE KEY idx_name(name)
-)
-```
-
-- 普通索引
-
-```sql
-CREATE table t (
-	id int not null,
-	name varchar(20),
-	KEY idx_name (name)
-)
-```
-
-## 添加索引
-
-- `SHOW INDEX FROM t `查看索引
-- `ALTER TABLE t add PRIMARY KEY (id)` 对表中的 id 字段添加主键索引
-- `ALTER TABLE t add UNIQUE KEY idx_name (name)` 对表中的 name 字段添加唯一索引
-- `ALTER TABLE t add KEY idx_name (name)` 对表中的 name 字段添加普通索引
-
-## 删除索引
-
-- `ALTER TABLE t DROP PRIMARY KEY` 删除 t 表中 主键索引
-- `ALTER TABLE t DROP index idx_name` 删除 t 表中 唯一索引或普通索引
-
-## 复合索引
-
-- 复合索引是多个列同时创建一个索引
-- `ALTER TABLE t add KEY idx_name_age (name, age)` 注意(name, age)和(age, name) 是不同的
-
 ## 索引为什么不选择 Hash 算法？
 
 - hash 索引不能快速处理范围查询
@@ -556,18 +611,6 @@ CREATE table t (
 
 - 叶子节点存储了所有节点的数据
 - 叶子节点通过链表的方式连接
-
-## 为什么选择/不选择索引？
-
-- 提高表数据的检索效率
-- 降低排序成本
-- 增加数据的维护成本，需要空间存储， 新增，删除，修改需要对索引结构进行修改维护
-
-## 如何选取索引？
-
-- 频繁作为查询条件的字段适合作为索引，前提是唯一性不能太差
-- 更新频繁的字段不适合作为索引
-- 不出现在 where 子句中的字段不适合创建索引
 
 ## 执行计划
 
@@ -661,45 +704,17 @@ CREATE table t (
 - `utf8mb4` Unicode 字符集的 UTF-8 编码，每个字符使用一到四个字节。
 - `utf8mb3` Unicode 字符集的 UTF-8 编码，每个字符使用一到三个字节，此字符集在 MySQL 8.0 中已弃用
 - `utf8` 的别名 `utf8mb3`。在 MySQL 8.0 中，这个别名已被弃用
+- `utf8_bin` 严格区分大小写
 
-## 数据类型
-
-### 整数类型（精确值）
-
-| 类型      | 字节数 |
-| --------- | ------ |
-| TINYINT   | 1      |
-| SMALLINT  | 2      |
-| MEDIUMINT | 3      |
-| INT       | 4      |
-| BIGINT    | 8      |
-
-### 定点类型 (精确值)
-
-- `DECIMAL(精度,小数位数)` 精度表示值存储的有效位数，小数位数表示小数点后可以存储的位数
-- `NUMERIC` 同 `DECIMAL`
-
-### 浮点类型（近似值）
-
-- FLOAT 单精度 4字节
-- DOUBLE 双精度 8字节
-
-### 字符串类型
-
-- char
-- varchar 可变长度 
-
-### 日期类型
-
-- DATE `YYYY-MM-DD`
-- DATETIME `YYYY-MM-DD hh:mm:ss`
-- TIMESTAMP 
-
-## 脏读(Dirty Read)
+## Dirty Read 脏读
 
 - 脏读是数据库事务中的一个概念, 指一个事务读取了另一个事务还未提交的修改的数据
 - 例如：事务A更新一个字段,事务B随后读取同一字段值,然后事务A回滚，这样事务B读到的就是无效数据
 
+## 事务处理
+
+- `set autocommit=0;` 关闭自动提交，开启事务处理
+- `set autocommit=1;` 开启自动提交，关闭事务处理
 
 
 

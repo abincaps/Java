@@ -424,7 +424,7 @@ public class SpringConfiguration {
 
 ## @Configuration
 
-- `@Configuration` 注解一个类，表明该类是作为 Bean 定义的来源 (核心配置文件类)
+- `@Configuration` 注解一个类是核心配置文件类，表明该类是作为 Bean 定义的来源
 
 ```java
 @PropertySource("classpath:jdbc.properties")  

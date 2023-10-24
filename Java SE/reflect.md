@@ -4,7 +4,7 @@
 ## 反射
 
 - 反射是在运行时动态访问类和对象的技术
-- `java.lang.reflect` 包下
+- 在`java.lang.reflect`包下
 - 基于反射实现参数配置，动态注入
 - 反射需要消耗一定的资源
 
@@ -21,12 +21,12 @@
 - 每个类都有一个 Class 对象
 - 通过 Class 对象可以获取对应类的构造方法，方法，成员变量
 
-## 获取 Class 对象
+## 获取Class对象
 
-- Class.forName(“类的全限定名”)
-- 类名.class
-- 对象名.getClass()
-- 包装类.TYPE
+- `Class.forName(“类的全限定名”)`
+- `类名.class`
+- `对象名.getClass()`
+- `包装类.TYPE`
 
 ## Class对象获取构造方法
 
@@ -84,10 +84,11 @@ age.set(student, 10);
 - `Method [] getMethods()` 获取所有公共方法，包括父类继承的方法
 - `Method [] getDeclaredMethods()` 获取所有已声明方法，不包括父类继承的方法
 
-## Method对象常用方法
+## Method类常用方法
 
 - `Object invoke(Object  obj, Object ... args)` 在指定对象上调用指定参数的方法
 - `void setAccessible(boolean flag)` `true` 表示反射对象在使用时禁止检查访问控制权限， `false` 表示反射对象在使用时应强制检查访问控制权限
+- `<T extends Annotation> T getAnnotation(Class<T> annotationClass)` 如果找到指定的注解，则返回该注解的实例，否则返回 `null`
 
 ## 调用私有方法
 

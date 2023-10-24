@@ -12,9 +12,10 @@
 
 ## Class RedisTemplate<K,V>
 
-- `ValueOperations<K, V> opsForValue()` Returns the operations performed on strings values
+- `ValueOperations<K, V> opsForValue()` Returns the operations performed on simple values
 - `<HK, HV> HashOperations<K, HK, HV> opsForHash()` Returns the operations performed on hash values
-
+- `Set<K> keys(K pattern)` Find all keys matching the given pattern.
+- `Long delete(Collection<K> keys)` Delete given keys.
 
 ## Interface RedisSerializer\<T>
 

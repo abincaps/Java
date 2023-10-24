@@ -1,6 +1,3 @@
----
-description: 一个项目管理工具
----
 # Maven
 
 ## 使用Maven的好处
@@ -26,4 +23,11 @@ description: 一个项目管理工具
 - `install` 打成jar包或war包，并发布到本地仓库
 - `deploy` 将jar或war包部署（上传）到私服中
 
+## 指定 Java 版本
+
+```xml
+<properties> 
+	<java.version>8</java.version>
+</properties>
+```
 
