@@ -1,9 +1,7 @@
 
 # java.lang
 
-- Object 类是类层次结构的根
 - Class 类的实例代表运行时的类
-- 包装类
 - Void 类是一个不可实例化的类
 - Math 类提供常用的数学函数
 - String 类，StringBuffer 类，StringBuilder 提供对字符串的操作
@@ -66,6 +64,7 @@
 
 ## String类常用方法
 
+- `String(byte[] bytes, int offset, int length)` `bytes` The bytes to be decoded into characters, `offset` The index of the first byte to decode, `length` The number of bytes to decode
 - `int length()` 返回此字符串的长度
 - `boolean equals(Object anObject)` 与指定对象进行比较
 - `char charAt(int index) ` 返回指定索引 index 处的 char 值
@@ -76,6 +75,7 @@
 - `int indexOf(String str)` 返回指定字符串第一次出现的索引位置
 - `String[] split(String regex)` 指定正则表达式的匹配项进行拆分字符串
 - `String substring(int beginIndex, int endIndex)` 返回子字符串 从指定的 `beginIndex` 开始到 `endIndex - 1` 处的字符串，半闭半开区间\[beginIndex, endIndex)
+- `String substring(int beginIndex)` Returns a string that is a substring of this string. The substring begins with the character at the specified index and extends to the end of this string.
 - `char[] toCharArray()` 将此字符串转换为新的 char 数组
 - `String trim()` 去除所有的前导空格和后缀空格
 - `boolean isEmpty()` length 等于 0 时返回`true`， 否则返回`false`
@@ -83,7 +83,8 @@
 - `boolean contains(CharSequence s)` 是否包含指定 char 值序列
 - `boolean startsWith(String prefix)` 是否以指定的前缀开头
 - `boolean endsWith(String suffix)` 是否以指定的后缀结尾
-
+- `String replace(CharSequence target, CharSequence replacement)
+`
 ## StringBuilder类
 
 - 可变的字符序列
@@ -102,9 +103,26 @@
 - `int capacity()` 返回当前容量
 - `String toString()` 返回表示此字符序列的字符串
 
+# abstract class ClassLoader
 
- 
- 
+- A class loader is an object that is responsible for loading classes.
+- Every Class object contains a reference to the ClassLoader that defined it.
+- `URL getResource(String name)` Finds the resource with the given name. The name of a resource is a '/'-separated path name that identifies the resource.
 
+# class Thread
 
+- class Thread implements Runnable
+- `ClassLoader getContextClassLoader()` Returns the context ClassLoader for this thread.
 
+# class Class\<T>
+
+- `boolean isAnnotationPresent(Class<? extends Annotation> annotationClass)` Returns true if an annotation for the specified type is present on this element, else false. 
+- `native boolean isAssignableFrom(Class<?> cls)` Determines if the class or interface represented by this Class object is either the same as, or is a superclass or superinterface of, the class or interface represented by the specified Class parameter. It returns true if so; otherwise it returns false.
+- `Field[] getDeclaredFields()` Returns an array of Field objects reflecting all the fields declared by the class or interface represented by this Class object. 
+- `String getSimpleName()` Returns the simple name of the underlying class as given in the source code. An empty string is returned if the underlying class is anonymous.
+
+# class Field
+
+- `Class<?> getType()` Returns a Class object that identifies the declared type for the field represented by this Field object.
+- `void set(Object obj, Object value)` Sets the field represented by this Field object on the specified object argument to the specified new value. 
+- `<T extends Annotation> T getAnnotation(Class<T> annotationClass)` Returns this element's annotation for the specified type if such an annotation is present, else null.

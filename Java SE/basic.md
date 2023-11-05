@@ -1,12 +1,11 @@
-# 基础语法 
 
-## Java体系
+# Java体系
 
 - JavaSE（J2SE）Standard Edition 标准版
 - JavaEE（J2EE) Enterprise Edition 企业版
 - JavaME（J2ME）Micro Edition 微型版
 
-## JDK JRE JVM 
+# JDK JRE JVM 
 
 - JDK（Java Development Kit） Java 开发工具包
 - JRE（Java Runtime Environment） Java 运行环境
@@ -15,12 +14,12 @@
 - JRE 提供了 Java应用程序运行所需的运行时环境，包括 JVM 和 标准类库
 - JDK 包括 JRE，还提供了开发调试程序相关的工具
 
-## java和javax
+# java和javax
 
 - java Java核心库 位于Java SE平台的库中
 - javax Java扩展库 位于Java EE平台的库中
 
-## 变量命名规则
+# 变量命名规则
 
 - 只能由字母，数字，下划线，`$` 美元符组成
 - 不能由数字开头
@@ -28,12 +27,12 @@
 - 小驼峰命名法 getValue
 - 大驼峰命名法 StudentImpl
 
-## 数据类型
+# 数据类型
 
 - 基本数据类型
 - 引用数据类型
 
-## 基本类型和包装类
+# 基本类型和包装类
 
 | 基本类型 | 包装类    | 字节数 |
 | -------- | --------- | ------ |
@@ -47,11 +46,11 @@
 | boolean  | Boolean   | -      |
 | void     | Void      |-       |
 
-## 数值精度顺序
+# 数值精度顺序
 
 - double > float > long > int > short > byte
 
-## 字面量
+# 字面量
 
 - 后缀 L 表示 long 类型
 - 后缀 F 表示 float 类型
@@ -61,48 +60,48 @@
 - 前缀 `0` 表示八进制
 - 前缀 `0b` 或 `0B` 表示二进制
 
-## 字面量里的下划线
+# 字面量里的下划线
 
 - 只能使用单个下划线，不能连续使用多个
 - 开头或结尾不能有下划线
 - 前缀和后缀周围不能有下划线
 
-## 基本类型的隐式转换
+# 基本类型的隐式转换
 
 - byte short char 自动转换成 int 类型参与运算
 - char 和 short 都是 2个字节, 但是 char 是无符号数，超过 short 的范围
 - 表达式中混合了 int 和 long , 则提升到 long 类型
 - 宽化转型（widening conversion），不必显式进行类型转换
 
-## 基本类型的强制转换
+# 基本类型的强制转换
 
 - boolean 类型 无法强制转换和自动转换（不允许任何类型的转换处理）
 - 浮点数到整型需要强制转换 而整数到浮点数则不需要
 - 窄化转型（narrowing conversation）， 需要显式类型转换
 
-## type inference 类型推断
+# type inference
 
-- `var` 关键字 
-- `var a;` 错误, 无法推断没有初始化的变量
+- `var` 关键字 类型推断
+- `var a;` 无法推断没有初始化的变量
 
-## 包装类
+# 包装类
 
 - 包装类是把基本类型包装成类
 - 包装类的构造方法已过时，推荐使用 valueOf 方法
 
-## 自动装箱
+# 自动装箱
 
 - 自动装箱机制能够将基本类型自动转换为对应的包装类对象
-## 自动拆箱
+# 自动拆箱
 
 - 自动拆箱机制实现包装类到基本类型的自动转换
 
-## 字符和字符串的连接
+# 字符和字符串的连接
 
 - `'a' + 1 + "bin"` 98bin
 - `"abi" + 'n' + 1` abin1
 
-## 字符串连接优化
+# 字符串连接优化
 
 - `"abc" == "a" + "b" + "c"` true
 
@@ -112,11 +111,11 @@ a = a + "bc";
 System.out.println("abc" == a); // false
 ```
 
-## switch
+# switch
 
 - switch case 表达式中的类型支持 char, byte, short, int, Character, Byte, Short, Integer, String, or enum
 
-## 作用域
+# 作用域
 
 - 隐藏变量的方式在 java 中是不被允许的
 - 不能在外层代码块里使用内层代码块，也就是说内层代码块中创建的变量对外层代码块不可见
@@ -133,48 +132,50 @@ System.out.println("abc" == a); // false
 }
 ```
 
-## 关系运算符
+# 关系运算符
 
 - `==` 如果是引用数据类型比较的是对象引用是否指向相同的内存地址, 即是否指向同一个对象
 - `==` 如果是基本数据类型比较的是值是否相同
 
-## 无符号右移运算符
+# 无符号右移运算符
 
 - `>>>`无符号右移运算符, 没有`<<<`运算符
 - 在左侧用零填充，不考虑正负号
 
-## 短路
+# 短路
 
 - 在逻辑与运算中，如果第一个条件为 false，则不会继续执行第二个条件，第三个条件...
 - 在逻辑或运算中，如果第一个条件为 true，则不会继续执行第二个条件，第三个条件...
 
-## Array 数组
+# Array
 
 - 数组是一种特殊的类，是引用数据类型
 - 数组长度在定义之后不能修改
 - 数组占用连续的存储空间
 - 数组中成员数据类型必须相同
 
-## 数组初始化
+# 数组初始化
 
 - `int[] a = new int[] {1, 3, 5};` 在定义数组变量时确定数组元素的值
 - `int[] a = {1, 3, 5};` 简化
 - `int[] a = new int[3] {1, 3, 5};` 编译错误
 - `int[] a = new int[3];` 在定义数组变量时仅确定数组大小，默认初始化为 0
 
-## enhanced for 增强for循环
+# enhanced for
+
+- 增强for循环
 
 ```java
 for (x : a) {
 }
 ```
 
-## package 包
+# package
 
 - 一个包包含了一组类
 - 默认导入 java.lang 包
 
-## 包访问
+# 包访问
 
 | 类所在位置        | 是否需要导包才可以访问 |
 | -| -|
@@ -182,11 +183,11 @@ for (x : a) {
 |java.lang包下的类| 否|
 |其他包下的类      | 是|
 
-## 包的命名
+# 包命名
 
 - 包的命名惯例使用域名反转作为包名 `com.abincaps.project`
 
-##  访问多个包下的同名类
+#  访问多个包下的同名类
 
 - 访问多个包下的同名类，默认只能导入一个包下的类，另一些类必须带包名访问
 - 直接使用完整类名可以不需要 `import` 导包
@@ -196,18 +197,18 @@ Student a = new Student();
 com.abincaps.Student b = new com.abincaps.Student(); 
 ```
 
-## 通配符
+# 通配符
 
 - `import java.util.*;` 用`*`通配符导入 java.util 包下的所有类
 
-## 可变参数
+# 可变参数
 
 - 可变参数允许方法接受个数不定的同类型参数
 - 可变参数在编译时会转换为数组
 - 一个方法中只能指定一个可变参数, 且必须是方法的最后一个参数
 - `void print(String... args)`
 
-## 异常
+# 异常
 
 ```java
 int [] arr = new int[1];
@@ -232,7 +233,7 @@ try {
 System.out.println("finished");
 ```
 
-## Error和Exception
+# Error和Exception
 
 ```java
 // 逗号分开可以抛出多个异常 也可以抛出异常的父类 Exception
@@ -255,7 +256,7 @@ public static void main(String[] args) throws ClassNotFoundException {
 }
 ```
 
-## 抛出指定异常
+# 抛出指定异常
 
 ```java
 public static void causeExcetion() throws Exception {
@@ -301,12 +302,12 @@ public class Foo implements WithEx {
 }
 ```
 
-## 异常传递
+# 异常传递
 
 - 当一个方法抛出了异常, 并没有被当前方法捕获异常并处理，那么这个异常会被传递给当前方法的调用者, 一直向上抛出, 直到被捕获或者程序终止
 - 异常传递明确调用者需要处理传播过来的异常 强制处理异常或者向上抛出, 防止异常被隐藏
 
-## 自定义异常类
+# 自定义异常类
 
 ```java
 public class MyException extends Exception {
@@ -326,7 +327,7 @@ public class MyException extends Exception {
 }
 ```
 
-## try-catch-finally
+# try-catch-finally
 
 - `return` 结束还是异常结束都会执行 finally
 - `finally` 里最好不要有 `return` 语句, `finally` 里尝试改变 `return` 的值没有任何作用
@@ -355,7 +356,7 @@ System.out.println(func());
 // -1
 ```
 
-## 多层catch
+# 多层catch
 
 ```java
 try {
@@ -373,14 +374,14 @@ try {
 }
 ```
 
-## try-with-resources
+# try-with-resources
 
 - 在 try 语句中声明所要使用的资源对象
 - 被声明的资源类必须实现 java.lang.AutoCloseable 接口
 - try代码块结束后,会自动关闭这个资源对象,即调用其close()方法
 - 无需在 finally 块中手动关闭资源
 
-## 注解
+# 注解
 
 - 注解(annotation)是一种用于为代码提供元数据（Metadata）的工具
 
@@ -404,10 +405,20 @@ public @interface Myannotation {
 }
 ```
 
-## 常见注解
+# 常见注解
 
 - `@Override` 注解 检查是否正确重写，如果父类不存在该方法或签名不一致, 编译器会报错
 - `@Deprecated` 表示被标注的元素已过时弃用，但不会阻止过时元素的使用
+
+# 元注解
+
+- @Target 
+	- indicates the contexts in which an annotation interface is applicable. 
+	- TYPE (Class, interface (including annotation interface), enum, or record declaration)
+- @Retention
+	- Indicates how long annotations with the annotated interface are to be retained.
+- @Documented
+	- 
 
 ## 全限定名
 
@@ -441,7 +452,7 @@ public @interface Myannotation {
 * `equals`返回`true`, `hashCode`必须相等
 - `hashCode`相当于人名, `hashCode`一样并不代表是同一个人
 
-## 泛型
+# 泛型
 
 ```java
 public class Vector<E> {
@@ -487,7 +498,7 @@ public static void test(ArrayList<? super Derived> e) {
 }
 ```
 
-## 协变和逆变
+# 协变和逆变
 
 ```java
 // 协变和逆变是针对引用类型而言
@@ -522,7 +533,7 @@ ArrayList<? super Derived> b = new ArrayList<Base>();
 // 读取使用协变， 写入使用逆变
 ```
 
-## 类型擦除
+# 类型擦除
 
 - 将泛型参数的类型信息在编译时替换为对象类型
 - 也就是将泛型类型“擦除”, 转换为普通的非泛型类型的代码

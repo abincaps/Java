@@ -1,5 +1,7 @@
 
-# Junit单元测试
+# Junit
+
+- 单元测试
 
 ## 测试
 
@@ -12,14 +14,9 @@
 - `@Test` 方法不能是 `private` 或 `static` 或 有返回值 （也就是说返回值类型必须是void）
 - 不写 main 方法 就可以有运行入口点
 
-## 常见注解
-
-- `@BeforeAll` 注解的方法应在当前测试类中的所有测试之前执行
-- `@AfterAll` 注解的方法应在当前测试类中的所有测试之后执行
-
 ## Assertions
-
-- `void assertEquals(int expected, int actual)` 断言 `expected` 和 `actual` 相等的
+ 
+- `void assertEquals(int expected, int actual)` 断言 `expected` 和 `actual` 相等的 
 
 ## @RunWith
 
@@ -41,6 +38,20 @@ public class SpringJunitTest {
 }
 ```
 
+# Junit 5
 
+# @TestMethodOrder
 
+- @TestMethodOrder 注解用于配置(自定义）测试方法执行顺序
 
+# @BeforeAll
+
+- 注解的方法在当前测试类中的所有测试之前执行
+
+# @AfterAll
+
+- 注解的方法在当前测试类中的所有测试之后执行
+
+# @DisplayName
+
+- @DisplayName is used to declare a custom display name for the annotated test class or test method.

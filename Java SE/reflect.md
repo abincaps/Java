@@ -37,7 +37,7 @@
 
 ## Constructor对象常用方法
 
-- newInstance(Object ... initargs) 使用该构造方法并指定参数创建和初始化新的实例 
+- `newInstance(Object ... initargs)` 使用该构造方法并指定参数创建和初始化新的实例 
 - `void setAccessible(boolean flag)` `true` 表示反射对象在使用时禁止检查访问控制权限， `false` 表示反射对象在使用时应强制检查访问控制权限
 
 ## 获取公共构造方法实例化
@@ -66,7 +66,6 @@ Student student = con.newInstance("abincaps");
 
 ## Field对象常用方法
 
-- `void set(Object obj, Object value)` 将指定对象的字段设置为指定的新值
 - `Object  get(Object  obj)` 返回指定对象上字段的值，基本类型会自动包装成包装类 等同于 `obj.getFieldName` FieldName 是字段名
 `
 ## 给私有字段赋值

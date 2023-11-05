@@ -1,20 +1,38 @@
-# Ioc
 
-## IoC 容器
+# IoC 容器
 
-- IoC (Inversion of Control) 控制反转，也是依赖注入 DI（Dependency Injection）
+- IoC (Inversion of Control) 控制反转
+- DI（Dependency Injection）依赖注入
 - 实现对象之间的依赖和解耦
 - IoC容器负责对象的创建、初始化等完整生命周期
 - IoC容器自动装配对象, 统一了对象管理和配置
 - 对象A直接引用和操作new出来对象B，变成对象A只依赖接口B，系统启动和装配阶段，把B接口的实例对象注入到对象A中， 对象A就无需依赖B接口的具体实现
+- 将对象的关系转而用配置（声明式注解和xml）来管理
 
-## ApplicationContext接口实现
+# Bean
 
-- `new ClassPathXmlApplicationContext`
+- Java 对象包装在 Bean 中，生命周期由 Spring Ioc 容器管理
+- Bean 是一个由 Spring IoC 容器实例化，组装，管理的对象。Bean 之间的依赖关系都反映在容器使用的配置元数据中
 
-## ClassPathXmlApplicationContext
- 
+# interface ApplicationContext
+
+- `ApplicationContext` 接口代表 Spring IoC 容器，负责实例化、配置和组装bean
+
+# class FileSystemXmlApplicationContext
+
+- Taking the context definition files from the file system or from URLs
+- Plain paths will always be interpreted as relative to the current VM working directory, even if they start with a slash. (This is consistent with the semantics in a Servlet container.) Use an explicit "file:" prefix to enforce an absolute file path.
+
+## Class ClassPathXmlApplicationContext
+
+- Taking the context definition files from the class path, interpreting plain paths as class path resource names that include the package path
+- In case of multiple config locations, later bean definitions will override ones defined in earlier loaded files.
 - `ClassPathXmlApplicationContext(String configLocation)` 从给定的 XML 文件加载定义并自动刷新上下文
+
+# class XmlWebApplicationContext
+
+- 
+
 
 ## BeanFactory接口
 
@@ -49,6 +67,10 @@
 
 - `T getBean(Class<T> requiredType)`  如果 bean 对象在核心配置文件中存在多个会报错
 - `Object getBean(String name)` 使用 id 来唯一确定 bean
+
+# lazy-init
+
+- 懒加载
 
 ## 工厂静态方法实例化Bean
 
@@ -386,9 +408,9 @@ public class MyDruidDataSource {
 
 ## @Scope
 
-- `@Scope` 注解指定 Spring 容器如何管理和创建 bean 实例
+- `@Scope` 注解指定 Spring 容器如何管理和创建 Bean 实例
 - 自动检测的组件的默认的scope是 `singleton`
-- `@Scope("prototype")` 每次从容器中请求该 bean 时，容器都会创建一个新的实例并返回
+- `@Scope("prototype")` 每次从容器中请求该 Bean 时，容器都会创建一个新的实例并返回
 
 ## @PropertySource
 
@@ -473,16 +495,6 @@ Connection con = dataSource.getConnection();
 con.close();
 ```
 
-## 命名空间
-
-- TODO
-
-## Environment接口
-
-- 对 配置文件（profiles） 和 属性（properties）进行建模（抽象）
-- 用于配置属性源并解析属性
-- `interface Environment extends PropertyResolver`
-
 ## PropertyResolverJ接口
 
 - 属性解析器
@@ -524,3 +536,53 @@ class ApplicationTests {
 - 遍历设置属性
 - `Field field = clazz.getField(属性名);`
 - `field.set(bean, 属性值);`
+
+# interface BeanFactory
+
+- `BeanFactory` 为 Spring IoC 功能提供了底层基础
+- `String FACTORY_BEAN_PREFIX = "&";` Used to dereference a FactoryBean instance and distinguish it from beans created by the FactoryBean.
+- `Object getBean(String name)` 
+- `boolean isSingleton(String name)` Is this bean a shared singleton? That is, will getBean(java.lang.String) always return the same instance?
+
+```Java
+public class UserFactoryBean implements FactoryBean {  
+  
+    @Override  
+    public Object getObject() throws Exception {  
+        return new User();  
+    }  
+  
+    @Override  
+    public Class<?> getObjectType() {  
+        return User.class;  
+    }  
+}
+```
+
+```Java
+public class FactoryBeanTest {  
+
+    @Test  
+    public void test() {  
+  
+        String xmlPath = "src/main/resources/ApplicationContext.xml";  
+        ApplicationContext applicationContext = new FileSystemXmlApplicationContext(xmlPath);  
+  
+        User user = (User)applicationContext.getBean("userFactoryBean");  
+        UserFactoryBean userFactoryBean = (UserFactoryBean)applicationContext.getBean("&userFactoryBean");  
+  
+        System.out.println("user = " + user);  
+        System.out.println("userFactoryBean = " + userFactoryBean);  
+    }  
+}
+```
+
+# 容器初始化
+
+- 配置文件 读取 ——>  Resource 解析 ——> BeanDefinition 注册 ——> 容器
+
+# interface Environment
+
+- Environment 接口是一个集成在容器中的抽象，对配置文件（profiles）和属性（properties）进行建模
+- 用于配置属性源并解析属性
+- `interface Environment extends PropertyResolver`

@@ -16,27 +16,21 @@
 - Window `\\` 
 - 类 Unix `/` 
 
-## 三代IO框架
-
-- 第一代 流式阻塞 IO
-- 第二代 NIO 是非阻塞的
-- 第三代 NIO AIO asyncIO 异步 IO
-
-## File类
+# File
 
 - 文件和目录路径名的抽象表示
 
-## File类构造方法
-
-- `File(String pathname)` 指定路径名来创建 
-- `File(String parent, String child)` 指定父路径名和子路径名创建
-
-## File类常用字段
+## Fields
 
 - `static final String separator` 系统相关的文件路径分隔符
 - `static final char separatorChar` 系统相关的文件路径分隔符
 
-## File类常用方法
+## Constructors
+
+- `File(String pathname)` 指定路径名来创建 
+- `File(String parent, String child)` 指定父路径名和子路径名创建
+
+## Methods
 
 - `boolean mkdir()` 创建单级目录
 - `boolean mkdirs()` 创建多级目录
@@ -46,6 +40,8 @@
 - `File getAbsoluteFile()` 返回绝对路径
 - `String getPath()` 返回路径名
 - `String getName()` 返回文件或目录的最后一个名称
+- `File[] listFiles()` Returns an array of strings naming the files and directories in the directory denoted by this abstract pathname. 
+- `File[] listFiles(FileFilter filter)` Returns an array of abstract pathnames denoting the files and directories in the directory denoted by this abstract pathname that satisfy the specified filter. 
 
 ## InputStream抽象类
 
@@ -54,7 +50,13 @@
 ## InputStream类的常用方法
 
 - `int read()` 返回从输入流中读取下一个字节的数据, 如果到达流的末尾而没有可用字节，则返回 -1
-- `int read(byte b[])` 从输入流中读取一定数量的字节存储到缓冲区字节数组 `b` 中， 返回实际读取的字节数
+- `int read(byte b[])` Reads some number of bytes from the input stream and stores them into the buffer array b. The number of bytes actually read is returned as an integer. This method blocks until input data is available, end of file is detected, or an exception is thrown.
+
+# OutputStream
+
+## Methods
+
+- `void flush()` Flushes this output stream and forces any buffered output bytes to be written out. 
 
 ## FileOutputStream类
 
@@ -138,3 +140,13 @@ class Foo implements Serializable {
 ## ObjectOutputStream类常用方法
 
 -  `void writeObject(Object obj)` 序列化 obj 对象
+
+# class RandomAccessFile
+
+## Constructor
+
+- `RandomAccessFile(String name, String mode)` 
+
+## Method
+
+- `final FileChannel getChannel()` Returns the unique FileChannel object associated with this file.

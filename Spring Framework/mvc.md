@@ -155,13 +155,15 @@ public class TestController {
 
 - 将客户端的请求信息传递给 Servlet
 - `String getParameter(String var1)` 获取请求参数 `var1` 的值
-- `RequestDispatcher getRequestDispatcher(String var1)`  `var1` 指定获取资源的路径, `RequestDispatcher` 对象是给定路径上的资源包装器
-- `void setAttribute(String var1, Object var2)` 在此请求中存储属性
+- `RequestDispatcher getRequestDispatcher(String path)`  `path` 指定获取资源的路径, `RequestDispatcher` 对象是给定路径上的资源包装器
+- `void setAttribute(String name, Object o)` 在此请求中存储属性
 
-## HttpServletRequest接口
+## interface HttpServletRequest
 
 - `HttpServletRequest` 封装客户端发往服务器的 HTTP 请求的信息
 - `HttpServletRequest` 继承（扩展） `ServletRequest` 接口以提供 HTTP servlet 的请求信息
+- `String getServletPath()` Returns the part of this request's URL that calls the servlet. 
+- `String getMethod()` Returns the name of the HTTP method with which this request was made, for example, GET, POST, or PUT.
 
 ```java
 @RequestMapping("/test")  
